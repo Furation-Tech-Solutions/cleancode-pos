@@ -6,13 +6,7 @@ const outletSchema = new mongoose.Schema({
     ref: "Company",
     required: [true, "Please enter company_id"],
   },
-  outlet_name: {
-    type: String,
-    maxlength: [100, "Maximum 100 characters are permitted"],
-    required: [true, "Please enter outlet_name"],
-    trim: true,
-    unique: true,
-  },
+ 
   outlet_code: {
     type: String,
     maxlength: [50, "Maximum 50 characters are permitted"],
@@ -30,12 +24,32 @@ const outletSchema = new mongoose.Schema({
     trim: true,
     default: null,
   },
-  email: {
+  ownerName: {
     type: String,
-    required: [true, "Please enter email"],
+    maxlength: [50, "Maximum 50 charcters are permitted"],
+    minLength: [3, "ownerName should have more than 3 character"],
+    required: [true, "please enter ownerName"],
     trim: true,
     default: null,
-    unique: true,
+  },
+  gstNo: {
+    type: String,
+    maxlength: [16, "Maximum 16 characters are permitted"],
+    minLength: [16, "gstNo should have less than 16 characters"],
+    required: [true, "Please enter gstNo"],
+    trim: true,
+    default: null,
+  },
+  outletType: {
+    type: String,
+    enum: {
+      values: ["Kiosk", "Compact", "Standalone","Lounge"],
+      message: "Value is not matched",
+    },
+  },
+  brandLogo: {
+    type: String,
+    default: "Url"
   },
   phone: {
     type: Number,
@@ -44,27 +58,11 @@ const outletSchema = new mongoose.Schema({
     required: [true, "Please enter phone"],
     default: null,
   },
-  default_waiter: {
-    type: Number,
-    required: [true, "Please enter waiters"],
-    default: null,
-  },
-  food_menus: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "FoodMenu",
+  createdAt: {
+     type: Date, 
+     default: Date.now 
     },
-  ],
-  active_status: {
-    type: String,
-    enum: {
-      values: ["active", "notactive"],
-      message: "Value is not matched",
-    },
-    required: [true, "Please enter active_status"],
-    trim: true,
-    default: "active",
-  },
+
   del_status: {
     type: String,
     enum: {
