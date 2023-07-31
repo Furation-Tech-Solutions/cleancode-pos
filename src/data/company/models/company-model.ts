@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const adminSchema = new mongoose.Schema({
+const companySchema = new mongoose.Schema({
   name: {
     type: String,
     maxlength: [30, "Company name should have less than 30 charcters"],
@@ -47,23 +47,15 @@ const adminSchema = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-  outlet: {
-    type: String,
-    ref: "Outlet",
-  },
+  // outlet: {
+  //   type: String,
+  //   ref: "Outlet",
+  // },
   createdAt: {
     type: Date,
     default: Date.now(),
   },
 });
 
-export const Admin = mongoose.model("Admin", adminSchema);
+export const Company = mongoose.model("Company", companySchema);
 
-// name VARCHAR(100) [not null]
-// address VARCHAR(200)
-// contactNumber INT
-// gstNo VARCHAR(15)
-// ownerName VARCHAR(100)
-// //outletId VARCHAR(50) [not null, ref: > tbl_outlet.id]
-// companyLogo VARCHAR(100)
-// createdAt DATE
