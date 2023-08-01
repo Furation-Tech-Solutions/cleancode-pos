@@ -11,19 +11,19 @@ import { GetAllAdmins } from "@domain/admin/usecases/get-all-admins";
 import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
 
 const dbURL =
-  "mongodb+srv://jatinp8390:Kolhapur09@cluster0.rpywjyb.mongodb.net/?retryWrites=true&w=majority"; // Replace with your actual MongoDB connection URL
+  "mongodb+srv://satansharma:satansharma@cluster0.ncc9mtu.mongodb.net/iRestoNews?retryWrites=true&w=majority"; // Replace with your actual MongoDB connection URL
 
 // Set up the required options for the connection
 const dbOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  dbName: "myDatabase", // Replace with the name of your database
+  dbName: "iRestoNews", // Replace with the name of your database
   // Other options like user and password can also be added if necessary
 };
 
 // Create the mongoose connection
 mongoose.connect(dbURL, dbOptions).then(() => {
-  console.log("Connected to MongoDB successfully!");
+  console.log("Connected to MongoDB(Admin) successfully!");
 });
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
@@ -52,7 +52,7 @@ const adminService = new AdminService(
 export const adminRouter = Router();
 
 // Route handling for creating a new admin
-adminRouter.post("/", adminService.createAdmin.bind(adminService));
+adminRouter.post("/admin/new", adminService.createAdmin.bind(adminService));
 
 // Route handling for getting an admin by ID
 adminRouter.get("/:adminId", adminService.getAdminById.bind(adminService));

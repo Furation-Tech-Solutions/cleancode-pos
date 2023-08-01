@@ -1,4 +1,5 @@
 import { adminRouter } from "@presentation/routes/admin-routes";
+import { tableRouter } from "@presentation/routes/table-routes";
 import { type Express, Router } from "express";
 import ApiError  from "@presentation/error-handling/api-error";
 
@@ -11,5 +12,6 @@ export default (app: Express): void => {
   });
  
   app.use(adminRouter);
+  app.use(tableRouter);
   app.use(router);
 };
