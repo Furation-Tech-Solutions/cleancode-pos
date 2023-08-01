@@ -5,4 +5,5 @@ export interface CompanyRepository {
   deleteCompany(id: string): Promise<void>;
   getCompanies(): Promise<CompanyEntity[]>;
   getCompanyById(id: string): Promise<CompanyEntity | null>;
+  updateCompany(id: string, data: CompanyModel): Promise<CompanyEntity>;
 }
