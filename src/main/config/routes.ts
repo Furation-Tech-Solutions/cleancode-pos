@@ -1,4 +1,5 @@
 import { adminRouter } from "@presentation/routes/admin-routes";
+import { staffRouter } from "@presentation/routes/staff-routes";
 import { type Express, Router } from "express";
 import ApiError  from "@presentation/error-handling/api-error";
 
@@ -10,6 +11,7 @@ export default (app: Express): void => {
     res.status(200).json({ message: "ok",});
   });
  
-  app.use(adminRouter);
   app.use(router);
+  app.use("/admin",adminRouter);
+  app.use("/staff", staffRouter);
 };
