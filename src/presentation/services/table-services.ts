@@ -32,6 +32,7 @@ export class TableService {
     this.getAllTablesUsecase = getAllTablesUsecase;
   }
 
+  
   async createTable(req: Request, res: Response): Promise<void> {
     try {
       

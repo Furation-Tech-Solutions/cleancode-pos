@@ -5,7 +5,7 @@ export class TableModel {
       public sit_capacity: string = "",
       public position: string = "",
       public description: string = "",
-      public table: boolean = true,
+      public table: boolean = true
       // public del_status: string = ""
     ) {}
   }
@@ -18,7 +18,7 @@ export class TableModel {
       public sit_capacity: string,
       public position: string,
       public description: string,
-      public table: boolean,
+      public table: boolean
       // public del_status: String
     ) {}
   }
@@ -44,7 +44,7 @@ export class TableModel {
           description:
             tableData.description !== undefined ? tableData.description : existingTable.description,
           table:
-            tableData.table !== undefined ? tableData.table : existingTable.table,
+            tableData.table !== undefined ? tableData.table : existingTable.table
           // del_status:
           //     tableData.del_status !== undefined ? tableData.del_status : existingTable.del_status,  
         };
@@ -56,7 +56,7 @@ export class TableModel {
           sit_capacity: tableData.sit_capacity,
           position: tableData.position,
           description: tableData.description,
-          table: tableData.table,
+          table: tableData.table
           // del_status: tableData.del_status,
         };
         return tableEntity;
@@ -70,7 +70,7 @@ export class TableModel {
         sit_capacity: table.sit_capacity,
         position: table.position,
         description: table.description,
-        table: table.table,
+        table: table.table
         // del_status: table.del_status
       };
     }
