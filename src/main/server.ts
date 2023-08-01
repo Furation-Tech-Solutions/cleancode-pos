@@ -20,6 +20,9 @@ mongoose.connect(dbURL, dbOptions).then(() => {
   console.log("Connected to MongoDB successfully!");
 });
 
+
+
 app.listen(env.port, () => {
   console.log(`Server running on port ${env.port}`);
 });
+
