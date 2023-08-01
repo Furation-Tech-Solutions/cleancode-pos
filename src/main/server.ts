@@ -6,6 +6,7 @@ import mongoose from "mongoose";
 const app = setupApp();
 
 const dbURL = env.mongoUrl;
+
 // Set up the required options for the connection
 const dbOptions = {
   useNewUrlParser: true,
@@ -19,6 +20,9 @@ mongoose.connect(dbURL, dbOptions).then(() => {
   console.log("Connected to MongoDB successfully!");
 });
 
+
+
 app.listen(env.port, () => {
   console.log(`Server running on port ${env.port}`);
 });
+
