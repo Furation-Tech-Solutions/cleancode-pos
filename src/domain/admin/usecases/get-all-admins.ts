@@ -16,3 +16,4 @@ export class GetAllAdmins implements GetAllAdminsUsecase {
     return await this.adminRepository.getAdmins();
   }
 }
+
