@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 const app = setupApp();
 
 const dbURL = env.mongoUrl;
-
+// const dbURL = "mongodb+srv://satansharma:satansharma@cluster0.ncc9mtu.mongodb.net/?retryWrites=true&w=majority";
 // Set up the required options for the connection
 const dbOptions = {
   useNewUrlParser: true,
