@@ -9,6 +9,7 @@ import { CreateCompanyUsecase } from "@domain/company/usecases/create-company";
 import { DeleteCompanyUsecase } from "@domain/company/usecases/delete-company";
 import { GetCompanyByIdUsecase } from "@domain/company/usecases/get-company-by-id";
 import { GetAllCompanysUsecase } from "@domain/company/usecases/get-all-companys";
+import { UpdateCompanyUsecase } from "@domain/company/usecases/update-company";
 
 import ApiError from "@presentation/error-handling/api-error";
 
@@ -17,17 +18,20 @@ export class CompanyServices {
   private readonly deleteCompanyUsecases: DeleteCompanyUsecase;
   private readonly getCompanyByIdUsecases: GetCompanyByIdUsecase;
   private readonly getAllCompanysUsecases: GetAllCompanysUsecase;
+  private readonly updateCompnayUsecases: UpdateCompanyUsecase;
 
   constructor(
     createCompanyUsecases: CreateCompanyUsecase,
     deleteCompanyUsecases: DeleteCompanyUsecase,
     getCompanyByIdUsecases: GetCompanyByIdUsecase,
-    getAllCompanysUsecases: GetAllCompanysUsecase
+    getAllCompanysUsecases: GetAllCompanysUsecase,
+    updateCompnayUsecases: UpdateCompanyUsecase
   ) {
     (this.createCompanyUsecases = createCompanyUsecases),
       (this.deleteCompanyUsecases = deleteCompanyUsecases),
       (this.getCompanyByIdUsecases = getCompanyByIdUsecases),
-      (this.getAllCompanysUsecases = getAllCompanysUsecases);
+      (this.getAllCompanysUsecases = getAllCompanysUsecases),
+      (this.updateCompnayUsecases = updateCompnayUsecases);
   }
 
   async createCompany(req: Request, res: Response): Promise<void> {
@@ -126,8 +130,46 @@ export class CompanyServices {
     }
   }
 
-  
+  async updateCompany(req: Request, res: Response): Promise<void> {
+    try {
+      const companyId: string = req.params.companyId;
+      const companyData: CompanyModel = req.body;
 
+      // Get the existing company by ID
+      const existingCompany: CompanyEntity | null =
+        await this.getCompanyByIdUsecases.execute(companyId);
 
+      if (!existingCompany) {
+        // If company is not found, send a not found message as a JSON response
+        ApiError.notFound();
+        return;
+      }
 
+      // Convert companyData from CompanyModel to CompanyEntity using CompanyMapper
+      const updatedCompanyEntity: CompanyEntity = CompanyMapper.toEntity(
+        companyData,
+        true,
+        existingCompany
+      );
+
+      // Call the UpdateCompanyUsecase to update the
+      const updatedCompany: CompanyEntity =
+        await this.updateCompnayUsecases.execute(
+          companyId,
+          updatedCompanyEntity
+        );
+
+      // Convert updatedAdmin from AdminEntity to plain JSON object using AdminMapper
+      const responseData = CompanyMapper.toModel(updatedCompany);
+
+      // Send the updated admin as a JSON response
+      res.json(responseData);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof ApiError) {
+        res.status(error.status).json({ error: error.message });
+      }
+      ApiError.internalError();
+    }
+  }
 }

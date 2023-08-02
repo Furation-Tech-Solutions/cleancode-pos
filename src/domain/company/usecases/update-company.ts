@@ -4,11 +4,11 @@ import { CompanyRepository } from "../repositories/company-repository";
 export interface UpdateCompanyUsecase {
   execute: (
     companyId: string,
-    companyyData: Partial<CompanyModel>
+    companyData: Partial<CompanyModel>
   ) => Promise<CompanyEntity>;
 }
 
-export class updateCompany implements UpdateCompanyUsecase {
+export class UpdateCompany implements UpdateCompanyUsecase {
   private readonly companyRepository: CompanyRepository;
 
   constructor(companyRepository: CompanyRepository) {
@@ -18,7 +18,7 @@ export class updateCompany implements UpdateCompanyUsecase {
   // async execute(adminId: string, adminData: AdminModel): Promise<AdminEntity> {
   //   return await this.adminRepository.updateAdmin(adminId, adminData);
   // }
-  // UpdateAdminUsecase
+  // UpdateCompanyUsecase
   async execute(
     companyId: string,
     companyData: Partial<CompanyModel>
@@ -30,7 +30,7 @@ export class updateCompany implements UpdateCompanyUsecase {
       throw new Error("Company not found.");
     }
 
-    // Perform the partial update by merging adminData with existingAdmin
+    // Perform the partial update by merging companyData with existingCompany
     const updatedCompanyData: CompanyModel = {
       ...existingCompany,
       ...companyData,
