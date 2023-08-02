@@ -52,16 +52,16 @@ const tableService = new TableService(
 export const tableRouter = Router();
 
 // Route handling for creating a new table
-tableRouter.post("/table/new", tableService.createTable.bind(tableService));
+tableRouter.post("/new", tableService.createTable.bind(tableService));
 
 // Route handling for getting an table by ID
-tableRouter.get("/table/show/:tableId", tableService.getTableById.bind(tableService));
+tableRouter.get("/show/:tableId", tableService.getTableById.bind(tableService));
 
 // Route handling for updating an table by ID
-tableRouter.put("/table/update/:tableId", tableService.updateTable.bind(tableService));
+tableRouter.put("/update/:tableId", tableService.updateTable.bind(tableService));
 
 // Route handling for deleting an table by ID
-tableRouter.delete("/table/delete/:tableId", tableService.deleteTable.bind(tableService));
+tableRouter.delete("/delete/:tableId", tableService.deleteTable.bind(tableService));
 
 // Route handling for getting all tables
-tableRouter.get("/table/list", tableService.getAllTables.bind(tableService));
+tableRouter.get("/list", tableService.getAllTables.bind(tableService));

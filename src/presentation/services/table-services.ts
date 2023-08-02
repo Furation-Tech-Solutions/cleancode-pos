@@ -60,9 +60,47 @@ export class TableService {
     }
   }
 
+  // async deleteTable(req: Request, res: Response): Promise<void> {
+  //   try {
+  //     const tableId: string = req.params.TableId;
+  
+  //     // Get the existing table by ID
+  //     const existingTable: TableModel | null = await this.GetTableByIdUsecase.execute(tableId);
+  
+  //     if (!existingTable) {
+  //       // If table is not found, send a not found message as a JSON response
+  //       ApiError.notFound();
+  //       return;
+  //     }
+  
+  //     // Update the del_status to "Deleted"
+  //     existingTable.del_status = "Deleted";
+  
+  //     // Save the updated table back to the database
+  //     // await existingTable.save();
+  //     const updatedTable: TableEntity = await this.UpdateTableUsecase.execute(
+  //       tableId,
+  //       existingTable
+  //     );
+
+  //     // Convert updatedTable from TableEntity to plain JSON object using TableMapper
+  //     const responseData = TableMapper.toModel(updatedTable);
+  
+  //     // Send a success message as a JSON response
+  //     res.json({ message: "Table deleted successfully.",responseData });
+  //   } catch (error) {
+  //     console.log(error);
+  //     if (error instanceof ApiError) {
+  //       res.status(error.status).json({ error: error.message });
+  //     } else {
+  //       ApiError.internalError();
+  //     }
+  //   }
+  // }
+
   async deleteTable(req: Request, res: Response): Promise<void> {
     try {
-      const tableId: string = req.params.TableId;
+      const tableId: string = req.params.tableId;
 
       // Call the DeleteTableUsecase to delete the table
       await this.deleteTableUsecase.execute(tableId);
@@ -70,10 +108,13 @@ export class TableService {
       // Send a success message as a JSON response
       res.json({ message: "Table deleted successfully." });
     } catch (error) {
+
+      //console.log(error);
       if(error instanceof ApiError){
         res.status(error.status).json({ error: error.message });
        }
-          ApiError.internalError()
+         ApiError.internalError();
+      
     }
   }
 

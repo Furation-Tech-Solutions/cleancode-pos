@@ -1,6 +1,6 @@
 import { TableModel, TableEntity } from "@domain/table/entities/table";
 import { TableRepository } from "@domain/table/repositories/table-repository";
-import { TableDataSource } from "@data/table/datasources/table-data-source";
+import { TableDataSource } from "../datasources/table-data-source";
 
 export class TableRepositoryImpl implements TableRepository {
   private readonly dataSource: TableDataSource;

@@ -32,17 +32,13 @@ const tableSchema = new mongoose.Schema({
     trim: true,
     default: null,
   },
-  table: {
-    type: Boolean,
-    default: true,
+  del_status: {
+    type: String,
+    enum: {
+      values: ["Live", "Deleted"],
+      message: "Values is not matched",
+    },
+    default: "Live",
   },
-  // del_status: {
-  //   type: String,
-  //   enum: {
-  //     values: ["Live", "Deleted"],
-  //     message: "Values is not matched",
-  //   },
-  //   default: "Live",
-  // },
 });
 export const Table = mongoose.model("Table", tableSchema);

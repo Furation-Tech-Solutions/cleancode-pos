@@ -1,9 +1,7 @@
-import { type TableRepository } from "@domain/table/repositories/table-repository";
-
+import { TableRepository } from "../repositories/table-repository";
 export interface DeleteTableUsecase {
   execute: (tableId: string) => Promise<void>
 }
-
 export class DeleteTable implements DeleteTableUsecase {
   private readonly tableRepository: TableRepository;
 
