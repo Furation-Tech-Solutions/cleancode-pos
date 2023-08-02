@@ -5,7 +5,7 @@ export interface GetAllInventorysUsecase {
   execute: () => Promise<InventoryEntity[]>;
 }
 
-export class GetAllInventory implements GetAllInventorysUsecase {
+export class GetAllInventories implements GetAllInventorysUsecase {
   private readonly inventoryRepository: InventoryRepository;
 
   constructor(inventoryRepository: InventoryRepository) {
