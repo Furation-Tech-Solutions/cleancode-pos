@@ -52,7 +52,7 @@ const adminService = new AdminService(
 export const adminRouter = Router();
 
 // Route handling for creating a new admin
-adminRouter.post("/", adminService.createAdmin.bind(adminService));
+adminRouter.post("/admin/new", adminService.createAdmin.bind(adminService));
 
 // Route handling for getting an admin by ID
 adminRouter.get("/:adminId", adminService.getAdminById.bind(adminService));
