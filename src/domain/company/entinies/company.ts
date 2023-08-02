@@ -3,7 +3,7 @@ export class CompanyModel {
   constructor(
     public name: string = "",
     public email: string = "",
-    public phone: number = 0,
+    public phone: string = "",
     public gstNo: string = "",
     public companyLogo: string | null = null,
     public ownerName: string = "",
