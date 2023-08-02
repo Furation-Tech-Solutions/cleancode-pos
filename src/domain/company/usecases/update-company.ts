@@ -15,10 +15,6 @@ export class UpdateCompany implements UpdateCompanyUsecase {
     this.companyRepository = companyRepository;
   }
 
-  // async execute(adminId: string, adminData: AdminModel): Promise<AdminEntity> {
-  //   return await this.adminRepository.updateAdmin(adminId, adminData);
-  // }
-  // UpdateCompanyUsecase
   async execute(
     companyId: string,
     companyData: Partial<CompanyModel>
