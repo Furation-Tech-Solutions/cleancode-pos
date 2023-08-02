@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import { Router } from "express"; // Correctly import Request and Response
 import { InventoryService } from "@presentation/services/inventory-services";
-import { InventoryDataSource } from "@data/inventory/datasource/inventory-data-source";
+import { InventoryDataSource, InventoryDataSourceImpl } from "@data/inventory/datasource/inventory-data-source";
 import { InventoryRepositoryImpl } from "@data/inventory/repositories/inventory-repository-impl";
 import { CreateInventory } from "@domain/inventory/usecases/create-inventory";
 import { DeleteInventory } from "@domain/inventory/usecases/delete-inventory";
@@ -13,14 +13,14 @@ import { UpdateInventory } from "@domain/inventory/usecases/update-inventory";
 
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
-const inventoryDataSource = new InventoryRepositoryImpl(mongoose.connection);
+const inventoryDataSource = new InventoryDataSourceImpl(mongoose.connection);
 
 // Create an instance of the AdminRepositoryImpl and pass the AdminDataSourceImpl
 const inventoryRepository = new InventoryRepositoryImpl(inventoryDataSource);
 
 // Create instances of the required use cases and pass the AdminRepositoryImpl
-const createInventoryUsecase = new CreateAdmin();
-const deleteInventoryUsecase = new DeleteAdmin(adminRepository);
+const createInventoryUsecase = new CreateInventory(inventoryRepository);
+const deleteInventoryUsecase = new DeleteInventory(inventoryRepository);
 const getInventoryByIdUsecase = new GetAdminById(adminRepository);
 const updateInventoryUsecase = new UpdateAdmin(adminRepository);
 const getAllAdminsUsecase = new GetAllAdmins(adminRepository);
