@@ -17,10 +17,19 @@ import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
 // const dbOptions = {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
+<<<<<<< HEAD
 //   dbName: "myDatabase", // Replace with the name of your database```
 //   // Other options like user and password can also be added if necessary
 // };
 
+=======
+
+//   dbName: "myDatabase", // Replace with the name of your database
+
+//   // Other options like user and password can also be added if necessary
+// };
+
+>>>>>>> 9365e4df6b49e52f29cf06d1f37f407ae66a2a08
 // // Create the mongoose connection
 // mongoose.connect(dbURL, dbOptions).then(() => {
 //   console.log("Connected to MongoDB successfully!");
@@ -52,7 +61,7 @@ const adminService = new AdminService(
 export const adminRouter = Router();
 
 // Route handling for creating a new admin
-adminRouter.post("/", adminService.createAdmin.bind(adminService));
+adminRouter.post("/admin/new", adminService.createAdmin.bind(adminService));
 
 // Route handling for getting an admin by ID
 adminRouter.get("/:adminId", adminService.getAdminById.bind(adminService));
