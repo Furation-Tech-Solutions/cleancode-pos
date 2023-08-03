@@ -50,8 +50,8 @@ export class InventoryService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-
-      ApiError.internalError()
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -68,7 +68,8 @@ export class InventoryService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError()
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -95,8 +96,8 @@ export class InventoryService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError()
-
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -139,7 +140,8 @@ export class InventoryService {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError()
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 
@@ -151,13 +153,16 @@ export class InventoryService {
       // Convert Inventories from an array of InventoryEntity to an array of plain JSON objects using InventoryMapper
       const responseData = inventories.map((inventory) => InventoryMapper.toModel(inventory));
 
-      // Send the Inventories as a JSON response
+      // Send the Inventors as a JSON response
       res.json(responseData);
     } catch (error) {
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }
-      ApiError.internalError()
+      const err = ApiError.internalError();
+      res.status(err.status).json(err.message);
     }
   }
 }
+
+

@@ -39,16 +39,20 @@ const inventoryService = new InventoryService(
 export const inventoryRouter = Router();
 
 // Route handling for creating a new admin
-inventoryRouter.post("/", inventoryService.createInventory.bind(inventoryService));
+inventoryRouter.post("/add", inventoryService.createInventory.bind(inventoryService));
 
 // Route handling for getting an admin by ID
-inventoryRouter.get("/:adminId", inventoryService.getInventoryById.bind(inventoryService));
+inventoryRouter.get("/:inventoryId", inventoryService.getInventoryById.bind(inventoryService));
 
 // Route handling for updating an admin by ID
-inventoryRouter.put("/:adminId", inventoryService.updateInventory.bind(inventoryService));
+inventoryRouter.put("/:inventoryId", inventoryService.updateInventory.bind(inventoryService));
 
 // Route handling for deleting an admin by ID
-inventoryRouter.delete("/:adminId", inventoryService.deleteInventory.bind(inventoryService));
+inventoryRouter.delete("/:inventoryId", inventoryService.deleteInventory.bind(inventoryService));
 
 // Route handling for getting all admins
-inventoryRouter.get("/", inventoryService.getAllInventories.bind(inventoryService));
+inventoryRouter.get("/inventory", inventoryService.getAllInventories.bind(inventoryService));
+
+
+
+
