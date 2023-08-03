@@ -3,6 +3,7 @@ import { staffRouter } from "@presentation/routes/staff-routes";
 import { inventoryRouter } from "@presentation/routes/inventory-routes";
 import { tableRouter } from "@presentation/routes/table-routes";
 import { ingredientUnitRouter } from "@presentation/routes/ingredientUnit-routes";
+import { areaRouter } from "@presentation/routes/area-route";
 
 import { ingredientCategoryRouter } from "@presentation/routes/ingredientCategory-routes";
 
@@ -20,6 +21,7 @@ export default (app: Express): void => {
 
   app.use("/table", tableRouter);
   app.use("/ingredientUnit", ingredientUnitRouter);
+  app.use("/area", areaRouter)
   app.use("/ingredientCategory", ingredientCategoryRouter);
   app.use("/admin",adminRouter);
   app.use("/outlet", outletRouter);
