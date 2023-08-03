@@ -64,8 +64,19 @@ export class IngredientUnitService {
     try {
       const ingredientUnitId: string = req.params.ingredientUnitId;
 
-      // Call the DeleteIngredientUnitUsecase to delete the ingredientUnit
-      await this.deleteIngredientUnitUsecase.execute(ingredientUnitId);
+      const updatedIngredientUnitEntity: IngredientUnitEntity = IngredientUnitMapper.toEntity(
+        { del_status: "Deleted" },
+        true,
+      );
+
+      // Call the UpdateIngredientUnitUsecase to update the ingredientUnit
+      const updatedIngredientUnit: IngredientUnitEntity = await this.updateIngredientUnitUsecase.execute(
+        ingredientUnitId,
+        updatedIngredientUnitEntity
+      );
+
+      // Convert updatedIngredientUnit from IngredientUnitEntity to plain JSON object using IngredientUnitMapper
+      const responseData = IngredientUnitMapper.toModel(updatedIngredientUnit);
 
       // Send a success message as a JSON response
       res.json({ message: "IngredientUnit deleted successfully." });
