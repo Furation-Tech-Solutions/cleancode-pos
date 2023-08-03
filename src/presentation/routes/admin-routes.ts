@@ -17,7 +17,9 @@ import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
 // const dbOptions = {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
-//   dbName: "myDatabase", // Replace with the name of your database```
+
+//   dbName: "myDatabase", // Replace with the name of your database
+
 //   // Other options like user and password can also be added if necessary
 // };
 
@@ -52,7 +54,7 @@ const adminService = new AdminService(
 export const adminRouter = Router();
 
 // Route handling for creating a new admin
-adminRouter.post("/", adminService.createAdmin.bind(adminService));
+adminRouter.post("/admin/new", adminService.createAdmin.bind(adminService));
 
 // Route handling for getting an admin by ID
 adminRouter.get("/:adminId", adminService.getAdminById.bind(adminService));
