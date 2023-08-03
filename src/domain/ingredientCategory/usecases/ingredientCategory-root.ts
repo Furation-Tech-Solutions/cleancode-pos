@@ -1,7 +1,7 @@
 import { CreateIngredientCategory } from "./create-ingredientCategory";
 import { DeleteIngredientCategory } from "./delete-ingredientCategory";
 import { GetIngredientCategoryById } from "./get-ingredientCategory-by-id";
-import { GetAllIngredientCategorys } from "./get-all-ingredientCategorys";
+import { GetAllIngredientCategorys } from "./get-all-ingredientCategory";
 import { UpdateIngredientCategory } from "./update-ingredientCategory";
 
 module.exports = {

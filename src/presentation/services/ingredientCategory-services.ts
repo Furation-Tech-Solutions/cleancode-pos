@@ -8,7 +8,7 @@ import { CreateIngredientCategoryUsecase } from "@domain/ingredientCategory/usec
 import { DeleteIngredientCategoryUsecase } from "@domain/ingredientCategory/usecases/delete-ingredientCategory";
 import { GetIngredientCategoryByIdUsecase } from "@domain/ingredientCategory/usecases/get-ingredientCategory-by-id";
 import { UpdateIngredientCategoryUsecase } from "@domain/ingredientCategory/usecases/update-ingredientCategory";
-import { GetAllIngredientCategorysUsecase } from "@domain/ingredientCategory/usecases/get-all-ingredientCategorys";
+import { GetAllIngredientCategorysUsecase } from "@domain/ingredientCategory/usecases/get-all-ingredientCategory";
 import ApiError from "@presentation/error-handling/api-error";
 
 export class IngredientCategoryService {

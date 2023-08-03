@@ -7,7 +7,7 @@ import { IngredientCategoryRepositoryImpl } from "@data/ingredientCategory/repos
 import { CreateIngredientCategory } from "@domain/ingredientCategory/usecases/create-ingredientCategory";
 import { DeleteIngredientCategory } from "@domain/ingredientCategory/usecases/delete-ingredientCategory";
 import { GetIngredientCategoryById } from "@domain/ingredientCategory/usecases/get-ingredientCategory-by-id";
-import { GetAllIngredientCategorys } from "@domain/ingredientCategory/usecases/get-all-ingredientCategorys";
+import { GetAllIngredientCategorys } from "@domain/ingredientCategory/usecases/get-all-ingredientCategory";
 import { UpdateIngredientCategory } from "@domain/ingredientCategory/usecases/update-ingredientCategory";
 
 // Create an instance of the IngredientCategoryDataSourceImpl and pass the mongoose connection
