@@ -1,4 +1,6 @@
 import { adminRouter } from "@presentation/routes/admin-routes";
+import { staffRouter } from "@presentation/routes/staff-routes";
+import { inventoryRouter } from "@presentation/routes/inventory-routes";
 import { tableRouter } from "@presentation/routes/table-routes";
 import { ingredientUnitRouter } from "@presentation/routes/ingredientUnit-routes";
 
@@ -13,7 +15,6 @@ export default (app: Express): void => {
   const router = Router();
   app.get("/health", (req, res) => {
     const error1 = ApiError.getOk();
-
     res.status(200).json({ message: "ok" });
   });
 
@@ -24,4 +25,6 @@ export default (app: Express): void => {
   app.use("/outlet", outletRouter);
   app.use("/company", companyRouter);
   app.use(router);
+  app.use("/staff", staffRouter);
+  app.use("/inventory", inventoryRouter);
 };
