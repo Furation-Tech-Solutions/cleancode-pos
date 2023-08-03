@@ -65,7 +65,19 @@ export class IngredientService {
       const ingredientId: string = req.params.ingredientId;
 
       // Call the DeleteIngredientUsecase to delete the ingredient
-      await this.deleteIngredientUsecase.execute(ingredientId);
+      const updatedIngredientEntity: IngredientEntity = IngredientMapper.toEntity(
+        { del_status: "Deleted" },
+        true
+      );
+
+      // Call the UpdateIngredientUsecase to update the ingredient
+      const updatedIngredient: IngredientEntity = await this.updateIngredientUsecase.execute(
+        ingredientId,
+        updatedIngredientEntity
+      );
+
+      // Convert updatedIngredient from IngredientEntity to plain JSON object using IngredientMapper
+      const responseData = IngredientMapper.toModel(updatedIngredient);
 
       // Send a success message as a JSON response
       res.json({ message: "Ingredient deleted successfully." });
