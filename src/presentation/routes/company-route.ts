@@ -8,6 +8,7 @@ import { DeleteCompany } from "@domain/company/usecases/delete-company";
 import { GetCompanyById } from "@domain/company/usecases/get-company-by-id";
 import { GetAllCompanys } from "@domain/company/usecases/get-all-companys";
 import { UpdateCompany } from "@domain/company/usecases/update-company";
+import validateBodyMiddleware from "@presentation/middlewares/company/validator-middleware";
 
 // Create an instance of the CompanyDataSourceImpl and pass the mongoose connection
 const companyDataSource = new CompanyDataSourceImpl(mongoose.connection);
@@ -35,7 +36,7 @@ const companyService = new CompanyServices(
 export const companyRouter = Router();
 
 // Route handling for creating a new company
-companyRouter.post("/new", companyService.createCompany.bind(companyService));
+companyRouter.post("/new",validateBodyMiddleware, companyService.createCompany.bind(companyService));
 
 // Route handling for getting an company by ID
 companyRouter.get(

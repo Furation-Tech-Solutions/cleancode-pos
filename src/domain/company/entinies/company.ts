@@ -8,7 +8,7 @@ export class CompanyModel {
     public companyLogo: string | null = null,
     public ownerName: string = "",
     public brand: string = "",
-    public active: boolean = false
+    // public active: boolean = true
   ) {}
 }
 
@@ -99,7 +99,6 @@ export class CompanyMapper {
   }
   static toModel(company: CompanyEntity): any {
     return {
-      id: company.id,
       name: company.name,
       email: company.email,
       phone: company.phone,
@@ -107,8 +106,8 @@ export class CompanyMapper {
       companyLogo: company.companyLogo,
       ownerName: company.ownerName,
       brand: company.brand,
-      active: company.active,
-      createdAt: company.createdAt,
+      // active: company.active,
+      // createdAt: company.createdAt,
     };
   }
 }

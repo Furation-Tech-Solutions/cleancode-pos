@@ -3,7 +3,7 @@ import * as  HttpStatus from './http-status'
 
 import * as  ErrorMessage from './message-error'
 
-class ErrorClass {
+export class ErrorClass {
   status: number;
   message: string;
   name: string;

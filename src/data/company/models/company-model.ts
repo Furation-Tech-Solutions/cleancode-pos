@@ -18,14 +18,22 @@ const companySchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    maxLength: [13,"Phone Number should have 13 charcters included country code"],
-    minLength: [13,"Phone Number should have 13 charcters included country code"],
+    maxLength: [
+      13,
+      "Phone Number should have 13 charcters included country code",
+    ],
+    minLength: [
+      13,
+      "Phone Number should have 13 charcters included country code",
+    ],
     required: [true, "please enter  name"],
+    trim: true,
   },
   gstNo: {
     type: String,
-    maxlength: [16, "Company GST No should have 16 charcters are permitted"],
-    minlength: [16, "Company GST No should have 16 character"],
+    maxlength: [15, "Company GST No should have 15 charcters are permitted"],
+    minlength: [15, "Company GST No should have 15 character"],
+    trim: true,
   },
   companyLogo: {
     type: String,
@@ -58,4 +66,3 @@ const companySchema = new mongoose.Schema({
 });
 
 export const Company = mongoose.model("Company", companySchema);
-
