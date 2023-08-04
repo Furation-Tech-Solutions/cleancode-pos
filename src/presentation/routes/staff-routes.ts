@@ -10,10 +10,10 @@ import { GetStaffById } from "@domain/staff/usecases/get-staff-by-id";
 import { GetAllStaffs } from "@domain/staff/usecases/get-all-staff";
 import { UpdateStaff } from "@domain/staff/usecases/update-staff";
 
-// Create an instance of the staffDataSourceImpl and pass the mongoose connection
+// Create an instance of the StaffDataSourceImpl and pass the mongoose connection
 const staffDataSource = new StaffDataSourceImpl(mongoose.connection);
 
-// Create an instance of the staffRepositoryImpl and pass the staffDataSourceImpl
+// Create an instance of the StaffRepositoryImpl and pass the StaffDataSourceImpl
 const staffRepository = new StaffRepositoryImpl(staffDataSource);
 
 // Create instances of the required use cases and pass the StaffRepositoryImpl
@@ -25,18 +25,18 @@ const getAllStaffsUsecase = new GetAllStaffs(staffRepository);
 
 // Initialize StaffService and inject required dependencies
 const staffService = new StaffService(
-  createStaffUsecase,
-  deleteStaffUsecase,
-  getStaffByIdUsecase,
-  updateStaffUsecase,
-  getAllStaffsUsecase
+    createStaffUsecase,
+    deleteStaffUsecase,
+    getStaffByIdUsecase,
+    updateStaffUsecase,
+    getAllStaffsUsecase
 );
 
 // Create an Express router
 export const staffRouter = Router();
 
 // Route handling for creating a new staff
-staffRouter.post("/add", staffService.createStaff.bind(staffService));
+staffRouter.post("/new", staffService.createStaff.bind(staffService));
 
 // Route handling for getting an staff by ID
 staffRouter.get("/:staffId", staffService.getStaffById.bind(staffService));

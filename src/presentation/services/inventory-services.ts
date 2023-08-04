@@ -145,7 +145,6 @@ export class InventoryService {
     }
   }
 
-  
   async getAllInventories(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       // Call the GetAllInventorisUsecase to get all Inventories

@@ -1,8 +1,6 @@
 import mongoose from "mongoose";
-
-
 const staffSchema = new mongoose.Schema({
-  username: {
+  name: {
     type: String,
     maxlength: [50, "Maximum 50 charcters are permitted"],
     minLength: [5, "name should have more than 5 character"],
@@ -17,7 +15,7 @@ const staffSchema = new mongoose.Schema({
     required: [true, "Please enter phone"],
     default: null,
   },
-  email_address: {
+  email: {
     type: String,
     unique: true,
     required: [true, "please enter email"],

@@ -1,18 +1,18 @@
-import { StaffModel, StaffEntity } from "@domain/staff/entities/staff";
-import { StaffRepository } from "@domain/staff/repositories/staff-repository"; 
+import { StaffEntity, StaffModel } from "@domain/staff/entities/staff";
+import { StaffRepository } from "@domain/staff/repositories/staff-repository";
 
 export interface GetStaffByIdUsecase {
-  execute: (staffId: string) => Promise<StaffEntity | null>;
+    execute: (staffId: string) => Promise<StaffEntity | null>;
 }
 
 export class GetStaffById implements GetStaffByIdUsecase {
-  private readonly staffRepository: StaffRepository;
+    private readonly staffRepository: StaffRepository;
 
-  constructor(staffRepository: StaffRepository) {
-    this.staffRepository = staffRepository;
-  }
+    constructor(staffRepository: StaffRepository) {
+        this.staffRepository = staffRepository;
+    }
 
-  async execute(staffId: string): Promise<StaffEntity | null> {
-    return await this.staffRepository.getStaffById(staffId);
-  }
+    async execute(staffId: string): Promise<StaffEntity | null> {
+        return await this.staffRepository.getStaffById(staffId);
+    }
 }
