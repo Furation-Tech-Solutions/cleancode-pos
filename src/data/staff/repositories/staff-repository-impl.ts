@@ -9,7 +9,9 @@ export class StaffRepositoryImpl implements StaffRepository {
         this.dataSource = dataSource;
     }
     async createStaff(staff: StaffModel): Promise<StaffEntity> {
-        return await this.dataSource.create(staff);
+         const res = await this.dataSource.create(staff);
+         console.log(res);
+         return res;
     }
 
     async deleteStaff(id: string): Promise<void> {

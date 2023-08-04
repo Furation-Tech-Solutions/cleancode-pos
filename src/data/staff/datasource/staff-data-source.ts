@@ -15,7 +15,9 @@ export class StaffDataSourceImpl implements StaffDataSource {
 
     async create(staff: StaffModel): Promise<any> {
         const existingStaff = await Staff.findOne({ email: staff.email });
-        if (existingStaff) {
+        console.log("ds",existingStaff);
+        
+        if (existingStaff != null) {
             throw ApiError.emailExits()
         }
 

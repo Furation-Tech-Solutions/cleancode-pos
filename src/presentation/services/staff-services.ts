@@ -35,6 +35,8 @@ export class StaffService {
             // Extract staff data from the request body and convert it to staffModel
             const staffData: StaffModel = StaffMapper.toModel(req.body);
 
+            console.log("service",staffData);
+            
             // Call the CreateStaffUsecase to create the staff
             const newStaff: StaffEntity = await this.createStaffUsecase.execute(
                 staffData
@@ -46,6 +48,8 @@ export class StaffService {
             // Send the created staff as a JSON response
             res.json(responseData);
         } catch (error) {
+            console.log("error" , error);
+            
             if (error instanceof ApiError) {
                 res.status(error.status).json({ error: error.message });
               }

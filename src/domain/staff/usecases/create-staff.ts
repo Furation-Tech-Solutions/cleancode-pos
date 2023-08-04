@@ -13,6 +13,8 @@ export class CreateStaff implements CreateStaffUsecase {
     }
 
     async execute(staffData: StaffModel): Promise<StaffEntity> {
-        return await this.staffRepository.createStaff(staffData);
+         const res = await this.staffRepository.createStaff(staffData);
+         console.log(res);
+         return res;
     }
 }

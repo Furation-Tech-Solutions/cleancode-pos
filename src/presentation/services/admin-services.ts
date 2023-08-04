@@ -36,7 +36,8 @@ export class AdminService {
     try {
       // Extract admin data from the request body and convert it to AdminModel
       const adminData: AdminModel = AdminMapper.toModel(req.body);
-
+      
+      
       // Call the CreateAdminUsecase to create the admin
       const newAdmin: AdminEntity = await this.createAdminUsecase.execute(
         adminData
@@ -48,6 +49,8 @@ export class AdminService {
       // Send the created admin as a JSON response
       res.json(responseData);
     } catch (error) {
+      console.log("error",error);
+      
       if (error instanceof ApiError) {
         res.status(error.status).json({ error: error.message });
       }

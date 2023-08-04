@@ -92,11 +92,10 @@ export class StaffMapper {
     }
     static toModel(staff: StaffEntity): any {
         return {
-            id: staff.id,
             name: staff.name,
             email: staff.email,
             phone: staff.phone,
-            passward: staff.password,
+            password: staff.password,
             jobTitle: staff.jobTitle,
             superAdmin: staff.superAdmin,
             admin: staff.admin,
