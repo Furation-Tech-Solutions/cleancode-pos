@@ -29,15 +29,36 @@ export class CompanyRepositoryImpl implements CompanyRepository {
     await this.dataSource.delete(id);
   }
 
-  async updateCompany(id: string, data: CompanyModel):  Promise<Either<ErrorClass, CompanyEntity>> {
-    return await this.dataSource.update(id, data);
+  async updateCompany(
+    id: string,
+    data: CompanyModel
+  ): Promise<Either<ErrorClass, CompanyEntity>> {
+    try {
+      const i = await this.dataSource.update(id, data);
+      return Right<ErrorClass, CompanyEntity>(i);
+    } catch (e) {
+      if (e instanceof ApiError && e.name === "conflict") {
+        return Left<ErrorClass, CompanyEntity>(ApiError.emailExits());
+      }
+      return Left<ErrorClass, CompanyEntity>(ApiError.badRequest());
+    }
+    // return await this.dataSource.update(id, data);
   }
 
   async getCompanies(): Promise<CompanyEntity[]> {
     return await this.dataSource.getAllCompany();
   }
 
-  async getCompanyById(id: string): Promise<CompanyEntity | null> {
-    return await this.dataSource.read(id);
+  async getCompanyById(id: string): Promise<Either<ErrorClass, CompanyEntity>> {
+    // return await this.dataSource.read(id);
+    try {
+      const i = await this.dataSource.read(id);
+      return Right<ErrorClass, CompanyEntity>(i);
+    } catch (e) {
+      if (e instanceof ApiError && e.name === "notfound") {
+        return Left<ErrorClass, CompanyEntity>(ApiError.notFound());
+      }
+      return Left<ErrorClass, CompanyEntity>(ApiError.badRequest());
+    }
   }
 }

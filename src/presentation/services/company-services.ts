@@ -10,7 +10,7 @@ import { DeleteCompanyUsecase } from "@domain/company/usecases/delete-company";
 import { GetCompanyByIdUsecase } from "@domain/company/usecases/get-company-by-id";
 import { GetAllCompanysUsecase } from "@domain/company/usecases/get-all-companys";
 import { UpdateCompanyUsecase } from "@domain/company/usecases/update-company";
-import { Either } from "monet";
+import { Either, Left, Right } from "monet";
 import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
 import companyRequestBodyValidator from "@presentation/middlewares/company/validator-middleware";
 
@@ -71,31 +71,40 @@ export class CompanyServices {
   }
 
   async getCompanyById(req: Request, res: Response): Promise<void> {
-    try {
-      const companyId: string = req.params.companyId;
+    // try {
+    const companyId: string = req.params.companyId;
 
-      // Call the GetCompanyByIdUsecase to get the company by ID
-      const company: CompanyEntity | null =
-        await this.getCompanyByIdUsecases.execute(companyId);
+    // Call the GetCompanyByIdUsecase to get the company by ID
+    const company: Either<ErrorClass, CompanyEntity> =
+      await this.getCompanyByIdUsecases.execute(companyId);
 
-      if (company) {
-        // Convert company from CompanyEntity to plain JSON object using ComapnyMapper
-        const responseData = CompanyMapper.toModel(company);
-
-        // Send the comapny as a JSON response
-        res.json(responseData);
-      } else {
-        // Send a not found message as a JSON response
-        ApiError.notFound();
+    company.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: CompanyEntity) => {
+        const resData = CompanyMapper.toModel(result);
+        return res.json(resData);
       }
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
-      }
+    );
 
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    // if (company) {
+    //   // Convert company from CompanyEntity to plain JSON object using ComapnyMapper
+    //   const responseData = CompanyMapper.toModel(company);
+
+    //   // Send the comapny as a JSON response
+    //   res.json(responseData);
+    // } else {
+    //   // Send a not found message as a JSON response
+    //   ApiError.notFound();
+    // }
+    // } catch (error) {
+    //   if (error instanceof ApiError) {
+    //     res.status(error.status).json({ error: error.message });
+    //   }
+
+    //   const err = ApiError.internalError();
+    //   res.status(err.status).json(err.message);
+    // }
   }
 
   async getAllCompanys(
@@ -130,45 +139,51 @@ export class CompanyServices {
     const companyData: CompanyModel = req.body;
 
     // Get the existing company by ID
-    const existingCompany: CompanyEntity | null =
+    const existingCompany: Either<ErrorClass, CompanyEntity> =
       await this.getCompanyByIdUsecases.execute(companyId);
 
-    if (!existingCompany) {
-      // If company is not found, send a not found message as a JSON response
-      ApiError.notFound();
-      return;
-    }
+    // existingCompany.cata(
+    //   (error: ErrorClass) =>
+    //     res.status(error.status).json({ error: error.message }),
+    //   async (result: CompanyEntity) => {
+    //     // Convert companyData from CompanyModel to CompanyEntity using CompanyMapper
+    //     const updatedCompanyEntity: CompanyEntity = CompanyMapper.toEntity(
+    //       companyData,
+    //       true,
+    //       existingCompanyData
+    //     );
 
-    // Convert companyData from CompanyModel to CompanyEntity using CompanyMapper
-    const updatedCompanyEntity: CompanyEntity = CompanyMapper.toEntity(
-      companyData,
-      true,
-      existingCompany
-    );
+    //     // Call the UpdateCompanyUsecase to update the company
+    //     const updatedCompany: Either<ErrorClass, CompanyEntity> =
+    //       await this.updateCompnayUsecases.execute(
+    //         companyId,
+    //         updatedCompanyEntity
+    //       );
 
-    // Call the UpdateCompanyUsecase to update the
-    const updatedCompany: Either<ErrorClass, CompanyEntity> =
-      await this.updateCompnayUsecases.execute(companyId, updatedCompanyEntity);
+    //     updatedCompany.cata(
+    //       (error: ErrorClass) =>
+    //         res.status(error.status).json({ error: error.message }),
+    //       (result: CompanyEntity) => {
+    //         const resData = CompanyMapper.toEntity(result, true);
+    //         res.json(resData);
+    //       }
+    //     );
 
-    updatedCompany.cata(
-      (error: ErrorClass) =>
-        res.status(error.status).json({ error: error.message }),
-      (result: CompanyEntity) => {
-        const resData = CompanyMapper.toEntity(result, true);
-        return res.json(resData);
-      }
-    );
+        // const resData = CompanyMapper.toEntity(result, true);
+        // return res.json(result);
+        // Call the UpdateCompanyUsecase to update the
+        // const updatedCompany: Either<ErrorClass, CompanyEntity> =
+        //   await this.updateCompnayUsecases.execute(companyId, companyData);
 
-    // Convert updatedCompany from CompanyEntity to plain JSON object using CompanyMapper
-    // const responseData = CompanyMapper.toModel(updatedCompany);
-
-    // Send the updated admin as a JSON response
-    // res.json(responseData);
-    // } catch (error) {
-    //   if (error instanceof ApiError) {
-    //     res.status(error.status).json({ error: error.message });
+        // updatedCompany.cata(
+        //   (error: ErrorClass) =>
+        //     res.status(error.status).json({ error: error.message }),
+        //   (result: CompanyEntity) => {
+        //     const resData = CompanyMapper.toEntity(result, true);
+        //     return res.json(resData);
+        //   }
+        // );
     //   }
-    //   ApiError.internalError();
-    // }
+    // );
   }
 }

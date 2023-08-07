@@ -8,6 +8,9 @@ export interface CompanyRepository {
   ): Promise<Either<ErrorClass, CompanyEntity>>;
   deleteCompany(id: string): Promise<void>;
   getCompanies(): Promise<CompanyEntity[]>;
-  getCompanyById(id: string): Promise<CompanyEntity | null>;
-  updateCompany(id: string, data: CompanyModel): Promise<Either<ErrorClass, CompanyEntity>>;
+  getCompanyById(id: string): Promise<Either<ErrorClass, CompanyEntity>>;
+  updateCompany(
+    id: string,
+    data: CompanyModel
+  ): Promise<Either<ErrorClass, CompanyEntity>>;
 }

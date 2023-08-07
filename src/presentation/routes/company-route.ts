@@ -36,7 +36,11 @@ const companyService = new CompanyServices(
 export const companyRouter = Router();
 
 // Route handling for creating a new company
-companyRouter.post("/new",validateBodyMiddleware, companyService.createCompany.bind(companyService));
+companyRouter.post(
+  "/new",
+  validateBodyMiddleware,
+  companyService.createCompany.bind(companyService)
+);
 
 // Route handling for getting an company by ID
 companyRouter.get(

@@ -6,8 +6,9 @@ import { ErrorClass } from "@presentation/error-handling/api-error";
 export interface UpdateCompanyUsecase {
   execute: (
     companyId: string,
-    companyData: Partial<CompanyModel>
-  ) =>  Promise<Either<ErrorClass,CompanyEntity>>;
+    // companyData: Partial<CompanyModel>
+    comapnyData:CompanyModel
+  ) => Promise<Either<ErrorClass, CompanyEntity>>;
 }
 
 export class UpdateCompany implements UpdateCompanyUsecase {
@@ -21,10 +22,12 @@ export class UpdateCompany implements UpdateCompanyUsecase {
   //   return await this.companyRepository.updateCompany(companyId, updatedCompcompanyDataanyData);
   // };
 
-  async execute(companyId: string, companyData: CompanyModel): Promise<Either<ErrorClass,CompanyEntity>> {
-    return await this.companyRepository.updateCompany(companyId,companyData);
+  async execute(
+    companyId: string,
+    companyData: CompanyModel
+  ): Promise<Either<ErrorClass, CompanyEntity>> {
+    return await this.companyRepository.updateCompany(companyId, companyData);
   }
-
 
   // async execute(
   //   companyId: string,
