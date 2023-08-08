@@ -61,6 +61,10 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.CONFLICT, "conflict");
   }
 
+  static phoneNumberExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.PHONE_NUMBER_CONFLICT, "phoneNumber_conflict");
+  }
+
  
 }
 
