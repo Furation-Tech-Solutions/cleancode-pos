@@ -6,8 +6,8 @@ export interface CompanyRepository {
   createCompany(
     company: CompanyModel
   ): Promise<Either<ErrorClass, CompanyEntity>>;
-  deleteCompany(id: string): Promise<void>;
-  getCompanies(): Promise<CompanyEntity[]>;
+  deleteCompany(id: string): Promise<Either<ErrorClass, void>>;
+  getCompanies(): Promise<Either<ErrorClass, CompanyEntity[]>>;
   getCompanyById(id: string): Promise<Either<ErrorClass, CompanyEntity>>;
   updateCompany(
     id: string,

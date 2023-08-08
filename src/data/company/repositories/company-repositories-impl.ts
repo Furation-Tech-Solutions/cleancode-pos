@@ -25,8 +25,17 @@ export class CompanyRepositoryImpl implements CompanyRepository {
     }
   }
 
-  async deleteCompany(id: string): Promise<void> {
-    await this.dataSource.delete(id);
+  async deleteCompany(id: string): Promise<Either<ErrorClass, void>> {
+    // await this.dataSource.delete(id);
+    try {
+      const i = await this.dataSource.delete(id);
+      return Right<ErrorClass, void>(i);
+    } catch (e) {
+      if (e instanceof ApiError && e.name === "notfound") {
+        return Left<ErrorClass, void>(ApiError.notFound());
+      }
+      return Left<ErrorClass, void>(ApiError.badRequest());
+    }
   }
 
   async updateCompany(
@@ -45,8 +54,17 @@ export class CompanyRepositoryImpl implements CompanyRepository {
     // return await this.dataSource.update(id, data);
   }
 
-  async getCompanies(): Promise<CompanyEntity[]> {
-    return await this.dataSource.getAllCompany();
+  async getCompanies(): Promise<Either<ErrorClass, CompanyEntity[]>> {
+    // return await this.dataSource.getAllCompany();
+    try {
+      const i = await this.dataSource.getAllCompany();
+      return Right<ErrorClass, CompanyEntity[]>(i);
+    } catch (e) {
+      if (e instanceof ApiError && e.name === "notfound") {
+        return Left<ErrorClass, CompanyEntity[]>(ApiError.notFound());
+      }
+      return Left<ErrorClass, CompanyEntity[]>(ApiError.badRequest());
+    }
   }
 
   async getCompanyById(id: string): Promise<Either<ErrorClass, CompanyEntity>> {
