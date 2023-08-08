@@ -65,7 +65,16 @@ export class IngredientCategoryService {
       const ingredientCategoryId: string = req.params.ingredientCategoryId;
 
       // Call the DeleteIngredientCategoryUsecase to delete the ingredientCategory
-      await this.deleteIngredientCategoryUsecase.execute(ingredientCategoryId);
+      const updatedIngredientCategoryEntity: IngredientCategoryEntity = IngredientCategoryMapper.toEntity(
+        { del_status: "Deleted" },
+        true
+      );
+
+      // Call the UpdateIngredientCategoryUsecase to update the ingredientCategory
+      const updatedIngredientCategory: IngredientCategoryEntity = await this.updateIngredientCategoryUsecase.execute(
+        ingredientCategoryId,
+        updatedIngredientCategoryEntity
+      );
 
       // Send a success message as a JSON response
       res.json({ message: "IngredientCategory deleted successfully." });

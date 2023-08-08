@@ -20,6 +20,8 @@ export const SERVICE_UNAVAILABLE = "service unavailable";
 
 export const CONFLICT = "email already exits";
 
+export const PHONE_NUMBER_CONFLICT = "phone Number already exits";
+
 export const INTERNAL_SERVER_ERROR = "something went wrong";
 
 

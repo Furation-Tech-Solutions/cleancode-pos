@@ -1,6 +1,16 @@
 import mongoose from "mongoose";
 
 const tableSchema = new mongoose.Schema({
+  area_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Area",
+    required: [true, "please enter area_id"],
+  },
+  outlet_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Outlet",
+    required: [true, "please enter outlet_id"],
+  },
   personName: {
     type: String,
     maxlength: [50, "Maximum 50 charcters are permitted"],
@@ -8,6 +18,14 @@ const tableSchema = new mongoose.Schema({
     required: [true, "please enter name"],
     trim: true,
     // default: null,
+    unique: true,
+  },
+  phone_number: {
+    type: String,
+    maxlength: [10, "Maximum 10 charcters are permitted"],
+    minLength: [1, "phone_number should have more than 1 character"],
+    required: [true, "please enter phone_number"],
+    trim: true,
     unique: true,
   },
   sit_capacity: {
