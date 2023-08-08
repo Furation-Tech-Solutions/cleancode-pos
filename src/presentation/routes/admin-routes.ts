@@ -17,7 +17,9 @@ import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
 // const dbOptions = {
 //   useNewUrlParser: true,
 //   useUnifiedTopology: true,
+
 //   dbName: "myDatabase", // Replace with the name of your database
+
 //   // Other options like user and password can also be added if necessary
 // };
 

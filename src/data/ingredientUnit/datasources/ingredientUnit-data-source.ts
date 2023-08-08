@@ -1,6 +1,7 @@
 import { IngredientUnitModel } from "@domain/ingredientUnit/entities/ingredientUnit";
 import { IngredientUnit } from "../models/ingredientUnit-model";
 import mongoose from "mongoose";
+import ApiError from "@presentation/error-handling/api-error";
 // import ApiError from "@presentation/error-handling/api-error";
 export interface IngredientUnitDataSource {
   create(ingredientUnit: IngredientUnitModel): Promise<any>; // Return type should be Promise of IngredientUnitEntity
@@ -13,9 +14,14 @@ export interface IngredientUnitDataSource {
 export class IngredientUnitDataSourceImpl implements IngredientUnitDataSource {
   constructor(private db: mongoose.Connection) {}
 
-  async create(ingredientUnit: IngredientUnitModel): Promise<any> {
+  async create(ingredientUnit_name: IngredientUnitModel): Promise<any> {
 
-    const ingredientUnitData = new IngredientUnit(ingredientUnit);
+    const existingTable = await IngredientUnit.findOne({ ingredientUnit_name: ingredientUnit_name.ingredientUnit_name });
+    if (existingTable) {
+      throw ApiError.phoneNumberExits()
+    }
+
+    const ingredientUnitData = new IngredientUnit(ingredientUnit_name);
 
     const createdIngredientUnit = await ingredientUnitData.save();
     

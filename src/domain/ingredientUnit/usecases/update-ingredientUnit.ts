@@ -1,11 +1,13 @@
 import { IngredientUnitEntity, IngredientUnitModel } from "@domain/ingredientUnit/entities/ingredientUnit";
 import { IngredientUnitRepository } from "@domain/ingredientUnit/repositories/ingredientUnit-repository";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 export interface UpdateIngredientUnitUsecase {
   execute: (
     ingredientUnitId: string,
-    ingredientUnitData: Partial<IngredientUnitModel>
-  ) => Promise<IngredientUnitEntity>;
+    ingredientUnitData: IngredientUnitModel
+  ) => Promise<Either<ErrorClass, IngredientUnitEntity>>;
 }
 
 export class UpdateIngredientUnit implements UpdateIngredientUnitUsecase {
@@ -15,38 +17,8 @@ export class UpdateIngredientUnit implements UpdateIngredientUnitUsecase {
     this.ingredientUnitRepository = ingredientUnitRepository;
   }
 
-  // async execute(ingredientUnitId: string, ingredientUnitData: IngredientUnitModel): Promise<IngredientUnitEntity> {
-  //   return await this.ingredientUnitRepository.updateIngredientUnit(ingredientUnitId, ingredientUnitData);
-  // }
-  // UpdateIngredientUnitUsecase
-  async execute(
-    ingredientUnitId: string,
-    ingredientUnitData: Partial<IngredientUnitModel>
-  ): Promise<IngredientUnitEntity> {
-    const existingIngredientUnit: IngredientUnitEntity | null =
-      await this.ingredientUnitRepository.getIngredientUnitById(ingredientUnitId);
-
-    if (!existingIngredientUnit) {
-      throw new Error("IngredientUnit not found.");
-    }
-
-    // Perform the partial update by merging ingredientUnitData with existingIngredientUnit
-    const updatedIngredientUnitData: IngredientUnitModel = {
-      ...existingIngredientUnit,
-      ...ingredientUnitData,
-    };
-
-    // Save the updatedIngredientUnitData to the repository
-    await this.ingredientUnitRepository.updateIngredientUnit(ingredientUnitId, updatedIngredientUnitData);
-
-    // Fetch the updated ingredientUnit entity from the repository
-    const updatedIngredientUnitEntity: IngredientUnitEntity | null =
-      await this.ingredientUnitRepository.getIngredientUnitById(ingredientUnitId);
-
-    if (!updatedIngredientUnitEntity) {
-      throw new Error("IngredientUnit not found after update.");
-    }
-
-    return updatedIngredientUnitEntity;
+  async execute(ingredientUnitId: string, ingredientUnitData: IngredientUnitModel): Promise<Either<ErrorClass, IngredientUnitEntity>> {
+    return await this.ingredientUnitRepository.updateIngredientUnit(ingredientUnitId, ingredientUnitData);
   }
+
 }

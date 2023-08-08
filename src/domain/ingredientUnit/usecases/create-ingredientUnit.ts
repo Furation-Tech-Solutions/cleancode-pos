@@ -1,8 +1,10 @@
 import { IngredientUnitEntity, IngredientUnitModel } from "@domain/ingredientUnit/entities/ingredientUnit";
 import { IngredientUnitRepository } from "@domain/ingredientUnit/repositories/ingredientUnit-repository";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 export interface CreateIngredientUnitUsecase {
-  execute: (ingredientUnitData: IngredientUnitModel) => Promise<IngredientUnitEntity>;
+  execute: (ingredientUnitData: IngredientUnitModel) => Promise<Either<ErrorClass, IngredientUnitEntity>>;
 }
 
 export class CreateIngredientUnit implements CreateIngredientUnitUsecase {
@@ -12,7 +14,7 @@ export class CreateIngredientUnit implements CreateIngredientUnitUsecase {
     this.ingredientUnitRepository = ingredientUnitRepository;
   }
 
-  async execute(ingredientUnitData: IngredientUnitModel): Promise<IngredientUnitEntity> {
+  async execute(ingredientUnitData: IngredientUnitModel): Promise<Either<ErrorClass, IngredientUnitEntity>> {
     return await this.ingredientUnitRepository.createIngredientUnit(ingredientUnitData);
   }
 }

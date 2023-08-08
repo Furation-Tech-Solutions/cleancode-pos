@@ -1,9 +1,9 @@
 import { TableModel } from "@domain/table/entities/table";
 import { Table } from "../models/table-model";
 import mongoose from "mongoose";
-// import ApiError from "@presentation/error-handling/api-error";
+import ApiError from "@presentation/error-handling/api-error";
 export interface TableDataSource {
-  create(table: TableModel): Promise<any>; // Return type should be Promise of TableEntity
+  create(personName: TableModel): Promise<any>; // Return type should be Promise of TableEntity
   update(id: string, table: TableModel): Promise<any>; // Return type should be Promise of TableEntity
   delete(id: string): Promise<void>;
   read(id: string): Promise<any | null>; // Return type should be Promise of TableEntity or null
@@ -13,13 +13,13 @@ export interface TableDataSource {
 export class TableDataSourceImpl implements TableDataSource {
   constructor(private db: mongoose.Connection) {}
 
-  async create(table: TableModel): Promise<any> {
-    // const existingTable = await Table.findOne({ table: table.table });
-    // if (existingTable) {
-    //   throw ApiError.emailExits()
-    // }
+  async create(personName: TableModel): Promise<any> {
+    const existingTable = await Table.findOne({ phone_number: personName.phone_number });
+    if (existingTable) {
+      throw ApiError.phoneNumberExits()
+    }
 
-    const tableData = new Table(table);
+    const tableData = new Table(personName);
 
     const createdTable = await tableData.save();
     
