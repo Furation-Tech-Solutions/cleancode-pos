@@ -9,6 +9,8 @@ import { DeleteTable } from "@domain/table/usecases/delete-table";
 import { GetTableById } from "@domain/table/usecases/get-table-by-id";
 import { GetAllTables } from "@domain/table/usecases/get-all-tables";
 import { UpdateTable } from "@domain/table/usecases/update-table";
+// import { TableModel } from "@domain/table/entities/table";
+import validateTableMiddleware from "@presentation/middlewares/table/validation-middleware";
 
 // Create an instance of the TableDataSourceImpl and pass the mongoose connection
 const tableDataSource = new TableDataSourceImpl(mongoose.connection);
@@ -36,7 +38,9 @@ const tableService = new TableService(
 export const tableRouter = Router();
 
 // Route handling for creating a new table
-tableRouter.post("/new", tableService.createTable.bind(tableService));
+// tableRouter.post("/new", tableService.createTable.bind(tableService));
+tableRouter.post("/new", validateTableMiddleware, tableService.createTable.bind(tableService));
+
 
 // Route handling for getting an table by ID
 tableRouter.get("/show/:tableId", tableService.getTableById.bind(tableService));

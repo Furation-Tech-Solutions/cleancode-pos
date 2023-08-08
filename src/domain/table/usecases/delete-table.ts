@@ -1,8 +1,8 @@
-
-import { type TableRepository } from "@domain/table/repositories/table-repository";
-
+import { type TableRepository } from "../repositories/table-repository";
+import { Either } from "monet";
+import  ErrorClass  from "@presentation/error-handling/api-error";
 export interface DeleteTableUsecase {
-  execute: (tableId: string) => Promise<void>
+  execute: (tableId: string) => Promise<Either<ErrorClass, void>>;
 }
 export class DeleteTable implements DeleteTableUsecase {
   private readonly tableRepository: TableRepository;
@@ -11,7 +11,7 @@ export class DeleteTable implements DeleteTableUsecase {
     this.tableRepository = tableRepository;
   }
 
-  async execute(tableId: string): Promise<void> {
-    await this.tableRepository.deleteTable(tableId);
+  async execute(tableId: string): Promise<Either<ErrorClass, void>> {
+   return await this.tableRepository.deleteTable(tableId);
   }
 }
