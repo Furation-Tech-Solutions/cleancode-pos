@@ -4,7 +4,7 @@ export class IngredientCategoryModel {
     public ingredientCategory_name: string = "",
     public description: string = "",
     public company_id: string = "",
-    public del_status: string = ""
+    public del_status: boolean
   ) { }
 }
 
@@ -15,7 +15,7 @@ export class IngredientCategoryEntity {
     public ingredientCategory_name: string,
     public description: string,
     public company_id: string,
-    public del_status: string
+    public del_status: boolean
   ) { }
 }
 

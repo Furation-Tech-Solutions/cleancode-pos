@@ -1,6 +1,8 @@
 import { type IngredientRepository } from "../repositories/ingredient-repository";
+import { Either } from "monet";
+import  ErrorClass  from "@presentation/error-handling/api-error";
 export interface DeleteIngredientUsecase {
-  execute: (IngredientId: string) => Promise<void>
+  execute: (IngredientId: string) => Promise<Either<ErrorClass, void>>
 }
 
 export class DeleteIngredient implements DeleteIngredientUsecase {
@@ -10,7 +12,7 @@ export class DeleteIngredient implements DeleteIngredientUsecase {
     this.ingredientRepository = ingredientRepository;
   }
 
-  async execute(ingredientId: string): Promise<void> {
-    await this.ingredientRepository.deleteIngredient(ingredientId);
+  async execute(ingredientId: string): Promise<Either<ErrorClass, void>> {
+    return await this.ingredientRepository.deleteIngredient(ingredientId);
   }
 }

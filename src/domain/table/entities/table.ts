@@ -8,7 +8,7 @@ export class TableModel {
     public sit_capacity: number = 0,
     public position: string = "",
     public description: string = "",
-    public del_status: string = ""
+    public del_status: boolean
   ) { }
 }
 
@@ -23,7 +23,7 @@ export class TableEntity {
     public sit_capacity: number,
     public position: string,
     public description: string,
-    public del_status: string
+    public del_status: boolean
   ) { }
 }
 

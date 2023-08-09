@@ -13,13 +13,13 @@ export interface TableDataSource {
 export class TableDataSourceImpl implements TableDataSource {
   constructor(private db: mongoose.Connection) {}
 
-  async create(personName: TableModel): Promise<any> {
-    const existingTable = await Table.findOne({ phone_number: personName.phone_number });
+  async create(table: TableModel): Promise<any> {
+    const existingTable = await Table.findOne({ phone_number: table.phone_number });
     if (existingTable) {
       throw ApiError.phoneNumberExits()
     }
 
-    const tableData = new Table(personName);
+    const tableData = new Table(table);
 
     const createdTable = await tableData.save();
     

@@ -56,7 +56,7 @@ export class TableService {
     
 
       const updatedTableEntity: TableEntity = TableMapper.toEntity(
-        { del_status: "Deleted" },
+        { del_status: false },
         true
       );
       
@@ -140,7 +140,7 @@ export class TableService {
         (error: ErrorClass) => res.status(error.status).json({ error: error.message }),
         (result: TableEntity[]) => {
             // Filter out tables with del_status set to "Deleted"
-            const nonDeletedTables = result.filter((table) => table.del_status !== "Deleted");
+            const nonDeletedTables = result.filter((table) => table.del_status !== false);
 
             // Convert non-deleted tables from an array of TableEntity to an array of plain JSON objects using TableMapper
             const responseData = nonDeletedTables.map((table) => TableMapper.toModel(table));

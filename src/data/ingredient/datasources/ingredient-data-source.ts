@@ -1,6 +1,7 @@
 import { IngredientModel } from "@domain/ingredient/entities/ingredient";
 import { Ingredient } from "../models/ingredient-model";
 import mongoose from "mongoose";
+import ApiError from "@presentation/error-handling/api-error";
 // import ApiError from "@presentation/error-handling/api-error";
 export interface IngredientDataSource {
   create(ingredient: IngredientModel): Promise<any>; // Return type should be Promise of IngredientEntity
@@ -14,6 +15,11 @@ export class IngredientDataSourceImpl implements IngredientDataSource {
   constructor(private db: mongoose.Connection) {}
 
   async create(ingredient: IngredientModel): Promise<any> {
+
+    const existingTable = await Ingredient.findOne({ name: ingredient.name });
+    if (existingTable) {
+      throw ApiError.ingredientCategoryExits()
+    }
 
     const ingredientData = new Ingredient(ingredient);
 

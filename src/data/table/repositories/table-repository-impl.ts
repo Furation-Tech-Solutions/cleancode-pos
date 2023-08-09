@@ -25,10 +25,10 @@ export class TableRepositoryImpl implements TableRepository {
     }
   }
 
-  async deleteTable(personName: string): Promise<Either<ErrorClass, void>> {
+  async deleteTable(id: string): Promise<Either<ErrorClass, void>> {
     // await this.dataSource.delete(id);
     try {
-      let i = await this.dataSource.delete(personName);
+      let i = await this.dataSource.delete(id);
       return Right<ErrorClass, void>(i);
     } catch {
       return Left<ErrorClass, void>(ApiError.badRequest());

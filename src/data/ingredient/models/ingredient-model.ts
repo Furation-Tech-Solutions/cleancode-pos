@@ -49,12 +49,8 @@ const ingredientSchema = new mongoose.Schema({
     default: null,
   }, 
   del_status: {
-    type: String,
-    enum: {
-      values: ["Live", "Deleted"],
-      message: "Values is not matched",
-    },
-    default: "Live",
+    type: Boolean,
+    default: true,
   }
 });
 export const Ingredient = mongoose.model("Ingredient", ingredientSchema);

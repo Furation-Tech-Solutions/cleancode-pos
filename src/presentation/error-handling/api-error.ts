@@ -65,6 +65,23 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.PHONE_NUMBER_CONFLICT, "phoneNumber_conflict");
   }
 
+  static ingredientUnitNameExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.INGREDIENTUNIT_CONFLICT, "ingredientUnitName_conflict");
+  }
+
+  static ingredientCategoryExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.INGREDIENTCATEGORY_CONFLICT, "ingredientCategory_conflict");
+  }
+
+  static ingredientExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.INGREDIENT_CONFLICT, "ingredient_conflict");
+  }
+
+  static foodCategoryExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODCATEGORY_CONFLICT, "foodCategory_conflict");
+  }
+
+
  
 }
 

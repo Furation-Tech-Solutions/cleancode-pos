@@ -6,6 +6,7 @@ import { ingredientUnitRouter } from "@presentation/routes/ingredientUnit-routes
 import { areaRouter } from "@presentation/routes/area-route";
 import { ingredientCategoryRouter } from "@presentation/routes/ingredientCategory-routes";
 import { ingredientRouter } from "@presentation/routes/ingredient-routes";
+import { foodCategoryRouter } from "@presentation/routes/foodCategory-routes";
 import {outletRouter } from "@presentation/routes/outlet-route";
 import { type Express, Router } from "express";
 import ApiError from "@presentation/error-handling/api-error";
@@ -20,6 +21,7 @@ export default (app: Express): void => {
 
   app.use("/table", tableRouter);
   app.use("/ingredientUnit", ingredientUnitRouter);
+  app.use("/foodCategory", foodCategoryRouter);
   app.use("/area", areaRouter)
   app.use("/ingredientCategory", ingredientCategoryRouter);
   app.use("/ingredient", ingredientRouter);

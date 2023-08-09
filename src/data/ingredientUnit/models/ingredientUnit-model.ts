@@ -21,12 +21,8 @@ const ingredientUnitSchema = new mongoose.Schema({
     require: [true, "please enter company_id"],
   },
   del_status: {
-    type: String,
-    enum: {
-      values: ["Live", "Deleted"],
-      message: "Value is not matched",
-    },
-    default: "Live",
+    type: Boolean,
+    default: true,
   }
 });
 export const IngredientUnit = mongoose.model("IngredientUnit", ingredientUnitSchema);

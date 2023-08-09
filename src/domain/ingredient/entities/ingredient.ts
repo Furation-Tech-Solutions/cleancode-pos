@@ -10,7 +10,7 @@ export class IngredientModel {
     public PurchaseRate: number = 0,
     public costUnit: number = 0,
     public LowQty: number = 0,
-    public del_status: string = ""
+    public del_status: boolean
   ) { }
 }
 
@@ -27,7 +27,7 @@ export class IngredientEntity {
     public PurchaseRate: number,
     public costUnit: number,
     public LowQty: number,
-    public del_status: string
+    public del_status: boolean
   ) { }
 }
 

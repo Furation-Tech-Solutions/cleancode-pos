@@ -21,12 +21,8 @@ const ingredientCategorySchema = new mongoose.Schema({
     required: [true, "Please enter company_id"],
   },
   del_status: {
-    type: String,
-    enum: {
-      values: ["Live", "Deleted"],
-      message: "Value is not matched",
-    },
-    default: "Live",
+    type: Boolean,
+    default: true,
   }
 });
 export const IngredientCategory = mongoose.model("IngredientCategory", ingredientCategorySchema);
