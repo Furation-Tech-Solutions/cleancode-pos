@@ -1,9 +1,18 @@
 import { InventorystockEntity, InventorystockModel } from "../entities/inventoryStock";
 import { InventorystockRepository } from "../repositories/inventoryStock-repository";
+<<<<<<< HEAD
 
 
 export interface UpdateInventorystockUsecase {
     execute : (inventorystockId: string, data: Partial<InventorystockModel>) => Promise<InventorystockEntity>
+=======
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
+
+
+export interface UpdateInventorystockUsecase {
+    execute : (inventorystockId: string, data: InventorystockModel) => Promise<Either<ErrorClass, InventorystockEntity>>
+>>>>>>> 72028bd83c9ce3d28c92d555d1a41698d1bcd30a
 }
 
 export class UpdateInventorystock implements UpdateInventorystockUsecase {
@@ -13,6 +22,7 @@ export class UpdateInventorystock implements UpdateInventorystockUsecase {
         this.inventorystockrepository= inventorystockrepository;
     }
 
+<<<<<<< HEAD
     async execute(inventorystockId: string, data: Partial<InventorystockModel>) : Promise<InventorystockEntity> {
         const existingInventorystock : InventorystockEntity | null = 
         await this.inventorystockrepository.getInventorystockById(inventorystockId);
@@ -32,5 +42,9 @@ export class UpdateInventorystock implements UpdateInventorystockUsecase {
         }
 
         return updatedInventorystockEntity;
+=======
+    async execute(inventorystockId: string, data: InventorystockModel) : Promise<Either<ErrorClass, InventorystockEntity>> {
+        return await this.inventorystockrepository.updateInventorystock(inventorystockId, data);
+>>>>>>> 72028bd83c9ce3d28c92d555d1a41698d1bcd30a
     }
 }

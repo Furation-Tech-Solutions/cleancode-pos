@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 import { InventorystockEntity, InventorystockModel } from "@domain/inventorystock/entities/inventorystock";
 import mongoose from "mongoose";
 import { Inventorystock } from "../models/inventorystock-model";
 import ApiError from "@presentation/error-handling/api-error";
 
+=======
+import mongoose from "mongoose";
+import { Inventorystock } from "../models/inventorystock-model";
+import ApiError from "@presentation/error-handling/api-error";
+import { InventorystockModel } from "@domain/inventoryStock/entities/inventoryStock";
+>>>>>>> 72028bd83c9ce3d28c92d555d1a41698d1bcd30a
 
 export interface InventorystockDataSource {
     create (inventorystock : InventorystockModel) : Promise<any>;
