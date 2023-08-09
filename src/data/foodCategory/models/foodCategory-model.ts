@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const foodCategorySchema = new mongoose.Schema({
+  // parent_id: {
+    // type: mongoose.Schema.Types.ObjectId,
+    // ref: "FoodCategory",
+    // required: [true, "Please enter a foodCategory"],
+  // },
   foodCategory_Name: {
     type: String,
     trim: true,
@@ -14,19 +19,10 @@ const foodCategorySchema = new mongoose.Schema({
     trim: true,
     maxlength: [500, "Food category description can't exceed 500 characters."],
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  createdBy: {
+    type: String,
+    default: null,
   },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-  kitchen:[{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Kitchen",
-    required: [true, "Please enter a kitchen"],
-  }],
   del_status: {
     type: Boolean,
     default: true,

@@ -8,6 +8,7 @@ interface CustomRequest extends Request {
   }
 
 const foodCategorySchema: Schema<FoodCategoryModel> = Joi.object({
+  // parent_id: Joi.string().default(true),
   foodCategory_Name: Joi.string().trim().required().min(3).max(100).messages({
     "string.base": "Name must be a string",
     "string.empty": "Name is required",
@@ -23,15 +24,11 @@ const foodCategorySchema: Schema<FoodCategoryModel> = Joi.object({
     "string.max": "Food category description can't exceed {#limit} characters",
     "any.required": "Description is required",
   }),
-  kitchen: Joi.string()
+  createdBy: Joi.string()
     .required()
     .messages({
-      "array.base": "Kitchen must be an array.",
-      "array.empty": "Please enter a kitchen.",
-      "any.required": "Please enter a kitchen.",
-    }),
-  createdAt: Joi.date().default(Date.now),
-  updatedAt: Joi.date().default(Date.now),
+    "any.required": "Please enter a kitchen.",
+  }),
   del_status: Joi.string().default(true),
   });
   

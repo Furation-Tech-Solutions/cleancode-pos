@@ -3,7 +3,6 @@ export class IngredientUnitModel {
   constructor(
     public ingredientUnit_name: string = "",
     public description: string = "",
-    public company_id: string = "",
     public del_status: boolean
   ) { }
 }
@@ -14,7 +13,6 @@ export class IngredientUnitEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public ingredientUnit_name: string,
     public description: string,
-    public company_id: string,
     public del_status: boolean
   ) { }
 }
@@ -35,8 +33,6 @@ export class IngredientUnitMapper {
           ingredientUnitData.ingredientUnit_name !== undefined ? ingredientUnitData.ingredientUnit_name : existingIngredientUnit.ingredientUnit_name,
         description:
           ingredientUnitData.description !== undefined ? ingredientUnitData.description : existingIngredientUnit.description,
-        company_id:
-          ingredientUnitData.company_id !== undefined ? ingredientUnitData.company_id : existingIngredientUnit.company_id,
         del_status:
           ingredientUnitData.del_status !== undefined ? ingredientUnitData.del_status : existingIngredientUnit.del_status,
 
@@ -47,7 +43,6 @@ export class IngredientUnitMapper {
         id: includeId ? (ingredientUnitData._id ? ingredientUnitData._id.toString() : undefined) : undefined,
         ingredientUnit_name: ingredientUnitData.ingredientUnit_name,
         description: ingredientUnitData.description,
-        company_id: ingredientUnitData.company_id,
         del_status: ingredientUnitData.del_status,
       };
       return ingredientUnitEntity;
@@ -59,7 +54,6 @@ export class IngredientUnitMapper {
       id: ingredientUnit.id,
       ingredientUnit_name: ingredientUnit.ingredientUnit_name,
       description: ingredientUnit.description,
-      company_id: ingredientUnit.company_id,
       del_status: ingredientUnit.del_status,
     };
   }

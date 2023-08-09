@@ -28,8 +28,8 @@ const ingredientSchema = new mongoose.Schema({
     ref: "IngredientUnit",
     required: [true, "please enter ConsumptionUnit"],
   },
-  ConversionRate: {
-    type: Number,
+  ConversionUnit: {
+    type: String,
     required: [true, "please enter ConversionRate"],
     default: null,
   },

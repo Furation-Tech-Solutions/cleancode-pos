@@ -15,11 +15,6 @@ const ingredientUnitSchema = new mongoose.Schema({
     trim: true,
     default: null,
   },
-  company_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
-    require: [true, "please enter company_id"],
-  },
   del_status: {
     type: Boolean,
     default: true,

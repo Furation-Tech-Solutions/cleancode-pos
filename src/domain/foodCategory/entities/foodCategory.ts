@@ -1,11 +1,10 @@
 // Express API request populate the FoodCategory Model
 export class FoodCategoryModel {
   constructor(
+    // public parent_id: string = "",
     public foodCategory_Name: string = "",
     public description: string = "",
-    public createdAt: string = "",
-    public updatedAt: string = "",
-    public kitchen: string = "",
+    public createdBy: string = "",
     public del_status: boolean
   ) { }
 }
@@ -14,11 +13,10 @@ export class FoodCategoryModel {
 export class FoodCategoryEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
+    // public parent_id: string,
     public foodCategory_Name: string,
     public description: string,
-    public createdAt: string,
-    public updatedAt: string,
-    public kitchen: string,
+    public createdBy: string,
     public del_status: boolean
   ) { }
 }
@@ -35,16 +33,14 @@ export class FoodCategoryMapper {
       // If existingFoodCategory is provided, merge the data from foodCategoryData with the existingFoodCategory
       return {
         ...existingFoodCategory,
+        // parent_id:
+        //   foodCategoryData.parent_id !== undefined ? foodCategoryData.parent_id : existingFoodCategory.parent_id,
         foodCategory_Name:
           foodCategoryData.foodCategory_Name !== undefined ? foodCategoryData.foodCategory_Name : existingFoodCategory.foodCategory_Name,
         description:
           foodCategoryData.description !== undefined ? foodCategoryData.description : existingFoodCategory.description,
-        createdAt:
-          foodCategoryData.createdAt !== undefined ? foodCategoryData.createdAt : existingFoodCategory.createdAt,
-        updatedAt:
-          foodCategoryData.updatedAt !== undefined ? foodCategoryData.updatedAt : existingFoodCategory.updatedAt,
-        kitchen:
-          foodCategoryData.kitchen !== undefined ? foodCategoryData.kitchen : existingFoodCategory.kitchen,
+        createdBy:
+          foodCategoryData.createdBy !== undefined ? foodCategoryData.createdBy : existingFoodCategory.createdBy,
         del_status:
           foodCategoryData.del_status !== undefined ? foodCategoryData.del_status : existingFoodCategory.del_status
       };
@@ -52,11 +48,10 @@ export class FoodCategoryMapper {
       // If existingFoodCategory is not provided, create a new FoodCategoryEntity using foodCategoryData
       const foodCategoryEntity: FoodCategoryEntity = {
         id: includeId ? (foodCategoryData._id ? foodCategoryData._id.toString() : undefined) : undefined,
+        // parent_id: foodCategoryData.parent_id,
         foodCategory_Name: foodCategoryData.foodCategory_Name,
         description: foodCategoryData.description,
-        createdAt: foodCategoryData.createdAt,
-        updatedAt: foodCategoryData.updatedAt,
-        kitchen: foodCategoryData.kitchen,
+        createdBy: foodCategoryData.createdBy,
         del_status: foodCategoryData.del_status,
       };
       return foodCategoryEntity;
@@ -66,11 +61,10 @@ export class FoodCategoryMapper {
   static toModel(foodCategory: FoodCategoryEntity): any {
     return {
       id: foodCategory.id,
+      // parent_id: foodCategory.parent_id,
       foodCategory_Name: foodCategory.foodCategory_Name,
       description: foodCategory.description,
-      createdAt: foodCategory.createdAt,
-      updatedAt: foodCategory.updatedAt,
-      kitchen: foodCategory.kitchen,
+      createdBy: foodCategory.createdBy,
       del_status: foodCategory.del_status,
     };
   }

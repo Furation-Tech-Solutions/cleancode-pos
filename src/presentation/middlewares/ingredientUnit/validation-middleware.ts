@@ -18,10 +18,6 @@ const ingredientUnitSchema: Schema<IngredientUnitModel> = Joi.object({
   .messages({
     'string.max': 'Maximum 200 characters are permitted',
   }),
-  company_id: Joi.required()
-    .messages({
-      'any.required': 'Please enter company_id',
-  }),
   del_status: Joi.string().valid('Live', 'Deleted').default('Live')
 });
   

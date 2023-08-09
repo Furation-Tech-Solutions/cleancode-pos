@@ -35,10 +35,10 @@ const ingredientSchema: Schema<IngredientModel> = Joi.object({
     "string.empty": "ConsumptionUnit is required",
     "any.required": "ConsumptionUnit is required",
   }),
-  ConversionRate: Joi.number().required().messages({
-    "number.base": "ConversionRate must be a number",
-    "number.empty": "ConversionRate is required",
-    "any.required": "ConversionRate is required",
+  ConversionUnit: Joi.string().required().messages({
+    "string.base": "ConversionUnit must be a string",
+    "string.empty": "ConversionUnit is required",
+    "any.required": "ConversionUnit is required",
   }),
   PurchaseRate: Joi.number().required().messages({
     "number.base": "PurchaseRate must be a number",

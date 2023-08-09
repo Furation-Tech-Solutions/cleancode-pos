@@ -15,10 +15,9 @@ const ingredientCategorySchema = new mongoose.Schema({
       trim: true,
     default: null
   },
-  company_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
-    required: [true, "Please enter company_id"],
+  createdBy: {
+    type: String,
+    default: null
   },
   del_status: {
     type: Boolean,

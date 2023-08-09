@@ -6,7 +6,7 @@ export class IngredientModel {
     public category: string = "",
     public PurchaseUnit: string = "",
     public ConsumptionUnit: string = "",
-    public ConversionRate: number = 0,
+    public ConversionUnit: string = "",
     public PurchaseRate: number = 0,
     public costUnit: number = 0,
     public LowQty: number = 0,
@@ -23,7 +23,7 @@ export class IngredientEntity {
     public category: string,
     public PurchaseUnit: string,
     public ConsumptionUnit: string,
-    public ConversionRate: number,
+    public ConversionUnit: string,
     public PurchaseRate: number,
     public costUnit: number,
     public LowQty: number,
@@ -53,8 +53,8 @@ export class IngredientMapper {
           ingredientData.PurchaseUnit !== undefined ? ingredientData.PurchaseUnit : existingIngredient.PurchaseUnit,
         ConsumptionUnit:
           ingredientData.ConsumptionUnit !== undefined ? ingredientData.ConsumptionUnit : existingIngredient.ConsumptionUnit,
-        ConversionRate:
-          ingredientData.ConversionRate !== undefined ? ingredientData.ConversionRate : existingIngredient.ConversionRate,
+        ConversionUnit:
+          ingredientData.ConversionUnit !== undefined ? ingredientData.ConversionUnit : existingIngredient.ConversionUnit,
         PurchaseRate:
           ingredientData.PurchaseRate !== undefined ? ingredientData.PurchaseRate : existingIngredient.PurchaseRate,
         costUnit:
@@ -74,7 +74,7 @@ export class IngredientMapper {
         category: ingredientData.category,
         PurchaseUnit: ingredientData.PurchaseUnit,
         ConsumptionUnit: ingredientData.ConsumptionUnit,
-        ConversionRate: ingredientData.ConversionRate,
+        ConversionUnit: ingredientData.ConversionUnit,
         PurchaseRate: ingredientData.PurchaseRate,
         costUnit: ingredientData.costUnit,
         LowQty: ingredientData.LowQty,
@@ -92,8 +92,8 @@ export class IngredientMapper {
       category: ingredient.category,
       PurchaseUnit: ingredient.PurchaseUnit,
       ConsumptionUnit: ingredient.ConsumptionUnit,
-      ConversionRate: ingredient.ConversionRate,
-      PurchaseRate: ingredient.ConversionRate,
+      ConversionUnit: ingredient.ConversionUnit,
+      PurchaseRate: ingredient.PurchaseRate,
       costUnit: ingredient.costUnit,
       LowQty: ingredient.LowQty,
       del_status: ingredient.del_status
