@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { DeliverypartnerEntity, DeliverypartnerMapper, DeliverypartnerModel } from "@domain/deliverypartner/entities/deliverypartner";
 import { CreateDeliverypartnerUsecase } from "@domain/deliverypartner/usecases/create-deliverypartner";
 import { DeleteDeliverypartnerUsecase } from "@domain/deliverypartner/usecases/delete-deliverypartner";
@@ -6,6 +6,8 @@ import { GetAllDeliverypartnerUsecase } from "@domain/deliverypartner/usecases/g
 import { GetDeliverypartnerByIdUsecase } from "@domain/deliverypartner/usecases/get-deliverypartner-by-id";
 import { UpdateDeliverypartnerUsecase } from "@domain/deliverypartner/usecases/update-deliverypartner";
 import ApiError from "@presentation/error-handling/api-error";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 
 export class DeliverypartnerServices {
@@ -30,97 +32,93 @@ export class DeliverypartnerServices {
     }
 
     async createDeliverypartner (req: Request, res : Response) : Promise<void> {
-        try {
-            const deliverypartnerData : DeliverypartnerModel = DeliverypartnerMapper.toModel(req.body);
-            const newDeliverypartnerData: DeliverypartnerEntity = 
-            await this.createDeliverypartnerUsecases.execute(deliverypartnerData);
-            const responseData= DeliverypartnerMapper.toEntity(newDeliverypartnerData, true);
-            res.json(responseData);
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
-              }
-              const err = ApiError.internalError();
-              res.status(err.status).json(err.message);
-        }
+        const deliverypartnerData : DeliverypartnerModel = DeliverypartnerMapper.toModel(req.body);
+        const newDeliverypartnerData: Either<ErrorClass, DeliverypartnerEntity> = 
+        await this.createDeliverypartnerUsecases.execute(deliverypartnerData);
+
+        newDeliverypartnerData.cata(
+            (error : ErrorClass) => 
+            res.status(error.status).json({error : error.message}),
+            (result : DeliverypartnerEntity) => {
+                const responseData = DeliverypartnerMapper.toEntity(result, true);
+                return res.json(responseData);
+            }
+        )
     }
     async deleteDeliverypartner (req : Request, res : Response) : Promise<void> {
-        try {
-            const deliverypartnerId= req.params.deliverypartnerId;
-            await this.deleteDeliverypartnerUsecases.execute(deliverypartnerId);
-            res.json({ message: "Delivery partner deleted successfully." });
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
-              }
-              const err = ApiError.internalError();
-              res.status(err.status).json(err.message);
-        }
+        const deliverypartnerId : string= req.params.deliverypartnerId;
+        const deletedDeliverypartner: Either<ErrorClass, void> =
+        await this.deleteDeliverypartnerUsecases.execute(deliverypartnerId);
+
+        deletedDeliverypartner.cata(
+            (error: ErrorClass) =>
+                res.status(error.status).json({ error: error.message }),
+            (result: void) => {
+                return res.json({ message: "Delivery partner deleted successfully." });
+            }
+        );
+        
     }
-    async getAllDeliverypartner (req: Request, res: Response, next: NextFunction) : Promise<void> {
-        try {
-            const deliverypartners : DeliverypartnerEntity[] = await this.getAllDeliverypartnerUsecases.execute();
-            const responseData = deliverypartners.map((deliverypartner) =>
+    async getAllDeliverypartner (req: Request, res: Response) : Promise<void> {
+        const deliverypartners : Either<ErrorClass, DeliverypartnerEntity[]> = await this.getAllDeliverypartnerUsecases.execute();
+        deliverypartners.cata(
+            (error: ErrorClass) =>
+                res.status(error.status).json({ error: error.message }),
+            (result: DeliverypartnerEntity[]) => {
+                const resdata = result.map((deliverypartner) =>
                 DeliverypartnerMapper.toModel(deliverypartner)
-            );
-            res.json(responseData);
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
-              }
-              const err = ApiError.internalError();
-              res.status(err.status).json(err.message);
-        }
+              );
+              return res.json(resdata);
+            }
+        )
     }
     async getDeliverypartnerById (req: Request, res: Response) : Promise<void> {
-        try {
-            const deliverypartnerId : string = req.params.deliverypartnerId;
-            const deliverypartner : DeliverypartnerEntity | null = 
-            await this.getDeliverypartnerByIdusecases.execute(deliverypartnerId);
-            if(deliverypartner){
-                const responseData= DeliverypartnerMapper.toModel(deliverypartner);
-                res.json(responseData);
-            }else {
-                ApiError.notFound();
+        const deliverypartnerId : string = req.params.deliverypartnerId;
+        const deliverypartner : Either<ErrorClass, DeliverypartnerEntity> = 
+        await this.getDeliverypartnerByIdusecases.execute(deliverypartnerId);
+        deliverypartner.cata(
+            (error: ErrorClass) =>
+              res.status(error.status).json({ error: error.message }),
+            (result: DeliverypartnerEntity) => {
+              const resdata = DeliverypartnerMapper.toModel(result);
+              return res.json(resdata);
             }
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
-              }
-              const err = ApiError.internalError();
-              res.status(err.status).json(err.message);
-        }
+        );
     }
     async updateDeliverypartner (req: Request, res: Response) : Promise<void> {
-        try {
-            const deliverypartnerId : string = req.params.deliverypartnerId;
-            const deliverypartnerData : DeliverypartnerModel = req.body;
-            const existingDeliverypartner : DeliverypartnerEntity | null=
-            await this.getDeliverypartnerByIdusecases.execute(deliverypartnerId);
-            if (!existingDeliverypartner) {
-                ApiError.notFound();
-                return;
-            }
+        const deliverypartnerId: string = req.params.deliverypartnerId;
+        const deliverypartnerData: DeliverypartnerModel = req.body;
+
+        const existingDeliverypartner: Either<ErrorClass, DeliverypartnerEntity> =
+        await this.getDeliverypartnerByIdusecases.execute(deliverypartnerId);
+
+        existingDeliverypartner.cata(
+        (error: ErrorClass) => {
+            res.status(error.status).json({ error: error.message });
+        },
+        async (existingDeliverypartnerData: DeliverypartnerEntity) => {
             const updatedDeliverypartnerEntity: DeliverypartnerEntity = DeliverypartnerMapper.toEntity(
                 deliverypartnerData,
                 true,
-                existingDeliverypartner
+                existingDeliverypartnerData
             );
-            const updatedDeliverypartner: DeliverypartnerEntity =
-                await this.updateDeliverypartnerUsecases.execute(
+
+            const updatedDeliverypartner: Either<ErrorClass, DeliverypartnerEntity> =
+            await this.updateDeliverypartnerUsecases.execute(
                 deliverypartnerId,
                 updatedDeliverypartnerEntity
-                );  
+            );
 
-
-            const responseData = DeliverypartnerMapper.toModel(updatedDeliverypartner);
-            res.json(responseData);
-        } catch (error) {
-            if (error instanceof ApiError) {
+            updatedDeliverypartner.cata(
+            (error: ErrorClass) => {
                 res.status(error.status).json({ error: error.message });
-              }
-              const err = ApiError.internalError();
-              res.status(err.status).json(err.message);
+            },
+            (result: DeliverypartnerEntity) => {
+                const resData = DeliverypartnerMapper.toEntity(result, true);
+                res.json(resData);
+            }
+            );
         }
+        );
     }
 }

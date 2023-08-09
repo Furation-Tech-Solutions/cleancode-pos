@@ -1,9 +1,9 @@
-import { DeliverypartnerModel } from "../entities/deliverypartner";
 import { DeliverypartnerRepository } from "../repositories/deliverypartner-repositories";
-
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 export interface DeleteDeliverypartnerUsecase {
-    execute : (deliverypartnerId: string) => Promise<void>
+    execute : (deliverypartnerId: string) => Promise<Either<ErrorClass, void>>
 }
 
 export class DeleteDeliverypartner implements DeleteDeliverypartnerUsecase{
@@ -13,7 +13,7 @@ export class DeleteDeliverypartner implements DeleteDeliverypartnerUsecase{
         this.deliverypartnerRepository= deliverypartnerRepository;
     }
 
-    async execute (deliverypartnerId: string) : Promise<void> {
-        await this.deliverypartnerRepository.deleteDeliverypartner(deliverypartnerId);
+    async execute (deliverypartnerId: string) : Promise<Either<ErrorClass, void>> {
+        return await this.deliverypartnerRepository.deleteDeliverypartner(deliverypartnerId);
     }
 }

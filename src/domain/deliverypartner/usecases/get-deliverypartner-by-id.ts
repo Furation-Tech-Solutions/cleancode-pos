@@ -1,9 +1,11 @@
 import { DeliverypartnerEntity } from "../entities/deliverypartner";
 import { DeliverypartnerRepository } from "../repositories/deliverypartner-repositories";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 
 export interface GetDeliverypartnerByIdUsecase {
-    execute : (deliverypartnerId: string) => Promise<DeliverypartnerEntity | null>;
+    execute : (deliverypartnerId: string) => Promise<Either<ErrorClass, DeliverypartnerEntity>>;
 }
 
 export class GetDeliverypartnerById implements GetDeliverypartnerByIdUsecase {
@@ -13,7 +15,7 @@ export class GetDeliverypartnerById implements GetDeliverypartnerByIdUsecase {
         this.deliverypartnerRepository= deliverypartnerRepository;
     }
 
-    async execute(deliverypartnerId: string) : Promise<DeliverypartnerEntity | null>{
+    async execute(deliverypartnerId: string) : Promise<Either<ErrorClass, DeliverypartnerEntity>>{
         return await this.deliverypartnerRepository.getDeliverypartnerById(deliverypartnerId);
     }
 }

@@ -17,7 +17,7 @@ export class DeliverypartnerDataSourceImpl implements DeliverypartnerDataSource 
         const existingDeliverypartner = await Deliverypartner.findOne({ phone: deliverypartner.phone });
 
         if (existingDeliverypartner) {
-            // throw ApiError.numberExits();
+            throw ApiError.emailExits();
         }
 
         const DeliverypartnerData = new Deliverypartner(deliverypartner);
