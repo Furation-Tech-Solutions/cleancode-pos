@@ -1,5 +1,5 @@
-import { InventorystockEntity, InventorystockModel } from "../entities/inventoryStock";
-import { InventorystockRepository } from "../repositories/inventoryStock-repository";
+import { InventorystockEntity, InventorystockModel } from "../entities/inventorystock";
+import { InventorystockRepository } from "../repositories/inventorystock-repository";
 
 
 export interface UpdateInventorystockUsecase {

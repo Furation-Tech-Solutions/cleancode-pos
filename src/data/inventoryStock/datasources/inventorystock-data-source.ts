@@ -1,4 +1,4 @@
-import { InventorystockEntity, InventorystockModel } from "@domain/inventorystock/entities/inventorystock";
+import { InventorystockEntity, InventorystockModel } from "@domain/inventoryStock/entities/inventorystock";
 import mongoose from "mongoose";
 import { Inventorystock } from "../models/inventorystock-model";
 import ApiError from "@presentation/error-handling/api-error";

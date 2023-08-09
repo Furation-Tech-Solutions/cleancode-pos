@@ -5,7 +5,7 @@ import { GetAllInventorystockUsecase } from "@domain/inventoryStock/usecases/get
 import { GetInventorystockByIdUsecase } from "@domain/inventoryStock/usecases/get-inventorystock-by-id";
 import { UpdateInventorystockUsecase } from "@domain/inventoryStock/usecases/update-inventorystock";
 import ApiError from "@presentation/error-handling/api-error";
-import { InventorystockEntity, InventorystockMapper, InventorystockModel } from "@domain/inventoryStock/entities/inventoryStock";
+import { InventorystockEntity, InventorystockMapper, InventorystockModel } from "@domain/inventoryStock/entities/inventorystock";
 
 
 export class InventorystockServices {

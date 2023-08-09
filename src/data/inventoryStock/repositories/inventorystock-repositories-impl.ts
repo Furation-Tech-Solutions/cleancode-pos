@@ -1,6 +1,6 @@
-import { InventorystockRepository } from "@domain/inventoryStock/repositories/inventoryStock-repository";
+import { InventorystockRepository } from "@domain/inventoryStock/repositories/inventorystock-repository";
 import { InventorystockDataSource } from "../datasources/inventoryStock-data-source";
-import { InventorystockEntity, InventorystockModel } from "@domain/inventoryStock/entities/inventoryStock";
+import { InventorystockEntity, InventorystockModel } from "@domain/inventoryStock/entities/inventorystock";
 
 
 export class InventorystockRepositoryImpl implements InventorystockRepository {
