@@ -3,7 +3,7 @@ import * as  HttpStatus from './http-status'
 
 import * as  ErrorMessage from './message-error'
 
-class ErrorClass {
+export class ErrorClass {
   status: number;
   message: string;
   name: string;
@@ -57,6 +57,11 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CONFLICT, "conflict");
   }
 
+  static kitchen_codeExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.KITCHEN_CONFLICT, "conflict");
+  }
+  
+  
   static internalError(): ApiError {
     return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.CONFLICT, "conflict");
   }

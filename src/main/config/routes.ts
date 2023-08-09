@@ -2,9 +2,8 @@ import { adminRouter } from "@presentation/routes/admin-routes";
 import { tableRouter } from "@presentation/routes/table-routes";
 import { ingredientUnitRouter } from "@presentation/routes/ingredientUnit-routes";
 import { areaRouter } from "@presentation/routes/area-route";
-
+import { kitchenRouter } from "@presentation/routes/kitchen-routes";
 import { ingredientCategoryRouter } from "@presentation/routes/ingredientCategory-routes";
-
 import {outletRouter } from "@presentation/routes/outlet-route";
 import { type Express, Router } from "express";
 import ApiError from "@presentation/error-handling/api-error";
@@ -21,6 +20,7 @@ export default (app: Express): void => {
   app.use("/table", tableRouter);
   app.use("/ingredientUnit", ingredientUnitRouter);
   app.use("/area", areaRouter)
+  app.use("/kitchen", kitchenRouter)
   app.use("/ingredientCategory", ingredientCategoryRouter);
   app.use("/admin",adminRouter);
   app.use("/outlet", outletRouter);
