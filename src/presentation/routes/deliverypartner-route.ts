@@ -8,6 +8,7 @@ import { UpdateDeliverypartner } from "@domain/deliverypartner/usecases/update-d
 import { GetAllDeliverypartner } from "@domain/deliverypartner/usecases/get-all-deliverypartner";
 import { GetDeliverypartnerById } from "@domain/deliverypartner/usecases/get-deliverypartner-by-id";
 import { DeliverypartnerServices } from "@presentation/services/deliverypartner-services";
+import validateBodyMiddleware from "@presentation/middlewares/deliverypartner/validator-middleware";
 
 const deliverypartnerDataSource= new DeliverypartnerDataSourceImpl(mongoose.connection);
 
@@ -31,6 +32,6 @@ export const deliverypartnerRouter= Router();
 
 deliverypartnerRouter.get("/", deliverypartnerService.getAllDeliverypartner.bind(deliverypartnerService));
 deliverypartnerRouter.get("/:id", deliverypartnerService.getDeliverypartnerById.bind(deliverypartnerService));
-deliverypartnerRouter.post("/new", deliverypartnerService.createDeliverypartner.bind(deliverypartnerService));
+deliverypartnerRouter.post("/new", validateBodyMiddleware, deliverypartnerService.createDeliverypartner.bind(deliverypartnerService));
 deliverypartnerRouter.put("/:id", deliverypartnerService.updateDeliverypartner.bind(deliverypartnerService));
 deliverypartnerRouter.delete("/:id", deliverypartnerService.deleteDeliverypartner.bind(deliverypartnerService));
