@@ -7,3 +7,4 @@ export interface AdminRepository {
   getAdmins(): Promise<AdminEntity[]>;
   getAdminById(id: string): Promise<AdminEntity | null>;
 }
+

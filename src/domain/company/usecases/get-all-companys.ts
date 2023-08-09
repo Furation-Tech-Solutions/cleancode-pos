@@ -1,8 +1,10 @@
+import { ErrorClass } from "@presentation/error-handling/api-error";
 import { CompanyEntity } from "../entinies/company";
 import { CompanyRepository } from "../repositories/company-repository";
+import { Either } from "monet";
 
 export interface GetAllCompanysUsecase {
-  execute: () => Promise<CompanyEntity[]>;
+  execute: () => Promise<Either<ErrorClass, CompanyEntity[]>>;
 }
 
 export class GetAllCompanys implements GetAllCompanysUsecase {
@@ -11,7 +13,7 @@ export class GetAllCompanys implements GetAllCompanysUsecase {
     this.companyRepository = companyRepository;
   }
 
-  async execute(): Promise<CompanyEntity[]> {
+  async execute(): Promise<Either<ErrorClass, CompanyEntity[]>> {
     return await this.companyRepository.getCompanies();
   }
 }
