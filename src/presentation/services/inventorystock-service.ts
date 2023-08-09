@@ -6,124 +6,120 @@ import { GetInventorystockByIdUsecase } from "@domain/inventoryStock/usecases/ge
 import { UpdateInventorystockUsecase } from "@domain/inventoryStock/usecases/update-inventorystock";
 import ApiError from "@presentation/error-handling/api-error";
 import { InventorystockEntity, InventorystockMapper, InventorystockModel } from "@domain/inventoryStock/entities/inventoryStock";
-
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 export class InventorystockServices {
     private readonly createInventorystockusecases : CreateInventorystockUsecase;
     private readonly deleteInventorystockusecases : DeleteInventortstockUsecase;
     private readonly updateInventorystockusecases : UpdateInventorystockUsecase;
     private readonly getAllInventorystockusecases : GetAllInventorystockUsecase;
-    private readonly getcreateInventorystockByIdusecases : GetInventorystockByIdUsecase;
+    private readonly getInventorystockByIdusecases : GetInventorystockByIdUsecase;
 
     constructor (
         createInventorystockusecases : CreateInventorystockUsecase,
         deleteInventorystockusecases : DeleteInventortstockUsecase,
         updateInventorystockusecases : UpdateInventorystockUsecase,
         getAllInventorystockusecases : GetAllInventorystockUsecase,
-        getcreateInventorystockByIdusecases : GetInventorystockByIdUsecase
+        getInventorystockByIdusecases : GetInventorystockByIdUsecase
     ) {
         this.createInventorystockusecases= createInventorystockusecases;
         this.deleteInventorystockusecases= deleteInventorystockusecases;
         this.updateInventorystockusecases= updateInventorystockusecases;
         this.getAllInventorystockusecases= getAllInventorystockusecases;
-        this.getcreateInventorystockByIdusecases= getcreateInventorystockByIdusecases
+        this.getInventorystockByIdusecases= getInventorystockByIdusecases
     }
     async createInventorystock (req: Request, res: Response) : Promise<void>{
-        try {
-            const InventorystockData : InventorystockModel = InventorystockMapper.toModel(req.body);
-            const newInventorystockData: InventorystockEntity = 
-            await this.createInventorystockusecases.execute(InventorystockData);
-            const responseData= InventorystockMapper.toEntity(newInventorystockData, true);
-            res.json(responseData);
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
+        const inventorystockData : InventorystockModel = InventorystockMapper.toModel(req.body);
+        const newInventorystockData: Either<ErrorClass, InventorystockEntity> = 
+        await this.createInventorystockusecases.execute(inventorystockData);
+
+        newInventorystockData.cata(
+            (error : ErrorClass) => 
+            res.status(error.status).json({error : error.message}),
+            (result : InventorystockEntity) => {
+                const responseData = InventorystockMapper.toEntity(result, true);
+                return res.json(responseData);
             }
-            const err = ApiError.internalError();
-            res.status(err.status).json(err.message);
-        }
+        )
     }
 
     async deleteInventorystock (req: Request, res: Response) : Promise<void>{
-        try {
-            const inventorystockId= req.params.inventorystockId;
-            await this.deleteInventorystockusecases.execute(inventorystockId);
-            res.json({message : "Inventory partner deleted successfully"})
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
+        const inventorystockId : string= req.params.inventorystockId;
+        const deletedInventorystock: Either<ErrorClass, void> =
+        await this.deleteInventorystockusecases.execute(inventorystockId);
+
+        deletedInventorystock.cata(
+            (error: ErrorClass) =>
+                res.status(error.status).json({ error: error.message }),
+            (result: void) => {
+                return res.json({ message: "Inventory partner deleted successfully." });
             }
-            const err = ApiError.internalError();
-            res.status(err.status).json(err.message);
-        }
+        );
     }
 
     async updateInventorystock (req: Request, res: Response) : Promise<void> {
-        try {
-            const inventorystockId : string = req.params.inventorystockId;
-            const InventorystockData : InventorystockModel = req.body;
-            const existingInventorystock : InventorystockEntity | null =
-            await this.getcreateInventorystockByIdusecases.execute(inventorystockId);
-            if(!existingInventorystock){
-                ApiError.notFound();
-                return;
-            }
+        const inventorystockId: string = req.params.inventorystockId;
+        const inventorystockData: InventorystockModel = req.body;
 
-            const updatedInventorystockEntity : InventorystockEntity = InventorystockMapper.toEntity(
-                InventorystockData,
+        const existingInventorystock: Either<ErrorClass, InventorystockEntity> =
+        await this.getInventorystockByIdusecases.execute(inventorystockId);
+
+        existingInventorystock.cata(
+        (error: ErrorClass) => {
+            res.status(error.status).json({ error: error.message });
+        },
+        async (existingInventorystockData: InventorystockEntity) => {
+            const updatedInventorystockEntity: InventorystockEntity = InventorystockMapper.toEntity(
+                inventorystockData,
                 true,
-                existingInventorystock
-            )
+                existingInventorystockData
+            );
 
-            const updatedInventorystock : InventorystockEntity = 
-            await this.updateInventorystockusecases.execute(inventorystockId, updatedInventorystockEntity);
+            const updatedInventorystock: Either<ErrorClass, InventorystockEntity> =
+            await this.updateInventorystockusecases.execute(
+                inventorystockId,
+                updatedInventorystockEntity
+            );
 
-            const responseData= InventorystockMapper.toModel(updatedInventorystock);
-            res.json(responseData);
-
-        } catch (error) {
-            if(error instanceof ApiError) {
-                res.status(error.status).json({ error : error.message });
+            updatedInventorystock.cata(
+            (error: ErrorClass) => {
+                res.status(error.status).json({ error: error.message });
+            },
+            (result: InventorystockEntity) => {
+                const resData = InventorystockMapper.toEntity(result, true);
+                res.json(resData);
             }
-            const err= ApiError.internalError();
-            res.status(err.status).json(err.message);
+            );
         }
+        );
     }
 
     async getAllInventoystock (req: Request, res: Response, next: NextFunction) : Promise<void> {
-        try {
-            const inventorystocks : InventorystockEntity[] =
-            await this.getAllInventorystockusecases.execute();
-            const responseData= inventorystocks.map((inventorystock)=>
-                InventorystockMapper.toEntity(inventorystock)
-            )
-            res.json(responseData);
-        } catch (error) {
-            if(error instanceof ApiError) {
-                res.status(error.status).json({ error : error.message });
+        const inventorystocks : Either<ErrorClass, InventorystockEntity[]> = await this.getAllInventorystockusecases.execute();
+        inventorystocks.cata(
+            (error: ErrorClass) =>
+                res.status(error.status).json({ error: error.message }),
+            (result: InventorystockEntity[]) => {
+                const resdata = result.map((inventorystock) =>
+                InventorystockMapper.toModel(inventorystock)
+              );
+              return res.json(resdata);
             }
-            const err= ApiError.internalError();
-            res.status(err.status).json(err.message);
-        }
+        )
     }
 
     async getInventorystockById (req: Request, res: Response) : Promise<void> {
-        try {
-            const inventorystockId : string = req.params.inventorystockId;
-            const inventorystock : InventorystockEntity | null = 
-            await this.getcreateInventorystockByIdusecases.execute(inventorystockId);
-            if(inventorystock){
-                const responseData= InventorystockMapper.toModel(inventorystock);
-                res.json(responseData);
-            }else {
-                ApiError.notFound();
+        const inventorystockId : string = req.params.inventorystockId;
+        const inventorystock : Either<ErrorClass, InventorystockEntity> = 
+        await this.getInventorystockByIdusecases.execute(inventorystockId);
+        inventorystock.cata(
+            (error: ErrorClass) =>
+              res.status(error.status).json({ error: error.message }),
+            (result: InventorystockEntity) => {
+              const resdata = InventorystockMapper.toModel(result);
+              return res.json(resdata);
             }
-        } catch (error) {
-            if (error instanceof ApiError) {
-                res.status(error.status).json({ error: error.message });
-              }
-              const err = ApiError.internalError();
-              res.status(err.status).json(err.message);
-        }
+        );
     }
 }

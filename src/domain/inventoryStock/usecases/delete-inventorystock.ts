@@ -1,9 +1,11 @@
 import { InventorystockEntity, InventorystockModel } from "../entities/inventoryStock";
 import { InventorystockRepository } from "../repositories/inventoryStock-repository";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 
 export interface DeleteInventortstockUsecase {
-    execute : (inventorystockId : string) => Promise<void>;
+    execute : (inventorystockId : string) => Promise<Either<ErrorClass, void>>;
 }
 
 export class DeleteInventorystock implements DeleteInventortstockUsecase {
@@ -13,7 +15,7 @@ export class DeleteInventorystock implements DeleteInventortstockUsecase {
         this.inventorystockRepository= inventorystockRepository;
     }
 
-    async execute (inventorystockId : string) : Promise<void> {
-        await this.inventorystockRepository.deleteInventorystock(inventorystockId);
+    async execute (inventorystockId : string) : Promise<Either<ErrorClass, void>> {
+        return await this.inventorystockRepository.deleteInventorystock(inventorystockId);
     }
 }

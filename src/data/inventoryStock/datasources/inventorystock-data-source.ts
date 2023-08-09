@@ -1,8 +1,7 @@
-import { InventorystockEntity, InventorystockModel } from "@domain/inventorystock/entities/inventorystock";
 import mongoose from "mongoose";
 import { Inventorystock } from "../models/inventorystock-model";
 import ApiError from "@presentation/error-handling/api-error";
-
+import { InventorystockModel } from "@domain/inventoryStock/entities/inventoryStock";
 
 export interface InventorystockDataSource {
     create (inventorystock : InventorystockModel) : Promise<any>;

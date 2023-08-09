@@ -1,9 +1,11 @@
 import { InventorystockEntity } from "../entities/inventoryStock";
 import { InventorystockRepository } from "../repositories/inventoryStock-repository";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 
 export interface GetInventorystockByIdUsecase {
-    execute : (inventorystockId : string) => Promise<InventorystockEntity | null>
+    execute : (inventorystockId : string) => Promise<Either<ErrorClass, InventorystockEntity>>
 }
 
 export class GetInventorystockById implements GetInventorystockByIdUsecase {
@@ -13,7 +15,7 @@ export class GetInventorystockById implements GetInventorystockByIdUsecase {
         this.inventorystockrepository= inventorystockrepository;
     }
 
-    async execute(inventorystockId: string) : Promise<InventorystockEntity | null>{
+    async execute(inventorystockId: string) : Promise<Either<ErrorClass, InventorystockEntity>>{
         return await this.inventorystockrepository.getInventorystockById(inventorystockId)
     }
 }
