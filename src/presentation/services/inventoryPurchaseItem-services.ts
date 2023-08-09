@@ -3,7 +3,7 @@ import { CreateInventoryPurchaseItemUsecase } from "@domain/inventoryPurchaseIte
 import { DeleteInventoryPurchaseItemUsecase } from "@domain/inventoryPurchaseItem/usecases/delete-inventoryPurchaseItem";
 import { GetAllInventoryPurchaseItemUsecase } from "@domain/inventoryPurchaseItem/usecases/get-all-inventoryPurchaseItem";
 import { GetInventoryPurchaseItemByIdUsecase } from "@domain/inventoryPurchaseItem/usecases/get-inventoryPurchaseItem-by-id";
-import { UpdateInventoryPurchaseItemUsecase } from "@domain/inventoryPurchaseItem/usecases/update-deliverypartner";
+import { UpdateInventoryPurchaseItemUsecase } from "@domain/inventoryPurchaseItem/usecases/update-inventoryPurchaseItem";
 import { Either } from "monet";
 import ErrorClass from "@presentation/error-handling/api-error";
 import { Request, Response } from "express";
