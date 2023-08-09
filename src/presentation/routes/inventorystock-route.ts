@@ -5,6 +5,7 @@ import { DeleteInventorystock } from "@domain/inventoryStock/usecases/delete-inv
 import { GetAllInventorystock } from "@domain/inventoryStock/usecases/get-all-inventorystock";
 import { GetInventorystockById } from "@domain/inventoryStock/usecases/get-inventorystock-by-id";
 import { UpdateInventorystock } from "@domain/inventoryStock/usecases/update-inventorystock";
+import validateBodyMiddleware from "@presentation/middlewares/inventoryStock/validator-middleware";
 import { InventorystockServices } from "@presentation/services/inventorystock-service";
 import { Router } from "express";
 import mongoose from "mongoose";
@@ -32,6 +33,6 @@ export const InventorystockRouter= Router();
 
 InventorystockRouter.get("/", inventorystockService.getAllInventoystock.bind(inventorystockService));
 InventorystockRouter.get("/:id", inventorystockService.getInventorystockById.bind(inventorystockService));
-InventorystockRouter.post("/new", inventorystockService.createInventorystock.bind(inventorystockService));
+InventorystockRouter.post("/new", validateBodyMiddleware, inventorystockService.createInventorystock.bind(inventorystockService));
 InventorystockRouter.put("/:id", inventorystockService.updateInventorystock.bind(inventorystockService));
 InventorystockRouter.delete("/:id", inventorystockService.deleteInventorystock.bind(inventorystockService));
