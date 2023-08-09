@@ -7,7 +7,6 @@ import { UpdateInventorystockUsecase } from "@domain/inventoryStock/usecases/upd
 import ApiError from "@presentation/error-handling/api-error";
 import { InventorystockEntity, InventorystockMapper, InventorystockModel } from "@domain/inventoryStock/entities/inventorystock";
 
-
 export class InventorystockServices {
     private readonly createInventorystockusecases : CreateInventorystockUsecase;
     private readonly deleteInventorystockusecases : DeleteInventortstockUsecase;
