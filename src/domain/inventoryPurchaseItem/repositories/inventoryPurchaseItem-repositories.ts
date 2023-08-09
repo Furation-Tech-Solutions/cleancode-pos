@@ -7,6 +7,6 @@ export interface InventoryPurchaseItemRepository{
     createInventoryPurchaseItem(inventoryPurchaseItem:InventoryPurchaseItemModel) : Promise<Either<ErrorClass, InventoryPurchaseItemEntity>>;
     deleteInventoryPurchaseItem(id:string): Promise<Either<ErrorClass, void>>;
     getAllInventoryPurchaseItem() : Promise<Either<ErrorClass, InventoryPurchaseItemEntity[]>>;
-    getInventoryPurchaseItemById(id: string) : Promise<Either<ErrorClass, InventoryPurchaseItemEntity | null>>;
+    getInventoryPurchaseItemById(id: string) : Promise<Either<ErrorClass, InventoryPurchaseItemEntity>>;
     updateInventoryPurchaseItem(id: string, data: InventoryPurchaseItemModel) : Promise<Either<ErrorClass, InventoryPurchaseItemEntity>>
 }

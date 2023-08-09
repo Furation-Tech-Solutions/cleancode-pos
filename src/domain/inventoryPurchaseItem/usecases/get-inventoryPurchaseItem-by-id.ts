@@ -5,7 +5,7 @@ import { InventoryPurchaseItemRepository } from "../repositories/inventoryPurcha
 
 
 export interface GetInventoryPurchaseItemByIdUsecase {
-    execute : (inventoryPurchaseItemId: string) => Promise<Either<ErrorClass, InventoryPurchaseItemEntity | null>>;
+    execute : (inventoryPurchaseItemId: string) => Promise<Either<ErrorClass, InventoryPurchaseItemEntity>>;
 }
 
 export class GetInventoryPurchaseItemById implements GetInventoryPurchaseItemByIdUsecase {
@@ -15,7 +15,7 @@ export class GetInventoryPurchaseItemById implements GetInventoryPurchaseItemByI
         this.inventoryPurchaseItemRepository= inventoryPurchaseItemRepository;
     }
 
-    async execute(inventoryPurchaseItemId: string) : Promise<Either<ErrorClass, InventoryPurchaseItemEntity | null>>{
+    async execute(inventoryPurchaseItemId: string) : Promise<Either<ErrorClass, InventoryPurchaseItemEntity>>{
         return await this.inventoryPurchaseItemRepository.getInventoryPurchaseItemById(inventoryPurchaseItemId);
     }
 }
