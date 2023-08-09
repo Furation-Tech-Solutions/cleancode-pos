@@ -14,7 +14,7 @@ const inventorystockSchema= new mongoose.Schema ({
     item: {
         type: String,
         maxlength: [50, "Inventory stock item should have less than 50 characters"],
-        minlength: [3, "Delivery Partner item should have more than 3 characters"],
+        minlength: [3, "Inventory stock item should have more than 3 characters"],
         required: [true, "Please enter item name"],
         trim: true
     },
