@@ -4474,6 +4474,11 @@
   "resolved" "https://registry.npmjs.org/module-alias/-/module-alias-2.2.3.tgz"
   "version" "2.2.3"
 
+"monet@^0.9.3":
+  "integrity" "sha512-t1hzyR2uXrkENSn1cZC487Tb6FcLUMBvRnCvTT/1SE/uJy6OJR2l9tb80p+tZOuopFK4+Ch4gy0vxr9nkqxT/w=="
+  "resolved" "https://registry.npmjs.org/monet/-/monet-0.9.3.tgz"
+  "version" "0.9.3"
+
 "mongodb-connection-string-url@^2.5.4", "mongodb-connection-string-url@^2.6.0":
   "integrity" "sha512-WvTZlI9ab0QYtTYnuMLgobULWhokRjtC7db9LtcVfJ+Hsnyr5eo6ZtNAt3Ly24XZScGMelOcGtm7lSn0332tPQ=="
   "resolved" "https://registry.npmjs.org/mongodb-connection-string-url/-/mongodb-connection-string-url-2.6.0.tgz"

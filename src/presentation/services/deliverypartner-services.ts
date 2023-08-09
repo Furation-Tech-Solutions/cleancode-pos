@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { DeliverypartnerEntity, DeliverypartnerMapper, DeliverypartnerModel } from "@domain/deliverypartner/entities/deliverypartner";
 import { CreateDeliverypartnerUsecase } from "@domain/deliverypartner/usecases/create-deliverypartner";
 import { DeleteDeliverypartnerUsecase } from "@domain/deliverypartner/usecases/delete-deliverypartner";
@@ -6,6 +6,8 @@ import { GetAllDeliverypartnerUsecase } from "@domain/deliverypartner/usecases/g
 import { GetDeliverypartnerByIdUsecase } from "@domain/deliverypartner/usecases/get-deliverypartner-by-id";
 import { UpdateDeliverypartnerUsecase } from "@domain/deliverypartner/usecases/update-deliverypartner";
 import ApiError from "@presentation/error-handling/api-error";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 
 export class DeliverypartnerServices {
@@ -32,10 +34,18 @@ export class DeliverypartnerServices {
     async createDeliverypartner (req: Request, res : Response) : Promise<void> {
         try {
             const deliverypartnerData : DeliverypartnerModel = DeliverypartnerMapper.toModel(req.body);
-            const newDeliverypartnerData: DeliverypartnerEntity = 
+            const newDeliverypartnerData: Either<ErrorClass, DeliverypartnerEntity> = 
             await this.createDeliverypartnerUsecases.execute(deliverypartnerData);
-            const responseData= DeliverypartnerMapper.toEntity(newDeliverypartnerData, true);
-            res.json(responseData);
+            newDeliverypartnerData.cata(
+                (error : ErrorClass) => 
+                res.status(error.status).json({error : error.message}),
+                (result : DeliverypartnerEntity) => {
+                    const responseData = DeliverypartnerMapper.toEntity(result, true);
+                    return res.json(responseData);
+                }
+            )
+            // const responseData= DeliverypartnerMapper.toEntity(newDeliverypartnerData, true);
+            // res.json(responseData);
         } catch (error) {
             if (error instanceof ApiError) {
                 res.status(error.status).json({ error: error.message });
@@ -57,7 +67,7 @@ export class DeliverypartnerServices {
               res.status(err.status).json(err.message);
         }
     }
-    async getAllDeliverypartner (req: Request, res: Response, next: NextFunction) : Promise<void> {
+    async getAllDeliverypartner (req: Request, res: Response) : Promise<void> {
         try {
             const deliverypartners : DeliverypartnerEntity[] = await this.getAllDeliverypartnerUsecases.execute();
             const responseData = deliverypartners.map((deliverypartner) =>
@@ -67,9 +77,9 @@ export class DeliverypartnerServices {
         } catch (error) {
             if (error instanceof ApiError) {
                 res.status(error.status).json({ error: error.message });
-              }
-              const err = ApiError.internalError();
-              res.status(err.status).json(err.message);
+            }
+            const err = ApiError.internalError();
+            res.status(err.status).json(err.message);
         }
     }
     async getDeliverypartnerById (req: Request, res: Response) : Promise<void> {
@@ -86,9 +96,9 @@ export class DeliverypartnerServices {
         } catch (error) {
             if (error instanceof ApiError) {
                 res.status(error.status).json({ error: error.message });
-              }
-              const err = ApiError.internalError();
-              res.status(err.status).json(err.message);
+            }
+            const err = ApiError.internalError();
+            res.status(err.status).json(err.message);
         }
     }
     async updateDeliverypartner (req: Request, res: Response) : Promise<void> {
@@ -108,11 +118,9 @@ export class DeliverypartnerServices {
             );
             const updatedDeliverypartner: DeliverypartnerEntity =
                 await this.updateDeliverypartnerUsecases.execute(
-                deliverypartnerId,
-                updatedDeliverypartnerEntity
-                );  
-
-
+                    deliverypartnerId,
+                    updatedDeliverypartnerEntity
+                );
             const responseData = DeliverypartnerMapper.toModel(updatedDeliverypartner);
             res.json(responseData);
         } catch (error) {
