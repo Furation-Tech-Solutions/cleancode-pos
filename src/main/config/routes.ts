@@ -4,7 +4,6 @@ import { inventoryRouter } from "@presentation/routes/inventory-routes";
 import { tableRouter } from "@presentation/routes/table-routes";
 import { ingredientUnitRouter } from "@presentation/routes/ingredientUnit-routes";
 import { areaRouter } from "@presentation/routes/area-route";
-
 import { ingredientCategoryRouter } from "@presentation/routes/ingredientCategory-routes";
 import { ingredientRouter } from "@presentation/routes/ingredient-routes";
 import { deliveryPartnerRouter } from "@presentation/routes/deliveryPartner-routes";
