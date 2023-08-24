@@ -10,8 +10,8 @@ import { DeleteCompanyUsecase } from "@domain/company/usecases/delete-company";
 import { GetCompanyByIdUsecase } from "@domain/company/usecases/get-company-by-id";
 import { GetAllCompanysUsecase } from "@domain/company/usecases/get-all-companys";
 import { UpdateCompanyUsecase } from "@domain/company/usecases/update-company";
-
-import ApiError from "@presentation/error-handling/api-error";
+import { Either } from "monet";
+import { ErrorClass } from "@presentation/error-handling/api-error";
 
 export class CompanyServices {
   private readonly createCompanyUsecases: CreateCompanyUsecase;
@@ -35,73 +35,53 @@ export class CompanyServices {
   }
 
   async createCompany(req: Request, res: Response): Promise<void> {
-    try {
-      // Extract company data from the request body and convert it to Company Model
-      const comapnyData: CompanyModel = CompanyMapper.toModel(req.body);
+    // Extract company data from the request body and convert it to Company Model
+    const comapnyData: CompanyModel = CompanyMapper.toModel(req.body);
+    // Call the CreateCompanyUsecase to create the compnay
+    const newCompany: Either<ErrorClass, CompanyEntity> =
+      await this.createCompanyUsecases.execute(comapnyData);
 
-      // Call the CreateAdminUsecase to create the admin
-      const newCompany: CompanyEntity =
-        await this.createCompanyUsecases.execute(comapnyData);
-
-      // Convert newAdmin from AdminEntity to the desired format using AdminMapper
-      const responseData = CompanyMapper.toEntity(newCompany, true);
-
-      // Send the created admin as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    newCompany.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: CompanyEntity) => {
+        const resData = CompanyMapper.toEntity(result, true);
+        return res.json(resData);
       }
-
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 
   async deleteCompany(req: Request, res: Response): Promise<void> {
-    try {
-      const companyID: string = req.params.companyId;
+    const companyID: string = req.params.companyId;
 
-      // Call the DeleteCompanyUsecase to delete the admin
+    // Call the DeleteCompanyUsecase to get the company by ID and delete
+    const deletedCompany: Either<ErrorClass, void> =
       await this.deleteCompanyUsecases.execute(companyID);
 
-      // Send a success message as a JSON response
-      res.json({ message: "Company deleted successfully." });
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    deletedCompany.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: void) => {
+        return res.json({ message: "Company deleted successfully." });
       }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 
   async getCompanyById(req: Request, res: Response): Promise<void> {
-    try {
-      const companyId: string = req.params.companyId;
+    const companyId: string = req.params.companyId;
 
-      // Call the GetCompanyByIdUsecase to get the company by ID
-      const company: CompanyEntity | null =
-        await this.getCompanyByIdUsecases.execute(companyId);
+    // Call the GetCompanyByIdUsecase to get the company by ID
+    const company: Either<ErrorClass, CompanyEntity> =
+      await this.getCompanyByIdUsecases.execute(companyId);
 
-      if (company) {
-        // Convert company from CompanyEntity to plain JSON object using ComapnyMapper
-        const responseData = CompanyMapper.toModel(company);
-
-        // Send the comapny as a JSON response
-        res.json(responseData);
-      } else {
-        // Send a not found message as a JSON response
-        ApiError.notFound();
+    company.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: CompanyEntity) => {
+        const resData = CompanyMapper.toModel(result);
+        return res.json(resData);
       }
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
-      }
-
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 
   async getAllCompanys(
@@ -109,67 +89,61 @@ export class CompanyServices {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    try {
-      // Call the GetAllCompanysUsecase to get all companys
-      const companys: CompanyEntity[] =
-        await this.getAllCompanysUsecases.execute();
+    // Call the GetAllCompanysUsecase to get all companys
+    const companys: Either<ErrorClass, CompanyEntity[]> =
+      await this.getAllCompanysUsecases.execute();
 
-      // Convert compnays from an array of CompanyEntity to an array of plain JSON objects using CompanyMapper
-      const responseData = companys.map((company) =>
-        CompanyMapper.toModel(company)
-      );
-
-      // Send the admins as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    companys.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: CompanyEntity[]) => {
+        // Convert compnays from an array of CompanyEntity to an array of plain JSON objects using CompanyMapper
+        const responseData = result.map((company) =>
+          CompanyMapper.toModel(company)
+        );
+        // Send the admins as a JSON response
+        return res.json(responseData);
       }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 
   async updateCompany(req: Request, res: Response): Promise<void> {
-    try {
-      const companyId: string = req.params.companyId;
-      const companyData: CompanyModel = req.body;
+    const companyId: string = req.params.companyId;
+    const companyData: CompanyModel = req.body;
 
-      // Get the existing company by ID
-      const existingCompany: CompanyEntity | null =
-        await this.getCompanyByIdUsecases.execute(companyId);
+    // Get the existing company by ID
+    const existingCompany: Either<ErrorClass, CompanyEntity> =
+      await this.getCompanyByIdUsecases.execute(companyId);
 
-      if (!existingCompany) {
-        // If company is not found, send a not found message as a JSON response
-        ApiError.notFound();
-        return;
-      }
-
-      // Convert companyData from CompanyModel to CompanyEntity using CompanyMapper
-      const updatedCompanyEntity: CompanyEntity = CompanyMapper.toEntity(
-        companyData,
-        true,
-        existingCompany
-      );
-
-      // Call the UpdateCompanyUsecase to update the
-      const updatedCompany: CompanyEntity =
-        await this.updateCompnayUsecases.execute(
-          companyId,
-          updatedCompanyEntity
+    existingCompany.cata(
+      (error: ErrorClass) => {
+        res.status(error.status).json({ error: error.message });
+      },
+      async (existingCompanyData: CompanyEntity) => {
+        // Convert companyData from CompanyModel to CompanyEntity using CompanyMapper
+        const updatedCompanyEntity: CompanyEntity = CompanyMapper.toEntity(
+          companyData,
+          true,
+          existingCompanyData
         );
 
-      // Convert updatedAdmin from AdminEntity to plain JSON object using AdminMapper
-      const responseData = CompanyMapper.toModel(updatedCompany);
+        // Call the UpdateCompanyUsecase to update the company
+        const updatedCompany: Either<ErrorClass, CompanyEntity> =
+          await this.updateCompnayUsecases.execute(
+            companyId,
+            updatedCompanyEntity
+          );
 
-      // Send the updated admin as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      console.log(error);
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+        updatedCompany.cata(
+          (error: ErrorClass) => {
+            res.status(error.status).json({ error: error.message });
+          },
+          (result: CompanyEntity) => {
+            const resData = CompanyMapper.toEntity(result, true);
+            res.json(resData);
+          }
+        );
       }
-      ApiError.internalError();
-    }
+    );
   }
 }

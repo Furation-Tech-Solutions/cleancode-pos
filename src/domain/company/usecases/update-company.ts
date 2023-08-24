@@ -1,11 +1,13 @@
+import { Either } from "monet";
 import { CompanyEntity, CompanyModel } from "../entinies/company";
 import { CompanyRepository } from "../repositories/company-repository";
+import { ErrorClass } from "@presentation/error-handling/api-error";
 
 export interface UpdateCompanyUsecase {
   execute: (
     companyId: string,
-    companyData: Partial<CompanyModel>
-  ) => Promise<CompanyEntity>;
+    comapnyData: CompanyModel
+  ) => Promise<Either<ErrorClass, CompanyEntity>>;
 }
 
 export class UpdateCompany implements UpdateCompanyUsecase {
@@ -15,38 +17,10 @@ export class UpdateCompany implements UpdateCompanyUsecase {
     this.companyRepository = companyRepository;
   }
 
-  // async execute(adminId: string, adminData: AdminModel): Promise<AdminEntity> {
-  //   return await this.adminRepository.updateAdmin(adminId, adminData);
-  // }
-  // UpdateCompanyUsecase
   async execute(
     companyId: string,
-    companyData: Partial<CompanyModel>
-  ): Promise<CompanyEntity> {
-    const existingCompany: CompanyEntity | null =
-      await this.companyRepository.getCompanyById(companyId);
-
-    if (!existingCompany) {
-      throw new Error("Company not found.");
-    }
-
-    // Perform the partial update by merging companyData with existingCompany
-    const updatedCompanyData: CompanyModel = {
-      ...existingCompany,
-      ...companyData,
-    };
-
-    // Save the updatedAdminData to the repository
-    await this.companyRepository.updateCompany(companyId, updatedCompanyData);
-
-    // Fetch the updated company entity from the repository
-    const updatedCompanyEntity: CompanyEntity | null =
-      await this.companyRepository.getCompanyById(companyId);
-
-    if (!updatedCompanyEntity) {
-      throw new Error("Company not found after update.");
-    }
-
-    return updatedCompanyEntity;
+    companyData: CompanyModel
+  ): Promise<Either<ErrorClass, CompanyEntity>> {
+    return await this.companyRepository.updateCompany(companyId, companyData);
   }
 }

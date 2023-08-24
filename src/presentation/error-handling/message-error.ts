@@ -30,6 +30,8 @@ export const INGREDIENT_CONFLICT = "ingredient already exits";
 
 export const FOODCATEGORY_CONFLICT = "food Category already exits";
 
+export const KITCHEN_CONFLICT = "kitchen_code Already Exist"
+
 export const INTERNAL_SERVER_ERROR = "something went wrong";
 
 

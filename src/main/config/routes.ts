@@ -4,10 +4,12 @@ import { inventoryRouter } from "@presentation/routes/inventory-routes";
 import { tableRouter } from "@presentation/routes/table-routes";
 import { ingredientUnitRouter } from "@presentation/routes/ingredientUnit-routes";
 import { areaRouter } from "@presentation/routes/area-route";
+
 import { ingredientCategoryRouter } from "@presentation/routes/ingredientCategory-routes";
 import { ingredientRouter } from "@presentation/routes/ingredient-routes";
 import { deliveryPartnerRouter } from "@presentation/routes/deliveryPartner-routes";
 import { foodCategoryRouter } from "@presentation/routes/foodCategory-routes";
+import { kitchenRouter } from "@presentation/routes/kitchen-routes";
 import {outletRouter } from "@presentation/routes/outlet-route";
 import { type Express, Router } from "express";
 import ApiError from "@presentation/error-handling/api-error";
@@ -24,6 +26,8 @@ export default (app: Express): void => {
   app.use("/ingredientUnit", ingredientUnitRouter);
   app.use("/foodCategory", foodCategoryRouter);
   app.use("/area", areaRouter)
+  app.use("/kitchen", kitchenRouter)
+
   app.use("/ingredientCategory", ingredientCategoryRouter);
   app.use("/ingredient", ingredientRouter);
   app.use("/deliveryPartner", deliveryPartnerRouter);
