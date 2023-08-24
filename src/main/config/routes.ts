@@ -6,6 +6,7 @@ import { ingredientUnitRouter } from "@presentation/routes/ingredientUnit-routes
 import { areaRouter } from "@presentation/routes/area-route";
 import { ingredientCategoryRouter } from "@presentation/routes/ingredientCategory-routes";
 import { ingredientRouter } from "@presentation/routes/ingredient-routes";
+import { deliveryPartnerRouter } from "@presentation/routes/deliveryPartner-routes";
 import { foodCategoryRouter } from "@presentation/routes/foodCategory-routes";
 import {outletRouter } from "@presentation/routes/outlet-route";
 import { type Express, Router } from "express";
@@ -25,6 +26,7 @@ export default (app: Express): void => {
   app.use("/area", areaRouter)
   app.use("/ingredientCategory", ingredientCategoryRouter);
   app.use("/ingredient", ingredientRouter);
+  app.use("/deliveryPartner", deliveryPartnerRouter);
   app.use("/admin",adminRouter);
   app.use("/outlet", outletRouter);
   app.use("/company", companyRouter);
