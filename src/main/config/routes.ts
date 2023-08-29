@@ -12,6 +12,7 @@ import {outletRouter } from "@presentation/routes/outlet-route";
 import { type Express, Router } from "express";
 import ApiError from "@presentation/error-handling/api-error";
 import { companyRouter } from "@presentation/routes/company-route";
+import { kotRouter } from "@presentation/routes/kot-route";
 
 export default (app: Express): void => {
   const router = Router();
@@ -29,6 +30,7 @@ export default (app: Express): void => {
   app.use("/admin",adminRouter);
   app.use("/outlet", outletRouter);
   app.use("/company", companyRouter);
+  app.use("/kot",kotRouter);
   app.use(router);
   app.use("/staff", staffRouter);
   app.use("/inventory", inventoryRouter);
