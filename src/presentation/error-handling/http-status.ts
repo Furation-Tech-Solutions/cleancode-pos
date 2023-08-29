@@ -20,4 +20,5 @@ export const TOO_MANY_REQUESTS = 429;
 // Server error codes
 export const INTERNAL_SERVER_ERROR = 500;
 export const SERVICE_UNAVAILABLE = 503;
+export const INVENTORY_NAME_EXISTS = 409;
 // Add more status codes as needed

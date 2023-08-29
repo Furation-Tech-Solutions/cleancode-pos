@@ -16,7 +16,6 @@ export class ErrorClass {
 }
 
 class ApiError extends ErrorClass {
-
   constructor(status: number, message: string, name: string = "ApiError") {
     super(status, message, name);
   }
@@ -30,27 +29,51 @@ class ApiError extends ErrorClass {
   }
 
   static created(): ApiError {
-    return new ApiError(HttpStatus.CREATED, ErrorMessage.CREATE_SUCCESS, "Created");
+    return new ApiError(
+      HttpStatus.CREATED,
+      ErrorMessage.CREATE_SUCCESS,
+      "Created"
+    );
   }
 
   static noContent(): ApiError {
-    return new ApiError(HttpStatus.NO_CONTENT, ErrorMessage.DELETED_SUCCESS, "NoContent");
+    return new ApiError(
+      HttpStatus.NO_CONTENT,
+      ErrorMessage.DELETED_SUCCESS,
+      "NoContent"
+    );
   }
 
   static notFound(): ApiError {
-    return new ApiError(HttpStatus.NOT_FOUND, ErrorMessage.NOT_FOUND, "notfound");
+    return new ApiError(
+      HttpStatus.NOT_FOUND,
+      ErrorMessage.NOT_FOUND,
+      "notfound"
+    );
   }
 
   static badRequest(): ApiError {
-    return new ApiError(HttpStatus.BAD_REQUEST, ErrorMessage.BAD_REQUEST, "badRequest");
+    return new ApiError(
+      HttpStatus.BAD_REQUEST,
+      ErrorMessage.BAD_REQUEST,
+      "badRequest"
+    );
   }
 
   static unAuthorized(): ApiError {
-    return new ApiError(HttpStatus.UNAUTHORIZED, ErrorMessage.UNAUTHORIZED, "unAuthorized");
+    return new ApiError(
+      HttpStatus.UNAUTHORIZED,
+      ErrorMessage.UNAUTHORIZED,
+      "unAuthorized"
+    );
   }
 
   static noService(): ApiError {
-    return new ApiError(HttpStatus.SERVICE_UNAVAILABLE, ErrorMessage.SERVICE_UNAVAILABLE, "noService");
+    return new ApiError(
+      HttpStatus.SERVICE_UNAVAILABLE,
+      ErrorMessage.SERVICE_UNAVAILABLE,
+      "noService"
+    );
   }
 
   static emailExits(): ApiError {
@@ -58,15 +81,28 @@ class ApiError extends ErrorClass {
   }
 
   static kitchen_codeExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.KITCHEN_CONFLICT, "conflict");
-  }
-  
-  
-  static internalError(): ApiError {
-    return new ApiError(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessage.CONFLICT, "conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.KITCHEN_CONFLICT,
+      "conflict"
+    );
   }
 
- 
+  static internalError(): ApiError {
+    return new ApiError(
+      HttpStatus.INTERNAL_SERVER_ERROR,
+      ErrorMessage.CONFLICT,
+      "conflict"
+    );
+  }
+
+  static inventory_nameExists(): ApiError {
+    return new ApiError(
+      HttpStatus.INVENTORY_NAME_EXISTS,
+      ErrorMessage.CONFLICT,
+      "conflict"
+    );
+  }
 }
 
 export default ApiError;

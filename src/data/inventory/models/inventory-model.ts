@@ -1,19 +1,37 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const inventorySchema = new mongoose.Schema({
-  name: {
+  inventoryName: {
     type: String,
     required: true,
-    maxLength: [53, "name should be under 53 Characters"],
-    trim: true,
+    minlength: [3, "inventoryName name should be atleast 3 Characters"],
+    maxlength: [100, "inventoryName name should be under 100 Characters"],
+    unique: true,
   },
-  place: {
+  address: {
     type: String,
-    maxLength: [200, "Place name should be under 200 Characters"],
-    trim: true
+    required: true,
+    minlength: [5, "address should be atleast 5 Characters"],
+    maxlength: [200, "address should be under 200 Characters"],
   },
-  comapanyId: {
+  storingCapacity: {
     type: String,
-  }
+    required: true,
+  },
+  gstNo: {
+    type: String,
+    maxlength: [15, "gstNo should be of 15 Characters"],
+  },
+  description: {
+    type: String,
+    maxlength: [500, "description should be under 500 Characters"],
+  },
+  companyId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Company",
+    required: true,
+  },
 });
+
 export const Inventory = mongoose.model("Inventory", inventorySchema);
+

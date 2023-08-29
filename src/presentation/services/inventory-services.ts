@@ -5,7 +5,8 @@ import { DeleteInventoryUsecase } from "@domain/inventory/usecases/delete-invent
 import { GetInventoryByIdUsecase } from "@domain/inventory/usecases/get-inventory-by-id";
 import { UpdateInventoryUsecase } from "@domain/inventory/usecases/update-inventory";
 import { GetAllInventorysUsecase } from "@domain/inventory/usecases/get-all-inventories";
-import ApiError from "@presentation/error-handling/api-error";
+import ApiError, { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either } from "monet";
 
 export class InventoryService {
   private readonly createInventoryUsecase: CreateInventoryUsecase;
@@ -29,140 +30,115 @@ export class InventoryService {
   }
 
   async createInventory(req: Request, res: Response): Promise<void> {
-    try {
+    const inventoryData: InventoryModel = InventoryMapper.toModel(req.body);
 
-      // Extract Inventory data from the request body and convert it to InventoryModel
-      const inventoryData: InventoryModel = InventoryMapper.toModel(req.body);
+    const newInventory: Either<ErrorClass, InventoryEntity> =
+      await this.createInventoryUsecase.execute(inventoryData);
 
-      // Call the CreateInventoryUsecase to create the Inventory
-      const newInventory: InventoryEntity = await this.createInventoryUsecase.execute(
-        inventoryData
-      );
-
-      // Convert newInventory from InventoryEntity to the desired format using InventoryMapper
-      const responseData = InventoryMapper.toEntity(newInventory, true);
-
-      // Send the created Inventory as a JSON response
-      res.json(responseData);
-
-    } catch (error) {
-
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    newInventory.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: InventoryEntity) => {
+        const resData = InventoryMapper.toEntity(result, true);
+        return res.json(resData);
       }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 
   async deleteInventory(req: Request, res: Response): Promise<void> {
-    try {
-      const inventoryId: string = req.params.inventoryId;
+    const inventoryId: string = req.params.inventoryId;
 
-      // Call the DeleteInventoryUsecase to delete the Inventory
+    const response: Either<ErrorClass, void> =
       await this.deleteInventoryUsecase.execute(inventoryId);
 
-      // Send a success message as a JSON response
-      res.json({ message: "Inventory deleted successfully." });
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    response.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      () => {
+        return res.json({ message: "Inventory deleted successfully." });
       }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 
   async getInventoryById(req: Request, res: Response): Promise<void> {
-    try {
-      const inventoryId: string = req.params.inventoryId;
+    const inventoryId: string = req.params.inventoryId;
 
-      // Call the GetInventoryByIdUsecase to get the Inventory by ID
-      const inventory: InventoryEntity | null = await this.getInventoryByIdUsecase.execute(
-        inventoryId
-      );
+    const inventory: Either<ErrorClass, InventoryEntity> =
+      await this.getInventoryByIdUsecase.execute(inventoryId);
 
-      if (inventory) {
-        // Convert Inventory from InventoryEntity to plain JSON object using InventoryMapper
-        const responseData = InventoryMapper.toModel(inventory);
-
-        // Send the Inventory as a JSON response
-        res.json(responseData);
-      } else {
-        // Send a not found message as a JSON response
-        ApiError.notFound()
+    inventory.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: InventoryEntity) => {
+        const resData = InventoryMapper.toEntity(result, true);
+        return res.json(resData);
       }
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
-      }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 
   async updateInventory(req: Request, res: Response): Promise<void> {
-    try {
-      const inventoryId: string = req.params.inventoryId;
-      const inventoryData: InventoryModel = req.body;
 
-      // Get the existing Inventory by ID
-      const existingInventory: InventoryEntity | null =
-        await this.getInventoryByIdUsecase.execute(inventoryId);
+    
+    const inventoryId: string = req.params.inventoryId;
+    const inventoryData: InventoryModel = req.body;
+   
+    const existingInventory: Either<ErrorClass, InventoryEntity> =
+      await this.getInventoryByIdUsecase.execute(inventoryId);
 
-      if (!existingInventory) {
-        // If Inventory is not found, send a not found message as a JSON response
-        ApiError.notFound();
-        return;
-      }
-
-      // Convert InventoryData from InventoryModel to InventoryEntity using InventoryMapper
-      const updatedInventoryEntity: InventoryEntity = InventoryMapper.toEntity(
-        inventoryData,
-        true,
-        existingInventory
-      );
-
-      // Call the UpdateInventoryUsecase to update the Inventory
-      const updateInventory: InventoryEntity = await this.updateInventoryUsecase.execute(
-        inventoryId,
-        updatedInventoryEntity
-      );
-
-      // Convert updatedInventory from InventoryEntity to plain JSON object using InventoryMapper
-      const responseData = InventoryMapper.toModel(updateInventory);
-
-      // Send the updated Inventory as a JSON response
-      res.json(responseData);
-    } catch (error) {
-
-      console.log(error);
-      if (error instanceof ApiError) {
+    existingInventory.cata(
+      (error: ErrorClass) => {
         res.status(error.status).json({ error: error.message });
+      },
+      async (result: InventoryEntity) => {
+        const resData = InventoryMapper.toEntity(result, true);
+
+        
+        const updatedInventoryEntity: InventoryEntity = InventoryMapper.toEntity(
+          inventoryData,
+          true,
+          resData
+        );
+
+        const updatedInventory: Either<ErrorClass, InventoryEntity> =
+          await this.updateInventoryUsecase.execute(
+            inventoryId,
+            updatedInventoryEntity
+          );
+
+        updatedInventory.cata(
+          (error: ErrorClass) => {
+            res.status(error.status).json({ error: error.message });
+          },
+          (response: InventoryEntity) => {
+            const responseData = InventoryMapper.toModel(response);
+
+            res.json(responseData);
+           
+            
+          }
+        );
       }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 
-  
-  async getAllInventories(req: Request, res: Response, next: NextFunction): Promise<void> {
-    try {
-      // Call the GetAllInventorisUsecase to get all Inventories
-      const inventories: InventoryEntity[] = await this.getAllInventoriesUsecase.execute();
+  async getAllInventories(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const inventories: Either<ErrorClass, InventoryEntity[]> =
+      await this.getAllInventoriesUsecase.execute();
 
-      // Convert Inventories from an array of InventoryEntity to an array of plain JSON objects using InventoryMapper
-      const responseData = inventories.map((inventory) => InventoryMapper.toModel(inventory));
-
-      // Send the Inventors as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    inventories.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (inventories: InventoryEntity[]) => {
+        const resData = inventories.map((inventory: any) =>
+          InventoryMapper.toEntity(inventory)
+        );
+        return res.json(resData);
       }
-      const err = ApiError.internalError();
-      res.status(err.status).json(err.message);
-    }
+    );
   }
 }
 

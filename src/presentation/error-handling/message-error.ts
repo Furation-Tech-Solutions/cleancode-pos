@@ -20,9 +20,11 @@ export const SERVICE_UNAVAILABLE = "service unavailable";
 
 export const CONFLICT = "email already exits";
 
-export const KITCHEN_CONFLICT = "kitchen_code Already Exist"
+export const KITCHEN_CONFLICT = "kitchen_code Already Exist";
 
 export const INTERNAL_SERVER_ERROR = "something went wrong";
+
+export const INVENTORY_NAME_EXISTS = "Inventory_name already exists";
 
 
 
