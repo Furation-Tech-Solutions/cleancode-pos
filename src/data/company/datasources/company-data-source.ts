@@ -16,6 +16,7 @@ export interface CompanyDataSource {
 
 export class CompanyDataSourceImpl implements CompanyDataSource {
   constructor(private db: mongoose.Connection) {}
+  
   async create(company: CompanyModel): Promise<any> {
     const existingCompany = await Company.findOne({ email: company.email });
     if (existingCompany) {
