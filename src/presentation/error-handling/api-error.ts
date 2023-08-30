@@ -98,6 +98,10 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CUISINE_NAME_CONFLICT, "cuisineName_conflict");
   }
 
+  static foodMenuExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODMENU_NAME_CONFLICT, "foodMenuName_conflict");
+  }
+
 
  
 }
