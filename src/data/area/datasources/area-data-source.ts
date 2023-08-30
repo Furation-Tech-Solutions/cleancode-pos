@@ -1,7 +1,7 @@
 import { AreaModel, AreaEntity } from "@domain/area/entities/area";
 import { Area } from "../models/area-model";
 import mongoose from "mongoose";
-// import ApiError from "@presentation/error-handling/api-error";
+import ApiError from "@presentation/error-handling/api-error";
 export interface AreaDataSource {
   create(area: AreaModel): Promise<any>; // Return type should be Promise of AreaEntity
   update(id: string, area: AreaModel): Promise<any>; // Return type should be Promise of AreaEntity
@@ -14,10 +14,10 @@ export class AreaDataSourceImpl implements AreaDataSource {
   constructor(private db: mongoose.Connection) {}
 
   async create(area: AreaModel): Promise<any> {
-    // const existingArea = await Area.findOne({gstNo: area.gstNo});
-    // if (existingArea) {
-    // //   throw ApiError.gstExists()
-    // }
+    const existingArea = await Area.findOne({outlet_code: area.outlet_code});
+    if (existingArea) {
+      throw ApiError.areaNameExists()
+    }
 
     const areaData = new Area(area);
 

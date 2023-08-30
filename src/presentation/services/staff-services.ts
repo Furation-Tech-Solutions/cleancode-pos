@@ -10,6 +10,8 @@ import { GetStaffByIdUsecase } from "@domain/staff/usecases/get-staff-by-id";
 import { UpdateStaffUsecase } from "@domain/staff/usecases/update-staff";
 import { GetAllStaffsUsecase } from "@domain/staff/usecases/get-all-staff";
 import ApiError from "@presentation/error-handling/api-error";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 export class StaffService {
   private readonly createStaffUsecase: CreateStaffUsecase;
@@ -33,90 +35,76 @@ export class StaffService {
   }
 
   async createStaff(req: Request, res: Response): Promise<void> {
-    try {
       
       // Extract staff data from the request body and convert it to staffModel
       const staffData: StaffModel = staffMapper.toModel(req.body);
 
       // Call the createStaffUsecase to create the staff
-      const newStaff: StaffEntity = await this.createStaffUsecase.execute(
+      const newStaff: Either<ErrorClass, StaffEntity> = await this.createStaffUsecase.execute(
         staffData
       );
 
-      // Convert newstaff from staffEntity to the desired format using staffMapper
-      const responseData = staffMapper.toEntity(newStaff, true);
-
-      // Send the created staff as a JSON response
-      res.json(responseData);
-
-    } catch (error) {
-
-      if(error instanceof ApiError){
-       res.status(error.status).json({ error: error.message });
-      }
-
-        //  ApiError.internalError()
-        const err = ApiError.internalError();
-        res.status(err.status).json(err.message);
-    }
+      newStaff.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: StaffEntity) =>{
+          const responseData = staffMapper.toEntity(result, true);
+          return res.json(responseData)
+        }
+      )
   }
 
   async deleteStaff(req: Request, res: Response): Promise<void> {
-    try {
+    
       const staffId: string = req.params.staffId;
+    
 
-      // Call the deleteStaffUsecase to delete the staff
-      await this.deleteStaffUsecase.execute(staffId);
+      const updatedFoodCategoryEntity: StaffEntity = staffMapper.toEntity(
+        { del_status: false },
+        true
+      );
+      
+      // Call the UpdateFoodCategoryUsecase to update the FoodCategory
+      const updatedFoodCategory: Either<ErrorClass, StaffEntity> = await this.updateStaffUsecase.execute(
+        staffId,
+        updatedFoodCategoryEntity
+      );
 
-      // Send a success message as a JSON response
-      res.json({ message: "staff deleted successfully." });
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          // ApiError.internalError()
-          const err = ApiError.internalError();
-          res.status(err.status).json(err.message);
-    }
+      updatedFoodCategory.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: StaffEntity) =>{
+          const responseData = staffMapper.toModel(result);
+          return res.json(responseData)
+        }
+      )
   }
 
   async getStaffById(req: Request, res: Response): Promise<void> {
-    try {
       const staffId: string = req.params.staffId;
 
       // Call the GetstaffByIdUsecase to get the staff by ID
-      const staff: StaffEntity | null = await this.getStaffByIdUsecase.execute(
+      const staff: Either<ErrorClass, StaffEntity | null> = await this.getStaffByIdUsecase.execute(
         staffId
       );
 
-      if (staff) {
-        // Convert staff from staffEntity to plain JSON object using staffMapper
-        const responseData = staffMapper.toModel(staff);
-
-        // Send the staff as a JSON response
-        res.json(responseData);
-      } else {
-        // Send a not found message as a JSON response
-        ApiError.notFound()
-      }
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          // ApiError.internalError()
-          const err = ApiError.internalError();
-          res.status(err.status).json(err.message);
-       
-    }
+      staff.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: StaffEntity | null) =>{
+          const responseData = staffMapper.toEntity(result, true);
+          return res.json(responseData)
+        }
+      )
   }
 
   async updateStaff(req: Request, res: Response): Promise<void> {
-    try {
+    
       const staffId: string = req.params.staffId;
       const staffData: StaffModel = req.body;
 
       // Get the existing staff by ID
-      const existingStaff: StaffEntity | null =
+      const existingStaff: Either<ErrorClass, StaffEntity | null> =
         await this.getStaffByIdUsecase.execute(staffId);
 
       if (!existingStaff) {
@@ -129,49 +117,39 @@ export class StaffService {
       const updatedStaffEntity: StaffEntity = staffMapper.toEntity(
         staffData,
         true,
-        existingStaff
       );
 
       // Call the UpdatestaffUsecase to update the staff
-      const updatedStaff: StaffEntity = await this.updateStaffUsecase.execute(
+      const updatedStaff: Either<ErrorClass, StaffEntity> = await this.updateStaffUsecase.execute(
         staffId,
         updatedStaffEntity
       );
 
-      // Convert updatedstaff from staffEntity to plain JSON object using staffMapper
-      const responseData = staffMapper.toModel(updatedStaff);
-
-      // Send the updated staff as a JSON response
-      res.json(responseData);
-    } catch (error) {
-
-      console.log(error);
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          // ApiError.internalError()
-          const err = ApiError.internalError();
-          res.status(err.status).json(err.message);
-    }
+      updatedStaff.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: StaffEntity) =>{
+          const responseData = staffMapper.toModel(result);
+          return res.json(responseData)
+        }
+      )
   }
 
-  async getAllStaffs(req: Request, res: Response, next:NextFunction): Promise<void> {
-    try {
+  async getAllStaffs(req: Request, res: Response): Promise<void> {
+    
       // Call the GetAllstaffsUsecase to get all staffs
-      const staffs: StaffEntity[] = await this.getAllStaffsUsecase.execute();
+      const staffs: Either<ErrorClass, StaffEntity[]> = await this.getAllStaffsUsecase.execute();
 
-      // Convert staffs from an array of staffEntity to an array of plain JSON objects using staffMapper
-      const responseData = staffs.map((staff) => staffMapper.toModel(staff));
+      staffs.cata(
+        (error: ErrorClass) => res.status(error.status).json({ error: error.message }),
+        (result: StaffEntity[]) => {
+            // Filter out staffs with del_status set to "Deleted"
+            const nonDeletedStaffs = result.filter((staff) => staff.del_status !== false);
 
-      // Send the staffs as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          // ApiError.internalError()
-          const err = ApiError.internalError();
-          res.status(err.status).json(err.message);
-    }
+            // Convert non-deleted staffs from an array of StaffEntity to an array of plain JSON objects using staffMapper
+            const responseData = nonDeletedStaffs.map((staff) => staffMapper.toModel(staff));
+            return res.json(responseData);
+        }
+    );
   }
 }

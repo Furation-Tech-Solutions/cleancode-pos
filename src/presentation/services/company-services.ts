@@ -54,15 +54,23 @@ export class CompanyServices {
   async deleteCompany(req: Request, res: Response): Promise<void> {
     const companyID: string = req.params.companyId;
 
-    // Call the DeleteCompanyUsecase to get the company by ID and delete
-    const deletedCompany: Either<ErrorClass, void> =
-      await this.deleteCompanyUsecases.execute(companyID);
+    // Call the DeleteCompanyUsecase to get the company by ID and delete    
+    const updatedCompanyEntity: CompanyEntity = CompanyMapper.toEntity(
+      { active: false },
+      true
+    );
 
-    deletedCompany.cata(
+    const updatedCompany: Either<ErrorClass, CompanyEntity> = await this.updateCompnayUsecases.execute(
+      companyID,
+      updatedCompanyEntity
+    );
+
+    updatedCompany.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      (result: void) => {
-        return res.json({ message: "Company deleted successfully." });
+      (result: CompanyEntity) => {
+        const responseData = CompanyMapper.toModel(result);
+        return res.json(responseData)
       }
     );
   }
@@ -71,14 +79,14 @@ export class CompanyServices {
     const companyId: string = req.params.companyId;
 
     // Call the GetCompanyByIdUsecase to get the company by ID
-    const company: Either<ErrorClass, CompanyEntity> =
+    const company: Either<ErrorClass, CompanyEntity | null> =
       await this.getCompanyByIdUsecases.execute(companyId);
 
     company.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      (result: CompanyEntity) => {
-        const resData = CompanyMapper.toModel(result);
+      (result: CompanyEntity | null) => {
+        const resData = CompanyMapper.toEntity(result, true);
         return res.json(resData);
       }
     );
@@ -86,8 +94,7 @@ export class CompanyServices {
 
   async getAllCompanys(
     req: Request,
-    res: Response,
-    next: NextFunction
+    res: Response
   ): Promise<void> {
     // Call the GetAllCompanysUsecase to get all companys
     const companys: Either<ErrorClass, CompanyEntity[]> =
@@ -97,8 +104,11 @@ export class CompanyServices {
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
       (result: CompanyEntity[]) => {
+        // Filter out tables with del_status set to "Deleted"
+        const nonDeletedCompanys = result.filter((company) => company.active !== false);
+
         // Convert compnays from an array of CompanyEntity to an array of plain JSON objects using CompanyMapper
-        const responseData = result.map((company) =>
+        const responseData = nonDeletedCompanys.map((company) =>
           CompanyMapper.toModel(company)
         );
         // Send the admins as a JSON response

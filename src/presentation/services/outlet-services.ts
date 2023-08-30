@@ -8,110 +8,104 @@ import { CreateOutletUsecase } from "@domain/outlet/usecases/create-outlet";
 import { DeleteOutletUsecase } from "@domain/outlet/usecases/delete-outlet";
 import { GetOutletByIdUsecase } from "@domain/outlet/usecases/get-outlet-by-id";
 import { UpdateOutletUsecase } from "@domain/outlet/usecases/update-outlet";
-import { GetAllOutletsUsecase } from "@domain/outlet/usecases/get -all-outlet";
+import { GetAllOutletsUsecase } from "@domain/outlet/usecases/get-all-outlet";
 import ApiError from "@presentation/error-handling/api-error";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 export class OutletService {
-  private readonly CreateOutletUsecase: CreateOutletUsecase;
-  private readonly DeleteOutletUsecase: DeleteOutletUsecase;
-  private readonly GetOutletByIdUsecase: GetOutletByIdUsecase;
-  private readonly UpdateOutletUsecase: UpdateOutletUsecase;
-  private readonly GetAllOutletsUsecase: GetAllOutletsUsecase;
+  private readonly createOutletUsecase: CreateOutletUsecase;
+  private readonly deleteOutletUsecase: DeleteOutletUsecase;
+  private readonly getOutletByIdUsecase: GetOutletByIdUsecase;
+  private readonly updateOutletUsecase: UpdateOutletUsecase;
+  private readonly getAllOutletsUsecase: GetAllOutletsUsecase;
 
   constructor(
-    CreateOutletUsecase: CreateOutletUsecase,
-    DeleteOutletUsecase: DeleteOutletUsecase,
-    GetOutletByIdUsecase: GetOutletByIdUsecase,
-    UpdateOutletUsecase: UpdateOutletUsecase,
-    GetAllOutletsUsecase: GetAllOutletsUsecase
+    createOutletUsecase: CreateOutletUsecase,
+    deleteOutletUsecase: DeleteOutletUsecase,
+    getOutletByIdUsecase: GetOutletByIdUsecase,
+    updateOutletUsecase: UpdateOutletUsecase,
+    getAllOutletsUsecase: GetAllOutletsUsecase
   ) {
-    this.CreateOutletUsecase = CreateOutletUsecase;
-    this.DeleteOutletUsecase = DeleteOutletUsecase;
-    this.GetOutletByIdUsecase = GetOutletByIdUsecase;
-    this.UpdateOutletUsecase = UpdateOutletUsecase;
-    this.GetAllOutletsUsecase = GetAllOutletsUsecase;
+    this.createOutletUsecase = createOutletUsecase;
+    this.deleteOutletUsecase = deleteOutletUsecase;
+    this.getOutletByIdUsecase = getOutletByIdUsecase;
+    this.updateOutletUsecase = updateOutletUsecase;
+    this.getAllOutletsUsecase = getAllOutletsUsecase;
   }
 
   async createOutlet(req: Request, res: Response): Promise<void> {
-    try {
       
-      // Extract outlet data from the request body and convert it to OutletModel
+      // Extract outlet data from the request body and convert it to outletModel
       const outletData: OutletModel = OutletMapper.toModel(req.body);
 
-      // Call the CreateOutletUsecase to create the outlet
-      const newOutlet: OutletEntity = await this.CreateOutletUsecase.execute(
+      // Call the createOutletUsecase to create the outlet
+      const newOutlet: Either<ErrorClass, OutletEntity> = await this.createOutletUsecase.execute(
         outletData
       );
 
-      // Convert newOutlet from OutletEntity to the desired format using OutletMapper
-      const responseData = OutletMapper.toEntity(newOutlet, true);
-
-      // Send the created outlet as a JSON response
-      res.json(responseData);
-
-    } catch (error) {
-
-      if(error instanceof ApiError){
-       res.status(error.status).json({ error: error.message });
-      }
-
-         ApiError.internalError()
-    }
+      newOutlet.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: OutletEntity) =>{
+          const responseData = OutletMapper.toEntity(result, true);
+          return res.json(responseData)
+        }
+      )
   }
 
   async deleteOutlet(req: Request, res: Response): Promise<void> {
-    try {
+    
       const outletId: string = req.params.outletId;
+    
 
-      // Call the DeleteOutletUsecase to delete the outlet
-      await this.DeleteOutletUsecase.execute(outletId);
+      const updatedFoodCategoryEntity: OutletEntity = OutletMapper.toEntity(
+        { del_status: false },
+        true
+      );
+      
+      // Call the UpdateFoodCategoryUsecase to update the FoodCategory
+      const updatedFoodCategory: Either<ErrorClass, OutletEntity> = await this.updateOutletUsecase.execute(
+        outletId,
+        updatedFoodCategoryEntity
+      );
 
-      // Send a success message as a JSON response
-      res.json({ message: "Outlet deleted successfully." });
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-    }
+      updatedFoodCategory.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: OutletEntity) =>{
+          const responseData = OutletMapper.toModel(result);
+          return res.json(responseData)
+        }
+      )
   }
 
   async getOutletById(req: Request, res: Response): Promise<void> {
-    try {
       const outletId: string = req.params.outletId;
 
-      // Call the GetOutletByIdUsecase to get the outlet by ID
-      const outlet: OutletEntity | null = await this.GetOutletByIdUsecase.execute(
+      // Call the GetoutletByIdUsecase to get the outlet by ID
+      const outlet: Either<ErrorClass, OutletEntity | null> = await this.getOutletByIdUsecase.execute(
         outletId
       );
 
-      if (outlet) {
-        // Convert outlet from OutletEntity to plain JSON object using OutletMapper
-        const responseData = OutletMapper.toModel(outlet);
-
-        // Send the outlet as a JSON response
-        res.json(responseData);
-      } else {
-        // Send a not found message as a JSON response
-        ApiError.notFound()
-      }
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-       
-    }
+      outlet.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: OutletEntity | null) =>{
+          const responseData = OutletMapper.toEntity(result, true);
+          return res.json(responseData)
+        }
+      )
   }
 
   async updateOutlet(req: Request, res: Response): Promise<void> {
-    try {
+    
       const outletId: string = req.params.outletId;
       const outletData: OutletModel = req.body;
 
       // Get the existing outlet by ID
-      const existingOutlet: OutletEntity | null =
-        await this.GetOutletByIdUsecase.execute(outletId);
+      const existingOutlet: Either<ErrorClass, OutletEntity | null> =
+        await this.getOutletByIdUsecase.execute(outletId);
 
       if (!existingOutlet) {
         // If outlet is not found, send a not found message as a JSON response
@@ -123,45 +117,39 @@ export class OutletService {
       const updatedOutletEntity: OutletEntity = OutletMapper.toEntity(
         outletData,
         true,
-        existingOutlet
       );
 
       // Call the UpdateOutletUsecase to update the outlet
-      const updatedOutlet: OutletEntity = await this.UpdateOutletUsecase.execute(
+      const updatedOutlet: Either<ErrorClass, OutletEntity> = await this.updateOutletUsecase.execute(
         outletId,
         updatedOutletEntity
       );
 
-      // Convert updatedOutlet from OutletEntity to plain JSON object using OutletMapper
-      const responseData = OutletMapper.toModel(updatedOutlet);
-
-      // Send the updated outlet as a JSON response
-      res.json(responseData);
-    } catch (error) {
-
-      console.log(error);
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-    }
+      updatedOutlet.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: OutletEntity) =>{
+          const responseData = OutletMapper.toModel(result);
+          return res.json(responseData)
+        }
+      )
   }
 
-  async getAllOutlets(req: Request, res: Response, next:NextFunction): Promise<void> {
-    try {
+  async getAllOutlets(req: Request, res: Response): Promise<void> {
+    
       // Call the GetAllOutletsUsecase to get all outlets
-      const outlets: OutletEntity[] = await this.GetAllOutletsUsecase.execute();
+      const outlets: Either<ErrorClass, OutletEntity[]> = await this.getAllOutletsUsecase.execute();
 
-      // Convert outlets from an array of OutletEntity to an array of plain JSON objects using OutletMapper
-      const responseData = outlets.map((outlet) => OutletMapper.toModel(outlet));
+      outlets.cata(
+        (error: ErrorClass) => res.status(error.status).json({ error: error.message }),
+        (result: OutletEntity[]) => {
+            // Filter out outlets with del_status set to "Deleted"
+            const nonDeletedOutlets = result.filter((outlet) => outlet.del_status !== false);
 
-      // Send the outlets as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-    }
+            // Convert non-deleted outlets from an array of OutletEntity to an array of plain JSON objects using OutletMapper
+            const responseData = nonDeletedOutlets.map((outlet) => OutletMapper.toModel(outlet));
+            return res.json(responseData);
+        }
+    );
   }
 }

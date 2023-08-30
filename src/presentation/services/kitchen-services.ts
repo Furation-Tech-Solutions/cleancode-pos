@@ -56,7 +56,7 @@ export class KitchenService {
     const kitchenId: string = req.params.kitchenId;
 
     const updatedKitchenEntity: KitchenEntity = KitchenMapper.toEntity(
-      { del_status: "Deleted" },
+      { del_status: false },
       true
     );
     // Call the UpdateKitchenUsecase to delete the kitchen
@@ -136,8 +136,11 @@ export class KitchenService {
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
       (result: KitchenEntity[]) => {
+        // Filter out kitchens with del_status set to "Deleted"
+        const nonDeletedKitchens = result.filter((kitchen) => kitchen.del_status !== false);
+
         // Convert kitchens from an array of KitchenEntity to an array of plain JSON objects using KitchenMapper
-        const responseData = result.map((kitchen) =>
+        const responseData = nonDeletedKitchens.map((kitchen) =>
           KitchenMapper.toModel(kitchen)
         );
         return res.json(responseData);

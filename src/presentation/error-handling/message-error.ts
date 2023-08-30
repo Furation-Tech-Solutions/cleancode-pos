@@ -20,9 +20,25 @@ export const SERVICE_UNAVAILABLE = "service unavailable";
 
 export const CONFLICT = "email already exits";
 
+export const GST_CONFLICT = "gst already exits";
+
+export const AREA_CONFLICT = "area name already exits";
+
+export const PHONE_NUMBER_CONFLICT = "phone Number already exits";
+
+export const INGREDIENTUNIT_CONFLICT = "ingredient unit name already exits";
+
+export const INGREDIENTCATEGORY_CONFLICT = "ingredient category already exits";
+
+export const INGREDIENT_CONFLICT = "ingredient already exits";
+
+export const FOODCATEGORY_CONFLICT = "food Category already exits";
+
 export const KITCHEN_CONFLICT = "kitchen_code Already Exist"
 
 export const INTERNAL_SERVER_ERROR = "something went wrong";
+
+export const CUISINE_NAME_CONFLICT = "cuisine name Already Exist";
 
 
 

@@ -10,6 +10,8 @@ import { GetAreaByIdUsecase } from "@domain/area/usecases/get-area-by-id";
 import { UpdateAreaUsecase } from "@domain/area/usecases/update-area";
 import { GetAllAreasUsecase } from "@domain/area/usecases/get-all-area";
 import ApiError from "@presentation/error-handling/api-error";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 export class AreaService {
   private readonly CreateAreaUsecase: CreateAreaUsecase;
@@ -33,84 +35,73 @@ export class AreaService {
   }
 
   async createArea(req: Request, res: Response): Promise<void> {
-    try {
-      
       // Extract Area data from the request body and convert it to AreaModel
       const areaData: AreaModel = AreaMapper.toModel(req.body);
 
       // Call the CreateAreaUsecase to create the area
-      const newArea: AreaEntity = await this.CreateAreaUsecase.execute(
+      const newArea: Either<ErrorClass, AreaEntity> = await this.CreateAreaUsecase.execute(
         areaData
       );
 
-      // Convert newArea from AreaEntity to the desired format using AreaMapper
-      const responseData = AreaMapper.toEntity(newArea, true);
-
-      // Send the created area as a JSON response
-      res.json(responseData);
-
-    } catch (error) {
-
-      if(error instanceof ApiError){
-       res.status(error.status).json({ error: error.message });
-      }
-
-         ApiError.internalError()
-    }
+      newArea.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: AreaEntity) =>{
+          const responseData = AreaMapper.toEntity(result, true);
+          return res.json(responseData)
+        }
+      )
   }
 
   async deleteArea(req: Request, res: Response): Promise<void> {
-    try {
       const areaId: string = req.params.areaId;
+    
 
-      // Call the DeleteAreaUsecase to delete the area
-      await this.DeleteAreaUsecase.execute(areaId);
+      const updatedAreaEntity: AreaEntity = AreaMapper.toEntity(
+        { del_status: false },
+        true
+      );
+      
+      // Call the UpdateTableUsecase to update the table
+      const updatedAre: Either<ErrorClass, AreaEntity> = await this.UpdateAreaUsecase.execute(
+        areaId,
+        updatedAreaEntity
+      );
 
-      // Send a success message as a JSON response
-      res.json({ message: "Area deleted successfully." });
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-    }
+      updatedAre.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: AreaEntity) =>{
+          const responseData = AreaMapper.toModel(result);
+          return res.json(responseData)
+        }
+      )
   }
 
   async getAreaById(req: Request, res: Response): Promise<void> {
-    try {
       const areaId: string = req.params.areaId;
 
       // Call the GetAreaByIdUsecase to get the area by ID
-      const area: AreaEntity | null = await this.GetAreaByIdUsecase.execute(
+      const area: Either<ErrorClass, AreaEntity | null> = await this.GetAreaByIdUsecase.execute(
         areaId
       );
 
-      if (area) {
-        // Convert Area from AreaEntity to plain JSON object using AreaMapper
-        const responseData = AreaMapper.toModel(area);
-
-        // Send the area as a JSON response
-        res.json(responseData);
-      } else {
-        // Send a not found message as a JSON response
-        ApiError.notFound()
-      }
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-       
-    }
+      area.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: AreaEntity | null) =>{
+          const responseData = AreaMapper.toEntity(result, true);
+          return res.json(responseData)
+        }
+      )
   }
 
   async updateArea(req: Request, res: Response): Promise<void> {
-    try {
       const areaId: string = req.params.areaId;
       const areaData: AreaModel = req.body;
 
       // Get the existing area by ID
-      const existingArea: AreaEntity | null =
+      const existingArea: Either<ErrorClass, AreaEntity | null> =
         await this.GetAreaByIdUsecase.execute(areaId);
 
       if (!existingArea) {
@@ -122,46 +113,39 @@ export class AreaService {
       // Convert areaData from AreaModel to AreaEntity using AreaMapper
       const updatedAreaEntity: AreaEntity = AreaMapper.toEntity(
         areaData,
-        true,
-        existingArea
+        true
       );
 
       // Call the UpdateAreaUsecase to update the Area
-      const updatedArea: AreaEntity = await this.UpdateAreaUsecase.execute(
+      const updatedArea: Either<ErrorClass, AreaEntity> = await this.UpdateAreaUsecase.execute(
         areaId,
         updatedAreaEntity
       );
 
-      // Convert updatedArea from AreaEntity to plain JSON object using AreaMapper
-      const responseData = AreaMapper.toModel(updatedArea);
-
-      // Send the updated area as a JSON response
-      res.json(responseData);
-    } catch (error) {
-
-      console.log(error);
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-    }
+      updatedArea.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: AreaEntity) =>{
+          const responseData = AreaMapper.toModel(result);
+          return res.json(responseData)
+        }
+      )
   }
 
-  async getAllAreas(req: Request, res: Response, next:NextFunction): Promise<void> {
-    try {
+  async getAllAreas(req: Request, res: Response): Promise<void> {
       // Call the GetAllAreasUsecase to get all Areas
-      const areas: AreaEntity[] = await this.GetAllAreasUsecase.execute();
+      const areas: Either<ErrorClass, AreaEntity[]> = await this.GetAllAreasUsecase.execute();
+      
+      areas.cata(
+        (error: ErrorClass) => res.status(error.status).json({ error: error.message }),
+        (result: AreaEntity[]) => {
+            // Filter out areas with del_status set to "Deleted"
+            const nonDeletedAreas = result.filter((area) => area.del_status !== false);
 
-      // Convert Areas from an array of AreaEntity to an array of plain JSON objects using AreaMapper
-      const responseData = areas.map((area) => AreaMapper.toModel(area));
-
-      // Send the areas as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-    }
+            // Convert non-deleted areas from an array of AreaEntity to an array of plain JSON objects using FoodCategoryMapper
+            const responseData = nonDeletedAreas.map((area) => AreaMapper.toModel(area));
+            return res.json(responseData);
+        }
+    );
   }
 }

@@ -9,6 +9,7 @@ import { DeleteIngredientCategory } from "@domain/ingredientCategory/usecases/de
 import { GetIngredientCategoryById } from "@domain/ingredientCategory/usecases/get-ingredientCategory-by-id";
 import { GetAllIngredientCategorys } from "@domain/ingredientCategory/usecases/get-all-ingredientCategorys";
 import { UpdateIngredientCategory } from "@domain/ingredientCategory/usecases/update-ingredientCategory";
+import validateIngredientCategoryMiddleware from "@presentation/middlewares/ingredientCategory/validation-middleware";
 
 // Create an instance of the IngredientCategoryDataSourceImpl and pass the mongoose connection
 const ingredientCategoryDataSource = new IngredientCategoryDataSourceImpl(mongoose.connection);
@@ -36,7 +37,7 @@ const ingredientCategoryService = new IngredientCategoryService(
 export const ingredientCategoryRouter = Router();
 
 // Route handling for creating a new ingredientCategory
-ingredientCategoryRouter.post("/new", ingredientCategoryService.createIngredientCategory.bind(ingredientCategoryService));
+ingredientCategoryRouter.post("/new", validateIngredientCategoryMiddleware, ingredientCategoryService.createIngredientCategory.bind(ingredientCategoryService));
 
 // Route handling for getting an ingredientCategory by ID
 ingredientCategoryRouter.get("/show/:ingredientCategoryId", ingredientCategoryService.getIngredientCategoryById.bind(ingredientCategoryService));

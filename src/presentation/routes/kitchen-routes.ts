@@ -55,13 +55,13 @@ export const kitchenRouter = Router();
 kitchenRouter.post("/new", validateKitchenMiddleware,kitchenService.createKitchen.bind(kitchenService));
 
 // Route handling for getting an kitchen by ID
-kitchenRouter.get("/:kitchenId", kitchenService.getTableById.bind(kitchenService));
+kitchenRouter.get("/show/:kitchenId", kitchenService.getTableById.bind(kitchenService));
 
 // Route handling for updating an kitchen by ID
-kitchenRouter.put("/:kitchenId", kitchenService.updateKitchen.bind(kitchenService));
+kitchenRouter.put("/update/:kitchenId", kitchenService.updateKitchen.bind(kitchenService));
 
 // Route handling for deleting an kitchen by ID
-kitchenRouter.delete("/:kitchenId", kitchenService.deleteKitchen.bind(kitchenService));
+kitchenRouter.delete("/delete/:kitchenId", kitchenService.deleteKitchen.bind(kitchenService));
 
 // Route handling for getting all kitchens
-kitchenRouter.get("/", kitchenService.getAllKitchens.bind(kitchenService));
+kitchenRouter.get("/list", kitchenService.getAllKitchens.bind(kitchenService));
