@@ -18,7 +18,7 @@ export class IngredientUnitDataSourceImpl implements IngredientUnitDataSource {
 
     const existingTable = await IngredientUnit.findOne({ ingredientUnit_name: ingredientUnit.ingredientUnit_name });
     if (existingTable) {
-      throw ApiError.phoneNumberExits()
+      throw ApiError.ingredientUnitNameExits()
     }
 
     const ingredientUnitData = new IngredientUnit(ingredientUnit);

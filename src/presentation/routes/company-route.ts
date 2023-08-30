@@ -44,21 +44,21 @@ companyRouter.post(
 
 // Route handling for getting an company by ID
 companyRouter.get(
-  "/:companyId",
+  "/show/:companyId",
   companyService.getCompanyById.bind(companyService)
 );
 
 // Route handling for getting all companies
-companyRouter.get("/", companyService.getAllCompanys.bind(companyService));
+companyRouter.get("/list", companyService.getAllCompanys.bind(companyService));
 
 // Route handling for updating an compnay by ID
 companyRouter.put(
-  "/:companyId",
+  "/update/:companyId",
   companyService.updateCompany.bind(companyService)
 );
 
 // Route handling for deleting an company by ID
 companyRouter.delete(
-  "/:companyId",
+  "/delete/:companyId",
   companyService.deleteCompany.bind(companyService)
 );

@@ -15,7 +15,7 @@ const tableSchema: Schema<TableModel> = Joi.object({
     sit_capacity: Joi.number().min(1).max(10).required(),
     position: Joi.string().min(3).max(50).required(),
     description: Joi.string().max(100).allow(null).default(null),
-    del_status: Joi.string().valid('Live', 'Deleted').default('Live')
+    del_status: Joi.string().default(true),
   });
   
 function validateTableMiddleware(req: CustomRequest, res: Response, next: NextFunction) {

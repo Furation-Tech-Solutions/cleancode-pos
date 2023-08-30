@@ -57,6 +57,14 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CONFLICT, "conflict");
   }
 
+  static gstExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.GST_CONFLICT, "gst_conflict");
+  }
+
+  static areaNameExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.AREA_CONFLICT, "areaName_conflict");
+  }
+
   static kitchen_codeExists(): ApiError {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.KITCHEN_CONFLICT, "conflict");
   }
@@ -84,6 +92,10 @@ class ApiError extends ErrorClass {
 
   static foodCategoryExits(): ApiError {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODCATEGORY_CONFLICT, "foodCategory_conflict");
+  }
+
+  static cuisineExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CUISINE_NAME_CONFLICT, "cuisineName_conflict");
   }
 
 

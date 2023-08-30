@@ -4,9 +4,9 @@ export class AreaModel {
       public outlet_code: string = "",
       public area_name: string = "",
       public description: string = "",
-    //   public createdAt: string = "",
+      public createdAt: string = "",
       public phone: string = "",
-      public del_status:string = ""
+      public del_status: boolean
 
     ) {}
   }
@@ -18,9 +18,9 @@ export class AreaModel {
       public outlet_code: string,
       public area_name: string ,
       public description: string ,
-      //public createdAt: string,
+      public createdAt: string,
       public phone: string, // Changed the type to string as phone numbers can contain characters like '+', '-', etc.
-      public del_status:string
+      public del_status: boolean
 
       ) {}
   }
@@ -37,17 +37,17 @@ export class AreaModel {
         return {
           ...existingArea,
           outlet_code:
-          areaData.outlet_code !==undefined ? areaData.outlet_code : existingArea.outlet_code,
+            areaData.outlet_code !==undefined ? areaData.outlet_code : existingArea.outlet_code,
           area_name:
-          areaData.area_name !== undefined? areaData.area_name : existingArea.area_name,
+            areaData.area_name !== undefined? areaData.area_name : existingArea.area_name,
           description:
-          areaData.description !==undefined ? areaData.description : existingArea.description,
-          //createdAt:
-          //areaData.createdAt !== undefined? areaData.createdAt: existingArea.createdAt,
+            areaData.description !==undefined ? areaData.description : existingArea.description,
+          createdAt:
+            areaData.createdAt !== undefined? areaData.createdAt: existingArea.createdAt,
           phone:
-          areaData.phone !== undefined ? areaData.phone: existingArea.phone,
+            areaData.phone !== undefined ? areaData.phone: existingArea.phone,
           del_status:
-          areaData.del_status !==undefined ? areaData.del_status : existingArea.del_status,
+            areaData.del_status !==undefined ? areaData.del_status : existingArea.del_status,
         };
       } else {
         // If existingArea is not provided, create a new areaEntity using areaData
@@ -56,6 +56,7 @@ export class AreaModel {
             outlet_code: areaData.outlet_code,
             area_name: areaData.area_name,
             description: areaData.description,
+            createdAt: areaData.createdAt,
             phone: areaData.phone,
             del_status: areaData.del_status,
         };
@@ -68,6 +69,7 @@ export class AreaModel {
         outlet_code: area.outlet_code,
         area_name: area.area_name,
         description: area.description,
+        createdAt: area.createdAt,
         phone: area.phone,
         del_status: area.del_status, 
       };

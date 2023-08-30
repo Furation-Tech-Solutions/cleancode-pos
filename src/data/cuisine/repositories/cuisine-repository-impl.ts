@@ -18,8 +18,8 @@ export class CuisineRepositoryImpl implements CuisineRepository {
       let i = await this.dataSource.create(cuisine);
       return Right<ErrorClass, CuisineEntity>(i);
     } catch (e) {
-      if(e instanceof ApiError && e.name === "foodCategory_conflict"){
-        return Left<ErrorClass, CuisineEntity>(ApiError.emailExits());
+      if(e instanceof ApiError && e.name === "cuisineName_conflict"){
+        return Left<ErrorClass, CuisineEntity>(ApiError.cuisineExists());
       }
       return Left<ErrorClass, CuisineEntity>(ApiError.badRequest());
     }

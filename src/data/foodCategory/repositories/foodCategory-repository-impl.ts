@@ -12,10 +12,10 @@ export class FoodCategoryRepositoryImpl implements FoodCategoryRepository {
     this.dataSource = dataSource;
   }
 
-  async createFoodCategory(personName: FoodCategoryModel): Promise<Either<ErrorClass, FoodCategoryEntity>> {
-    // return await this.dataSource.create(personName);
+  async createFoodCategory(foodCategory_Name: FoodCategoryModel): Promise<Either<ErrorClass, FoodCategoryEntity>> {
+    // return await this.dataSource.create(foodCategory_Name);
     try {
-      let i = await this.dataSource.create(personName);
+      let i = await this.dataSource.create(foodCategory_Name);
       return Right<ErrorClass, FoodCategoryEntity>(i);
     } catch (e) {
       if(e instanceof ApiError && e.name === "foodCategory_conflict"){
