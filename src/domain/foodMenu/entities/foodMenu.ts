@@ -71,7 +71,7 @@ export class FoodMenuMapper {
         description:
           FoodMenuData.description !== undefined ? FoodMenuData.description : existingFoodMenu.description,
         del_status:
-          FoodMenuData.del_status !== undefined ? FoodMenuData.del_status : FoodMenuData.del_status
+          FoodMenuData.del_status !== undefined ? FoodMenuData.del_status : existingFoodMenu.del_status
       };
     } else {
       // If existingFoodMenu is not provided, create a new FoodMenuEntity using FoodMenuData
