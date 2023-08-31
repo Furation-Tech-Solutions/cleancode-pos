@@ -40,5 +40,11 @@ export const INTERNAL_SERVER_ERROR = "something went wrong";
 
 export const CUISINE_NAME_CONFLICT = "cuisine name Already Exist";
 
+export const FOODMENU_NAME_CONFLICT = "foodMenu name Already Exist";
+
+export const MODIFIER_NAME_CONFLICT = "modifier name Already Exist";
+
+export const VERIATIONS_NAME_CONFLICT = "veriations name Already Exist";
+
 
 

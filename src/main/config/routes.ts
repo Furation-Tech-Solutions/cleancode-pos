@@ -14,6 +14,9 @@ import { type Express, Router } from "express";
 import ApiError from "@presentation/error-handling/api-error";
 import { companyRouter } from "@presentation/routes/company-route";
 import { cuisineRouter } from "@presentation/routes/cuisine-routes";
+import { foodMenuRouter } from "@presentation/routes/foodMenu-routes";
+import { modifierRouter } from "@presentation/routes/modifier-routes";
+import { veriationsRouter } from "@presentation/routes/veriations-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -38,4 +41,7 @@ export default (app: Express): void => {
   app.use("/staff", staffRouter);
   app.use("/inventory", inventoryRouter);
   app.use("/cuisine", cuisineRouter);
+  app.use("/foodMenu", foodMenuRouter);
+  app.use("/modifier", modifierRouter);
+  app.use("/veriations", veriationsRouter);
 };
