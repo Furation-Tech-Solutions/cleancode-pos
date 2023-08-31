@@ -110,6 +110,10 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.VERIATIONS_NAME_CONFLICT, "veriationsName_conflict");
   }
 
+  static preMadeFoodExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.PREMADEFOOD_NAME_CONFLICT, "preMadeFoodName_conflict");
+  }
+
 
  
 }

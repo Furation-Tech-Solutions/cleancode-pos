@@ -46,5 +46,7 @@ export const MODIFIER_NAME_CONFLICT = "modifier name Already Exist";
 
 export const VERIATIONS_NAME_CONFLICT = "veriations name Already Exist";
 
+export const PREMADEFOOD_NAME_CONFLICT = "preMadeFood name Already Exist";
+
 
 
