@@ -14,6 +14,7 @@ import ApiError from "@presentation/error-handling/api-error";
 import { companyRouter } from "@presentation/routes/company-route";
 import { inventoryItemRouter } from "@presentation/routes/inventoryItem-routes";
 import { purchaseRouter } from "@presentation/routes/purchase-routes";
+import { purchaseItemRouter } from "@presentation/routes/purchaseItem-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -36,4 +37,5 @@ export default (app: Express): void => {
   app.use("/inventory", inventoryRouter);
   app.use("/inventoryItem", inventoryItemRouter);
   app.use("/purchase", purchaseRouter);
+  app.use("/purchaseItem", purchaseItemRouter);
 };
