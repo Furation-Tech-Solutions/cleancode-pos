@@ -106,6 +106,10 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.MODIFIER_NAME_CONFLICT, "modifierName_conflict");
   }
 
+  static veriationsExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.VERIATIONS_NAME_CONFLICT, "veriationsName_conflict");
+  }
+
 
  
 }

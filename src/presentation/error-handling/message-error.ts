@@ -44,5 +44,7 @@ export const FOODMENU_NAME_CONFLICT = "foodMenu name Already Exist";
 
 export const MODIFIER_NAME_CONFLICT = "modifier name Already Exist";
 
+export const VERIATIONS_NAME_CONFLICT = "veriations name Already Exist";
+
 
 
