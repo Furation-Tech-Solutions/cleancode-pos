@@ -42,7 +42,7 @@ const requisitionSchema = new mongoose.Schema({
     type: String,
     maxlength: [500, "description should be under 500 Characters"],
   },
-  deliveryaddress: {
+  deliveryAddress: {
     type: String,
     required: true,
     minlength: [5, "address should be atleast 5 Characters"],

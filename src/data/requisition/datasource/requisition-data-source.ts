@@ -7,13 +7,25 @@ import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
 
 export interface RequisitionDataSource {
+  create(requisition: RequisitionModel): Promise<RequisitionEntity>;
   getById(id: string): Promise<RequisitionEntity | null>;
   getAllRequisitions(): Promise<RequisitionEntity[]>;
   update(id: string, requisition: RequisitionModel): Promise<any>;
+  delete(id: string): Promise<void>;
 }
 
 export class RequisitionDataSourceImpl implements RequisitionDataSource {
   constructor(private db: mongoose.Connection) {}
+
+  async create(requisition: RequisitionModel): Promise<RequisitionEntity> {
+    
+    const requisitionData = new Requisition(requisition);
+
+
+    const createdRequisition = await requisitionData.save();
+
+    return createdRequisition.toObject();
+  }
 
   async getById(id: string): Promise<RequisitionEntity | null> {
     const requisition = await Requisition.findById(id);
@@ -44,5 +56,9 @@ export class RequisitionDataSourceImpl implements RequisitionDataSource {
     } catch (error) {
       throw ApiError.badRequest();
     }
+  }
+
+  async delete(id: string): Promise<void> {
+    await Requisition.findByIdAndDelete(id);
   }
 }

@@ -14,6 +14,21 @@ export class RequisitionRepositoryImpl implements RequisitionRepository {
     this.dataSource = dataSource;
   }
 
+  async createRequisition(
+    requisition: RequisitionModel
+  ): Promise<Either<ErrorClass, RequisitionEntity>> {
+    try {
+      const i = await this.dataSource.create(requisition);
+      return Right<ErrorClass, RequisitionEntity>(i);
+    } catch (error) {
+      
+      if (error instanceof ApiError && error.status === 401) {
+        return Left<ErrorClass, RequisitionEntity>(ApiError.unAuthorized());
+      }
+      return Left<ErrorClass, RequisitionEntity>(ApiError.badRequest());
+    }
+  }
+
   async getRequisitions(): Promise<Either<ErrorClass, RequisitionEntity[]>> {
     try {
       const response = await this.dataSource.getAllRequisitions();
@@ -49,6 +64,15 @@ export class RequisitionRepositoryImpl implements RequisitionRepository {
       return Right<ErrorClass, RequisitionEntity>(response);
     } catch (error) {
       return Left<ErrorClass, RequisitionEntity>(ApiError.badRequest());
+    }
+  }
+
+  async deleteRequisition(id: string): Promise<Either<ErrorClass, void>> {
+    try {
+      const res = await this.dataSource.delete(id);
+      return Right<ErrorClass, void>(res);
+    } catch (error) {
+      return Left<ErrorClass, void>(ApiError.badRequest());
     }
   }
 }

@@ -15,6 +15,8 @@ import { companyRouter } from "@presentation/routes/company-route";
 import { inventoryItemRouter } from "@presentation/routes/inventoryItem-routes";
 import { purchaseRouter } from "@presentation/routes/purchase-routes";
 import { purchaseItemRouter } from "@presentation/routes/purchaseItem-routes";
+import { requisitionRouter } from "@presentation/routes/requisition-routes";
+import { requisitionItemRouter } from "@presentation/routes/requisitionItem-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -38,4 +40,6 @@ export default (app: Express): void => {
   app.use("/inventoryItem", inventoryItemRouter);
   app.use("/purchase", purchaseRouter);
   app.use("/purchaseItem", purchaseItemRouter);
+  app.use("/requisition", requisitionRouter);
+  app.use("/requisitionItem", requisitionItemRouter);
 };
