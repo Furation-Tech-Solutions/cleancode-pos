@@ -17,6 +17,7 @@ import { purchaseRouter } from "@presentation/routes/purchase-routes";
 import { purchaseItemRouter } from "@presentation/routes/purchaseItem-routes";
 import { requisitionRouter } from "@presentation/routes/requisition-routes";
 import { requisitionItemRouter } from "@presentation/routes/requisitionItem-routes";
+import { inventorySDPRouter } from "@presentation/routes/inventorySDP-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -42,4 +43,5 @@ export default (app: Express): void => {
   app.use("/purchaseItem", purchaseItemRouter);
   app.use("/requisition", requisitionRouter);
   app.use("/requisitionItem", requisitionItemRouter);
+  app.use("/inventorySDP", inventorySDPRouter);
 };

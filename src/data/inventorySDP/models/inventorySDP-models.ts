@@ -27,6 +27,6 @@ const inventorySDPSchema = new mongoose.Schema({
   },
 });
 
-const InventorySDP = mongoose.model("InventorySDP", inventorySDPSchema);
+export const InventorySDP = mongoose.model("InventorySDP", inventorySDPSchema);
 
-module.exports = InventorySDP;
+
