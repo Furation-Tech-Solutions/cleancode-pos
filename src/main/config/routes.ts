@@ -18,6 +18,9 @@ import { foodMenuRouter } from "@presentation/routes/foodMenu-routes";
 import { modifierRouter } from "@presentation/routes/modifier-routes";
 import { veriationsRouter } from "@presentation/routes/veriations-route";
 import { preMadeFoodRouter } from "@presentation/routes/preMadeFood-routes";
+import { foodComboRouter } from "@presentation/routes/foodCombo-routes";
+import { supplierDuePaymentOutletRouter } from "@presentation/routes/supplierDuePaymentOutlet-routes";
+import { supplierRouter } from "@presentation/routes/supplier-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -46,4 +49,7 @@ export default (app: Express): void => {
   app.use("/modifier", modifierRouter);
   app.use("/veriations", veriationsRouter);
   app.use("/preMadeFood", preMadeFoodRouter);
+  app.use("/foodCombo", foodComboRouter);
+  app.use("/supplierDuePaymentOutlet", supplierDuePaymentOutletRouter);
+  app.use("/supplier", supplierRouter);
 };

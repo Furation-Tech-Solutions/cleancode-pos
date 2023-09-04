@@ -1,6 +1,6 @@
 import { OutletModel, OutletEntity } from "@domain/outlet/entities/outlet";
 import { OutletRepository } from "@domain/outlet/repositories/outlet-repository"; 
-import { OutletDataSource } from "@data/outlet/datasource/outlet-data-source";
+import { OutletDataSource } from "@data/outlet/datasources/outlet-data-source";
 import { Either, Right, Left } from "monet";
 import ErrorClass from "@presentation/error-handling/api-error";
 import ApiError from "@presentation/error-handling/api-error";
