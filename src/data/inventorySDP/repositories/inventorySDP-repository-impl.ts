@@ -33,6 +33,8 @@ export class InventorySDPRepositoryImpl implements InventorySDPRepository {
     ): Promise<Either<ErrorClass, InventorySDPEntity>> {
         try {
             const response = await this.dataSource.getById(id);
+            console.log(response);
+            
             if (response === null) {
                 return Left<ErrorClass, InventorySDPEntity>(ApiError.notFound());
             }
