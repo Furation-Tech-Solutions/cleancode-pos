@@ -98,6 +98,30 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CUISINE_NAME_CONFLICT, "cuisineName_conflict");
   }
 
+  static foodMenuExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODMENU_NAME_CONFLICT, "foodMenuName_conflict");
+  }
+
+  static modifierExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.MODIFIER_NAME_CONFLICT, "modifierName_conflict");
+  }
+
+  static veriationsExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.VERIATIONS_NAME_CONFLICT, "veriationsName_conflict");
+  }
+
+  static preMadeFoodExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.PREMADEFOOD_NAME_CONFLICT, "preMadeFoodName_conflict");
+  }
+
+  static foodComboExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODCOMBO_NAME_CONFLICT, "foodComboName_conflict");
+  }
+
+  static supplierIdExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.SUPPLIER_ID_CONFLICT, "supplierId_conflict");
+  }
+
 
  
 }

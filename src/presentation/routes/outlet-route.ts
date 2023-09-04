@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import { Router } from "express"; // Correctly import Request and Response
 import { OutletService } from "@presentation/services/outlet-services";
-import { OutletDataSourceImpl } from "@data/outlet/datasource/outlet-data-source";
+import { OutletDataSourceImpl } from "@data/outlet/datasources/outlet-data-source";
 import { OutletRepositoryImpl } from "@data/outlet/repositories/outlet-repository-impl";
 import { CreateOutlet } from "@domain/outlet/usecases/create-outlet";
 import { DeleteOutlet } from "@domain/outlet/usecases/delete-outlet";

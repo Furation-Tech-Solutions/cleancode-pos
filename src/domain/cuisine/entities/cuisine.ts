@@ -37,7 +37,7 @@ export class CuisineMapper {
         createdBy:
           cuisineData.createdBy !== undefined ? cuisineData.createdBy : existingCuisine.createdBy,
         del_status:
-        cuisineData.del_status !== undefined ? cuisineData.del_status : cuisineData.del_status
+          cuisineData.del_status !== undefined ? cuisineData.del_status : existingCuisine.del_status
       };
     } else {
       // If existingCuisine is not provided, create a new CuisineEntity using cuisineData
