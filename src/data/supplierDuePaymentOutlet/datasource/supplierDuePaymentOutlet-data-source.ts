@@ -15,10 +15,10 @@ export class SupplierDuePaymentOutletDataSourceImpl implements SupplierDuePaymen
 
   async create(supplierDuePaymentOutlet: SupplierDuePaymentOutletModel): Promise<any> {
 
-    const existingSupplierDuePaymentOutlet = await SupplierDuePaymentOutlet.findOne({ supplier_id: supplierDuePaymentOutlet.supplier_id });
-    if (existingSupplierDuePaymentOutlet) {
-      throw ApiError.supplierIdExists()
-    }
+    // const existingSupplierDuePaymentOutlet = await SupplierDuePaymentOutlet.findOne({ supplier_id: supplierDuePaymentOutlet.supplier_id });
+    // if (existingSupplierDuePaymentOutlet) {
+    //   throw ApiError.supplierIdExists()
+    // }
 
     const supplierDuePaymentOutletData = new SupplierDuePaymentOutlet(supplierDuePaymentOutlet);
 

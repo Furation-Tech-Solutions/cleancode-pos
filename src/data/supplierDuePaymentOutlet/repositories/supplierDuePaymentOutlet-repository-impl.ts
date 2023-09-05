@@ -18,8 +18,8 @@ export class SupplierDuePaymentOutletRepositoryImpl implements SupplierDuePaymen
       let i = await this.dataSource.create(supplierDuePaymentOutlet);
       return Right<ErrorClass, SupplierDuePaymentOutletEntity>(i);
     } catch (e) {
-      if(e instanceof ApiError && e.name === "supplierId_conflict"){
-        return Left<ErrorClass, SupplierDuePaymentOutletEntity>(ApiError.supplierIdExists());
+      if(e instanceof ApiError && e.name === "unAuthorized"){
+        return Left<ErrorClass, SupplierDuePaymentOutletEntity>(ApiError.unAuthorized());
       }
       return Left<ErrorClass, SupplierDuePaymentOutletEntity>(ApiError.badRequest());
     }
