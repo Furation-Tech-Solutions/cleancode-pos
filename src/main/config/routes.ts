@@ -21,6 +21,7 @@ import { preMadeFoodRouter } from "@presentation/routes/preMadeFood-routes";
 import { foodComboRouter } from "@presentation/routes/foodCombo-routes";
 import { supplierDuePaymentOutletRouter } from "@presentation/routes/supplierDuePaymentOutlet-routes";
 import { supplierRouter } from "@presentation/routes/supplier-routes";
+import { outletStockRouter } from "@presentation/routes/outletStock-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -52,4 +53,5 @@ export default (app: Express): void => {
   app.use("/foodCombo", foodComboRouter);
   app.use("/supplierDuePaymentOutlet", supplierDuePaymentOutletRouter);
   app.use("/supplier", supplierRouter);
+  app.use("/outletStock", outletStockRouter);
 };
