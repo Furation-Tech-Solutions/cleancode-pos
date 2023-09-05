@@ -6,5 +6,7 @@ import { KotEntity, KotModel } from "../entities/kot";
 export interface KotRepository {
     createKot(kot: KotModel): Promise<Either<ErrorClass, KotEntity>> 
     getKot(): Promise<Either<ErrorClass, KotEntity[]>>;
+    // updateKot(id: string, data: KotModel): Promise<Either<ErrorClass, KotEntity>>;
+    
 
   }

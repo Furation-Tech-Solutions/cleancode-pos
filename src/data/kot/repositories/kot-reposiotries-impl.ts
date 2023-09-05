@@ -31,5 +31,19 @@ export class KotRepositoryImpl implements KotRepository{
       return Left<ErrorClass, KotEntity[]>(ApiError.badRequest());
     }
   }
+  // async updateKot(
+  //   id: string,
+  //   data: KotModel
+  // ): Promise<Either<ErrorClass, KotEntity>> {
+  //   try {
+  //     let i = await this.dataSource.update(id, data);
+  //     return Right<ErrorClass, KotEntity>(i);
+  //   } catch (e) {
+  //     if (e instanceof ApiError && e.name === "conflict") {
+  //       return Left<ErrorClass, KotEntity>(ApiError.emailExits());
+  //     }
+  //     return Left<ErrorClass, KotEntity>(ApiError.badRequest());
+  //   }
+  // }
 
 }
