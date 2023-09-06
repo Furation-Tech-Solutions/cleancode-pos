@@ -25,6 +25,7 @@ import { outletStockRouter } from "@presentation/routes/outletStock-routes";
 import { paymentRouter } from "@presentation/routes/payment-routes";
 import { expenseRouter } from "@presentation/routes/expense-routes";
 import { expenseItemRouter } from "@presentation/routes/expenseItem-route";
+import { orderRouter } from "@presentation/routes/order-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -60,4 +61,5 @@ export default (app: Express): void => {
   app.use("/payment", paymentRouter);
   app.use("/expense", expenseRouter);
   app.use("/expenseItem", expenseItemRouter);
+  app.use("/order", orderRouter);
 };
