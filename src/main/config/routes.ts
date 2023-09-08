@@ -21,6 +21,11 @@ import { preMadeFoodRouter } from "@presentation/routes/preMadeFood-routes";
 import { foodComboRouter } from "@presentation/routes/foodCombo-routes";
 import { supplierDuePaymentOutletRouter } from "@presentation/routes/supplierDuePaymentOutlet-routes";
 import { supplierRouter } from "@presentation/routes/supplier-routes";
+import { outletStockRouter } from "@presentation/routes/outletStock-routes";
+import { paymentRouter } from "@presentation/routes/payment-routes";
+import { expenseRouter } from "@presentation/routes/expense-routes";
+import { expenseItemRouter } from "@presentation/routes/expenseItem-route";
+import { orderRouter } from "@presentation/routes/order-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -52,4 +57,9 @@ export default (app: Express): void => {
   app.use("/foodCombo", foodComboRouter);
   app.use("/supplierDuePaymentOutlet", supplierDuePaymentOutletRouter);
   app.use("/supplier", supplierRouter);
+  app.use("/outletStock", outletStockRouter);
+  app.use("/payment", paymentRouter);
+  app.use("/expense", expenseRouter);
+  app.use("/expenseItem", expenseItemRouter);
+  app.use("/order", orderRouter);
 };

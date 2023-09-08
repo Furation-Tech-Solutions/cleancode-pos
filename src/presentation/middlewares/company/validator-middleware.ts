@@ -36,7 +36,7 @@ const companyRequestBodyValidator = Joi.object({
     "string.max": "Brand name should be under 30 Characters",
   }),
   active: Joi.boolean().optional().default(true),
-  createdAt: Joi.date().iso().optional(), // Accepts the date as a string in ISO 8601 format
+  createdAt: Joi.date(), // Accepts the date as a string in ISO 8601 format
 });
 
 export default function validateBodyMiddleware(

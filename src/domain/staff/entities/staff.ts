@@ -9,9 +9,8 @@ export class StaffModel {
     public superAdmin: boolean = false,
     public admin: boolean = false,
     public permissions: number[] = [],
-    // public active: boolean = false,
     public outlet_code: string = "",
-    public createdAt: string = "",
+    public createdAt: Date,
     public del_status: boolean
   ) { }
 }
@@ -28,9 +27,8 @@ export class StaffEntity {
     public superAdmin: boolean,
     public admin: boolean,
     public permissions: number[],
-    // public active: boolean,
     public outlet_code: string,
-    public createdAt: string,
+    public createdAt: Date,
     public del_status: boolean
   ) { }
 }

@@ -24,11 +24,7 @@ const foodCategorySchema: Schema<FoodCategoryModel> = Joi.object({
     "string.max": "Food category description can't exceed {#limit} characters",
     "any.required": "Description is required",
   }),
-  createdBy: Joi.string()
-    .required()
-    .messages({
-    "any.required": "Please enter a kitchen.",
-  }),
+  createdBy: Joi.date(),
   del_status: Joi.string().default(true),
   });
   

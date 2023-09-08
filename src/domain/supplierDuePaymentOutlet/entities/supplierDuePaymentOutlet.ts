@@ -1,7 +1,7 @@
 // Express API request populate the supplierDuePaymentOutlet Model
 export class SupplierDuePaymentOutletModel {
   constructor(
-    public date: string = "",
+    public date: Date,
     public supplier_id: string = "",
     public amount: number = 0,
     public note: string = "",
@@ -17,7 +17,7 @@ export class SupplierDuePaymentOutletModel {
 export class SupplierDuePaymentOutletEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
-    public date: string,
+    public date: Date,
     public supplier_id: string,
     public amount: number,
     public note: string,

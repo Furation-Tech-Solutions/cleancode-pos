@@ -11,7 +11,7 @@ const staffSchema = new mongoose.Schema({
   permissions: { type: [Number]  },
   // active: { type: Boolean, default: true },
   outlet_code: { type: String },
-  createdAt: { type: String, default: true },
+  createdAt: { type: Date, default: Date.now },
   del_status: { type: Boolean, default: true }
 });
 

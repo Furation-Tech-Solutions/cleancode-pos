@@ -118,8 +118,8 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODCOMBO_NAME_CONFLICT, "foodComboName_conflict");
   }
 
-  static supplierIdExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.SUPPLIER_ID_CONFLICT, "supplierId_conflict");
+  static expenseItemNameExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.EXPENSE_ITEM_NAME_CONFLICT, "expenseItemName_conflict");
   }
 
 

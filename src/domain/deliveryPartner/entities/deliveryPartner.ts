@@ -5,7 +5,7 @@ export class DeliveryPartnerModel {
     public email: string = "",
     public phone: number = 0,
     public address: string = "",
-    public createdAt: string = "",
+    public createdAt: Date,
     public del_status: boolean
   ) { }
 }
@@ -18,7 +18,7 @@ export class DeliveryPartnerEntity {
     public email: string,
     public phone: number,
     public address: string,
-    public createdAt: string,
+    public createdAt: Date,
     public del_status: boolean
   ) { }
 }

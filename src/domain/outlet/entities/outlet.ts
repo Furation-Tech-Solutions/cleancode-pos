@@ -8,7 +8,7 @@ export class OutletModel {
       public outletType:string = "",
       public brandLogo:string = "",
       public phone:number = 0,
-      public createdAt:string = "",
+      public createdAt:Date,
       public del_status: boolean
 
   ) {}
@@ -26,7 +26,7 @@ export class OutletEntity{
       public outletType:string,
       public brandLogo:string,
       public phone:number,
-      public createdAt:string,
+      public createdAt:Date,
       public del_status: boolean
 
   ) {}

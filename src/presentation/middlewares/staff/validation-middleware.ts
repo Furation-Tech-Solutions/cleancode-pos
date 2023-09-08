@@ -39,7 +39,7 @@ const staffSchema: Schema<StaffModel> = Joi.object({
   permissions: Joi.array().items(Joi.number()),
   // active: Joi.boolean().default(true),
   outlet_code: Joi.string(),
-  createdAt: Joi.string().required(),
+  createdAt: Joi.date(),
   del_status: Joi.string().default(true),
   });
   
