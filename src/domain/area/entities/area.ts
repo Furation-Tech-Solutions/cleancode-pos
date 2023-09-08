@@ -1,10 +1,11 @@
 // Express API request populate the Area Model
+import { Date } from "mongoose";
 export class AreaModel {
     constructor(
       public outlet_code: string = "",
       public area_name: string = "",
       public description: string = "",
-      public createdAt: string = "",
+      public createdAt: Date,
       public phone: string = "",
       public del_status: boolean
 
@@ -18,7 +19,7 @@ export class AreaModel {
       public outlet_code: string,
       public area_name: string ,
       public description: string ,
-      public createdAt: string,
+      public createdAt: Date,
       public phone: string, // Changed the type to string as phone numbers can contain characters like '+', '-', etc.
       public del_status: boolean
 

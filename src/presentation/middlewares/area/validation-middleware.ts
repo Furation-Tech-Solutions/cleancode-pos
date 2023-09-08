@@ -25,8 +25,7 @@ const areaSchema: Schema<AreaModel> = Joi.object({
     "string.min": "Description should have at least {5} characters",
     "string.max": "Description should have at most {200} characters",
   }),
-  createdBy: Joi.string()
-    .default(null),
+  createdBy: Joi.date(),
   phone: Joi.number().required().messages({ 
     "any.required": "Please enter phone" 
   }),

@@ -4,7 +4,7 @@ export class FoodCategoryModel {
     // public parent_id: string = "",
     public foodCategory_Name: string = "",
     public description: string = "",
-    public createdBy: string = "",
+    public createdBy: Date,
     public del_status: boolean
   ) { }
 }
@@ -16,7 +16,7 @@ export class FoodCategoryEntity {
     // public parent_id: string,
     public foodCategory_Name: string,
     public description: string,
-    public createdBy: string,
+    public createdBy: Date,
     public del_status: boolean
   ) { }
 }

@@ -9,7 +9,7 @@ const outletSchema = new mongoose.Schema({
   outletType: { type: String, enum: { values: ["Kiosk", "Compact", "Standalone","Lounge"], message: "Value is not matched" } },
   brandLogo: { type: String, default: null },
   phone: { type: Number, min: [1000000000, "phone number should be equal to 10 digits"], max: [9999999999, "phone number should be equal to 10 digits"], required: [true, "Please enter phone"], default: null },
-  createdAt: { type: String, default: null },
+  createdAt: { type: Date, default: Date.now },
   del_status: { type: Boolean, default: true }
 });
 

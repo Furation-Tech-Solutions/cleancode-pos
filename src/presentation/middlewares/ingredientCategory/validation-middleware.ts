@@ -25,11 +25,7 @@ const ingredientCategorySchema: Schema<IngredientCategoryModel> = Joi.object({
     "string.max": "description should have at most {#limit} characters",
     "any.required": "description is required",
   }),
-  createdBy: Joi.string().required().messages({
-    "string.base": "createdBy must be a string",
-    "string.empty": "createdBy cannot be empty",
-    "any.required": "createdBy is required",
-  }),
+  createdBy: Joi.date(),
   del_status: Joi.string().valid("Live", "Deleted").default("Live").messages({
     "string.base": "del_status must be a string",
     "string.empty": "del_status cannot be empty",

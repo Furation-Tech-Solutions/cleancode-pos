@@ -3,7 +3,7 @@ export class CuisineModel {
   constructor(
     public name: string = "",
     public description: string = "",
-    public createdBy: string = "",
+    public createdBy: Date,
     public del_status: boolean
   ) { }
 }
@@ -14,7 +14,7 @@ export class CuisineEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
     public description: string,
-    public createdBy: string,
+    public createdBy: Date,
     public del_status: boolean
   ) { }
 }

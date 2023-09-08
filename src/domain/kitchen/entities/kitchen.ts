@@ -6,7 +6,7 @@ export class KitchenModel {
         public kitchen_code:string = "",
         public kitchen_area:string = "",
         public kitchen_name:string = "",
-        public createdAt:string = "",
+        public createdAt:Date,
         public del_status: boolean
     ) {}
 }
@@ -19,7 +19,7 @@ export class KitchenEntity{
         public kitchen_code:string,
         public kitchen_area:string,
         public kitchen_name:string,
-        public createdAt:string,
+        public createdAt:Date,
         public del_status: boolean
     ) {}
 }

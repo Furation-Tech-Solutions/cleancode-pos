@@ -8,7 +8,7 @@ interface CustomRequest extends Request {
   }
 
 const supplierDuePaymentOutletSchema: Schema<SupplierDuePaymentOutletModel> = Joi.object({
-  date: Joi.string().required(),
+  date: Joi.string(),
   supplier_id: Joi.string().required().messages({
     'any.required': 'Please enter supplier_id',
   }),

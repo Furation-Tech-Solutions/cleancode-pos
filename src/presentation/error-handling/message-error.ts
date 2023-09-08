@@ -50,7 +50,7 @@ export const PREMADEFOOD_NAME_CONFLICT = "preMadeFood name Already Exist";
 
 export const FOODCOMBO_NAME_CONFLICT = "foodCombo name Already Exist";
 
-export const SUPPLIER_ID_CONFLICT = "supplierId Already Exist";
+export const EXPENSE_ITEM_NAME_CONFLICT = "expenseItem name Already Exist";
 
 
 
