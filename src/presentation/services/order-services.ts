@@ -12,6 +12,7 @@ import { GetAllOrdersUsecase } from "@domain/order/usecases/get-all-orders";
 import ApiError from "@presentation/error-handling/api-error";
 import { Either } from "monet";
 import ErrorClass from "@presentation/error-handling/api-error";
+import { AutoOrderNumber } from "@presentation/middlewares/order/orderNumber";
 
 export class OrderService {
   private readonly createOrderUsecase: CreateOrderUsecase;
@@ -35,30 +36,41 @@ export class OrderService {
   }
 
   async createOrder(req: Request, res: Response): Promise<void> {
-      
-      // Extract order data from the request body and convert it to OrderModel
-      const orderData: OrderModel = OrderMapper.toModel(req.body);
-
-      // Call the createOrderUsecase to create the order
-      const newOrder: Either<ErrorClass, OrderEntity> = await this.createOrderUsecase.execute(
-        orderData
-      );
-
-      newOrder.cata(
-        (error: ErrorClass) =>
-        res.status(error.status).json({ error: error.message }),
-        (result: OrderEntity) =>{
-          const responseData = OrderMapper.toEntity(result, true);
-          return res.json(responseData)
-        }
-      )
+    // Generate the order number as a string
+    const orderNumber: string = AutoOrderNumber.generateNumberOrder(0);
+  
+    // Ensure req.body exists and create an 'order' property
+    req.body = req.body || {};
+    req.body.orderNumber = orderNumber;
+  
+    // Extract order data from the request body and convert it to OrderModel
+    const orderData: OrderModel = OrderMapper.toModel(req.body);
+  
+    // Call the createOrderUsecase to create the order
+    const newOrder: Either<ErrorClass, OrderEntity> = await this.createOrderUsecase.execute(orderData);
+  
+    newOrder.cata(
+      (error: ErrorClass) => {
+        // Handle the error using status and message from the error object
+        res.status(error.status).json({ error: error.message });
+      },
+      (result: OrderEntity) => {
+        // Map the result to response data
+        const responseData = OrderMapper.toEntity(result, true);
+        res.json(responseData);
+      }
+    );
   }
+  
+  
+  
+  
+  
   
 
   async deleteOrder(req: Request, res: Response): Promise<void> {
     
       const orderId: string = req.params.orderId;
-    
 
       const updatedOrderEntity: OrderEntity = OrderMapper.toEntity(
         { del_status: false },

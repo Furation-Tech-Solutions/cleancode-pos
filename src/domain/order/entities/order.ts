@@ -38,7 +38,7 @@ export class OrderMapper {
   static toEntity(
     orderData: any,
     includeId?: boolean,
-    existingOrder?: OrderEntity
+    existingOrder?: OrderEntity | null
   ): OrderEntity {
     if (existingOrder != null) {
       // If existingOrder is provided, merge the data from orderData with the existingOrder
@@ -87,9 +87,8 @@ export class OrderMapper {
     }
   }
 
-  static toModel(order: OrderEntity): any {
+  static toModel(order: OrderEntity): OrderModel {
     return {
-      id: order.id,
       orderNumber: order.orderNumber,
       date: order.date,
       persons: order.persons,

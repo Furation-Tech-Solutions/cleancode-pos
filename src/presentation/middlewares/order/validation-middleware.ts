@@ -8,11 +8,7 @@ interface CustomRequest extends Request {
   }
 
 const orderSchema: Schema<OrderModel> = Joi.object({
-  orderNumber: Joi.number().required().max(999).messages({
-    'number.base': 'Order number should be a number',
-    'number.max': 'Order number should be under 1000',
-    'any.required': 'Please enter an order number',
-  }),
+  orderNumber: Joi.number().max(999),
   date: Joi.string(),
   persons: Joi.string().max(50).min(3).trim().default(null).required().messages({
       'string.max': 'Maximum 50 characters are permitted for persons',
