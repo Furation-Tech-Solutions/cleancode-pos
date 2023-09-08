@@ -31,7 +31,7 @@ const veriationsSchema: Schema<VeriationsModel> = Joi.object({
       'array.empty': 'Ingredient Consumption array should not be empty',
       'any.required': 'At least one Ingredient Consumption is required',
     }),
-    del_status: Joi.boolean().default(true),
+  del_status: Joi.boolean().default(true),
   });
   
 function validateVeriationsMiddleware(req: CustomRequest, res: Response, next: NextFunction) {
