@@ -1,7 +1,7 @@
 // Express API request populate the expense Model
 export class ExpenseModel {
   constructor(
-    public date: string = "",
+    public date: Date,
     public amount: number = 0,
     public staff_id: string = "",
     public note: string = "",
@@ -15,7 +15,7 @@ export class ExpenseModel {
 export class ExpenseEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
-    public date: string,
+    public date: Date,
     public amount: number,
     public staff_id: string,
     public note: string,

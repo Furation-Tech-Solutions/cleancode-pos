@@ -26,7 +26,7 @@ const deliveryPartnerSchema: Schema<DeliveryPartnerModel> = Joi.object({
     "any.required": "Please enter address",
   }),
   // createdAt: Joi.date().default(Date.now),
-  createdAt: Joi.string().required(),
+  createdAt: Joi.date(),
   del_status: Joi.boolean().default("true")
 });
   

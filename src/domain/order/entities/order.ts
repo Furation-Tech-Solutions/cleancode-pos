@@ -1,8 +1,10 @@
+import { Date } from "mongoose";
+
 // Express API request populate the order Model
 export class OrderModel {
   constructor(
     public orderNumber: string = "",
-    public date: string = "",
+    public date: Date,
     public persons: string = "",
     public waiter: string = "",
     public orderTime: string = "",
@@ -20,7 +22,7 @@ export class OrderEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
     public orderNumber: string,
-    public date: string,
+    public date: Date,
     public persons: string,
     public waiter: string,
     public orderTime: string,

@@ -22,7 +22,7 @@ const cuisineSchema: Schema<CuisineModel> = Joi.object({
       'string.empty': 'Description cannot be empty',
       'any.required': 'Description is required',
     }),
-  createdBy: Joi.string().required(),
+  createdBy: Joi.date(),
   del_status: Joi.string().default(true),
   });
   

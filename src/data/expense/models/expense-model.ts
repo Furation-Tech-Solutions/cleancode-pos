@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const expenseSchema = new mongoose.Schema({
-  date: { type: String },
+  date: { type: Date, default: Date.now },
   amount: { type: Number },
   staff_id: { type: mongoose.Schema.Types.ObjectId, ref: "Staff", required: [true, "Please enter staff_id"] }, 
   note: { type: String, maxlength: [200, "Maximum 200 charcters are permitted"], minLength: [3, "note should have more than 3 character"],  required: [true, "please enter note"], trim: true, default: null },

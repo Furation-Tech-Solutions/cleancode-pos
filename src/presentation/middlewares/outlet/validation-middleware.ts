@@ -67,7 +67,7 @@ const outletSchema: Schema<OutletModel> = Joi.object({
           "number.max": `Phone number should have at most {#limit} digits`,
           "any.required": `Phone number is required`,
         }),
-    createdAt: Joi.string(),
+    createdAt: Joi.date(),
     del_status: Joi.string().valid("Live", "Deleted").default("Live").messages({
         "string.base": `Delete status should be a string`,
         "string.valid": `Value is not matched`,

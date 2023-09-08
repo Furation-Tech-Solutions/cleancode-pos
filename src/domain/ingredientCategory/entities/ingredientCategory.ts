@@ -3,7 +3,7 @@ export class IngredientCategoryModel {
   constructor(
     public ingredientCategory_name: string = "",
     public description: string = "",
-    public createdBy: string = "",
+    public createdBy: Date,
     public del_status: boolean
   ) { }
 }
@@ -14,7 +14,7 @@ export class IngredientCategoryEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public ingredientCategory_name: string,
     public description: string,
-    public createdBy: string,
+    public createdBy: Date,
     public del_status: boolean
   ) { }
 }

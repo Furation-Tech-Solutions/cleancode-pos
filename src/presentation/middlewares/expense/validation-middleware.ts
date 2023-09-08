@@ -8,7 +8,7 @@ interface CustomRequest extends Request {
   }
 
 const expenseSchema: Schema<ExpenseModel> = Joi.object({
-  date: Joi.string().required(),
+  date: Joi.date(),
   amount: Joi.number(),
   staff_id: Joi.string().required().messages({
     'any.required': 'Please enter staff_id',
