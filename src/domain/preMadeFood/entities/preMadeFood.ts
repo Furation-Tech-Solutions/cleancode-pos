@@ -3,7 +3,7 @@ export class PreMadeFoodModel {
   constructor(
     public name: string = "",
     public code: string = "",
-    public category: string = "",
+    public category: string[] = [],
     public ingredientConsumption: string[] = [],
     public consumptionUnit: string = "",
     public costPerUnit: number = 0,
@@ -18,7 +18,7 @@ export class PreMadeFoodEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
     public code: string,
-    public category: string,
+    public category: string[],
     public ingredientConsumption: string[],
     public consumptionUnit: string,
     public costPerUnit: number,

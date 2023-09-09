@@ -4,22 +4,30 @@ export class FoodComboModel {
     public name: string = "",
     public code: string = "",
     public food_category: string = "",
-    public foodMenu: {
-      food_item: string,
-      quantity: number,
-    }[] = [],
+    public foodMenu: FoodMenuModelItem[] = [],
     public Dine_price: number = 0,
     public Takeaway_price: number = 0,
-    public Delivery_price: {
-      deliveryPartnerName: string,
-      price: number,
-    }[] = [],
+    public Delivery_price: DeliveryPriceModelName[] = [],
     public description: string = "",
     public isVeg: boolean,
     public isBeverage: boolean,
-    public outlet: string = "",
+    public outlet: string[] = [],
     public del_status: boolean
   ) { }
+}
+
+export class FoodMenuModelItem {
+  constructor(
+    public food_item: string = "",
+    public quantity: number = 0
+  ) {}
+}
+
+export class DeliveryPriceModelName {
+  constructor(
+    public deliveryPartnerName: string = "",
+    public price: number = 0
+  ) {}
 }
 
 // FoodCombo Entity provided by FoodCombo Repository is converted to Express API Response
@@ -29,22 +37,30 @@ export class FoodComboEntity {
     public name: string,
     public code: string,
     public food_category: string,
-    public foodMenu: {
-      food_item: string,
-      quantity: number,
-    }[] = [],
+    public foodMenu: FoodMenuEntityItem[],
     public Dine_price: number,
     public Takeaway_price: number,
-    public Delivery_price: {
-      deliveryPartnerName: string,
-      price: number,
-    }[] = [],
+    public Delivery_price: DeliveryPriceEntityName[],
     public description: string,
     public isVeg: boolean,
     public isBeverage: boolean,
-    public outlet: string,
+    public outlet: string[],
     public del_status: boolean
   ) { }
+}
+
+export class FoodMenuEntityItem {
+  constructor(
+    public food_item: string,
+    public quantity: number,
+  ) {}
+}
+
+export class DeliveryPriceEntityName {
+  constructor(
+    public deliveryPartnerName: string,
+    public price: number
+  ) {}
 }
 
 
@@ -70,16 +86,10 @@ export class FoodComboMapper {
           foodComboData.food_category !== undefined 
             ? foodComboData.food_category 
             : existingFoodCombo.food_category,
-        foodMenu: [{
-          food_item:
-            foodComboData.FoodCombo !== undefined
-              ? foodComboData.FoodCombo.food_item
-              : existingFoodCombo.foodMenu[0].food_item,
-          quantity:
-            foodComboData.FoodCombo !== undefined
-              ? foodComboData.FoodCombo.quantity
-              : existingFoodCombo.foodMenu[0].quantity
-        }],
+        foodMenu:
+            foodComboData.foodMenu !== undefined
+              ? foodComboData.foodMenu.food_item
+              : existingFoodCombo.foodMenu,
         Dine_price:
           foodComboData.Dine_price !== undefined 
             ? foodComboData.Dine_price 
@@ -88,16 +98,10 @@ export class FoodComboMapper {
           foodComboData.Takeaway_price !== undefined 
             ? foodComboData.Takeaway_price 
             : existingFoodCombo.Takeaway_price,
-        Delivery_price: [{
-          deliveryPartnerName:
+        Delivery_price:
             foodComboData.Delivery_price !== undefined
               ? foodComboData.Delivery_price.deliveryPartnerName
-              : existingFoodCombo.Delivery_price[0].deliveryPartnerName,
-          price:
-            foodComboData.Delivery_price !== undefined
-              ? foodComboData.Delivery_price.price
-              : existingFoodCombo.Delivery_price[0].price
-        }],
+              : existingFoodCombo.Delivery_price,
         description:
           foodComboData.description !== undefined 
             ? foodComboData.description 
@@ -126,16 +130,10 @@ export class FoodComboMapper {
         name: foodComboData.name,
         code: foodComboData.code,
         food_category: foodComboData.food_category,
-        foodMenu: [{
-          food_item: foodComboData.foodMenu.food_item,
-          quantity: foodComboData.foodMenu.quantity
-        }],
+        foodMenu: foodComboData.foodMenu,
         Dine_price: foodComboData.Dine_price,
         Takeaway_price: foodComboData.Takeaway_price,
-        Delivery_price: [{
-          deliveryPartnerName: foodComboData.Delivery_price.deliveryPartnerName,
-          price: foodComboData.Delivery_price.price,
-        }],
+        Delivery_price: foodComboData.Delivery_price,
         description: foodComboData.description,
         isVeg: foodComboData.isVeg,
         isBeverage: foodComboData.isBeverage,
@@ -152,16 +150,10 @@ export class FoodComboMapper {
       name: foodCombo.name,
       code: foodCombo.code,
       food_category: foodCombo.food_category,
-      foodMenu: [{
-        food_item: foodCombo.foodMenu[0].food_item,
-        quantity: foodCombo.foodMenu[0].quantity
-      }],
+      foodMenu: foodCombo.foodMenu,
       Dine_price: foodCombo.Dine_price,
       Takeaway_price: foodCombo.Takeaway_price,
-      Delivery_price: [{
-        deliveryPartnerName: foodCombo.Delivery_price[0].deliveryPartnerName,
-        price: foodCombo.Delivery_price[0].price,
-      }],
+      Delivery_price: foodCombo.Delivery_price,
       description: foodCombo.description,
       isVeg: foodCombo.isVeg,
       isBeverage: foodCombo.isBeverage,

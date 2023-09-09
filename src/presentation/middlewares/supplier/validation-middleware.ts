@@ -8,12 +8,14 @@ interface CustomRequest extends Request {
   }
 
 const supplierSchema: Schema<SupplierModel> = Joi.object({
-  companyId: Joi.string().hex().length(24).required().messages({
-    'string.base': 'Company ID must be a valid ObjectId',
-    'string.hex': 'Company ID must be a valid ObjectId',
-    'string.length': 'Company ID must be 24 characters long',
-    'any.required': 'Please enter companyId',
-  }),
+  companyId: Joi.array()
+    .items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/))
+    .required()
+    .description('An array of MongoDB ObjectIds referencing the "Company" model')
+    .label('Company ID')
+    .messages({
+      'any.required': 'Please enter companyId',
+    }),
   contact: Joi.string().max(13).required().messages({
     'string.max': 'Contact number should be under 13 characters',
     'any.required': 'Please enter contact number',

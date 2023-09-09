@@ -4,45 +4,46 @@ import { Request, Response, NextFunction } from 'express';
 
 // Define a custom type that extends the Express Request type
 interface CustomRequest extends Request {
-    validatedStaffData?: StaffModel; // Assuming StaffModel is the type for the validated staff data
-  }
+  validatedStaffData?: StaffModel; // Assuming StaffModel is the type for the validated staff data
+}
 
 const staffSchema: Schema<StaffModel> = Joi.object({
+  outletCode_byId: Joi.array()
+    .items(Joi.string().required())
+    .required(),
   username: Joi.string().min(5).max(50).trim().required().messages({
-      'string.base': 'Username must be a string',
-      'string.min': 'Username should have more than 5 characters',
-      'string.max': 'Username should have less than or equal to 50 characters',
-      'string.empty': 'Username cannot be empty',
-      'any.required': 'Username is required',
-    }),
-  email_address: Joi.string().email().required().messages({
-      'string.base': 'Email must be a string',
-      'string.email': 'Email must be a valid email address',
-      'string.empty': 'Email cannot be empty',
-      'any.required': 'Email is required',
-    }),
-  password: Joi.string().min(6).required().trim().messages({
-      'string.base': 'Password must be a string',
-      'string.min': 'Password should have more than 6 characters',
-      'string.empty': 'Password cannot be empty',
-      'any.required': 'Password is required',
-    }),
-  jobTitle: Joi.string().max(30).trim().messages({
-      'string.base': 'Job title must be a string',
-      'string.max': 'Job title should be under 30 characters',
-    }),
-  phone: Joi.number().required().messages({ 
-    "any.required": "Please enter phone" 
+    'string.base': 'Username must be a string',
+    'string.min': 'Username should have more than 5 characters',
+    'string.max': 'Username should have less than or equal to 50 characters',
+    'string.empty': 'Username cannot be empty',
+    'any.required': 'Username is required',
   }),
-  superAdmin: Joi.boolean(),
-  admin: Joi.boolean(),
+  phone: Joi.number().required().messages({
+    "any.required": "Please enter phone"
+  }),
+  email_address: Joi.string().email().required().messages({
+    'string.base': 'Email must be a string',
+    'string.email': 'Email must be a valid email address',
+    'string.empty': 'Email cannot be empty',
+    'any.required': 'Email is required',
+  }),
+  jobTitle: Joi.string().max(30).trim().messages({
+    'string.base': 'Job title must be a string',
+    'string.max': 'Job title should be under 30 characters',
+  }),
   permissions: Joi.array().items(Joi.number()),
-  // active: Joi.boolean().default(true),
-  outlet_code: Joi.string(),
+  active: Joi.boolean().default(true),
   createdAt: Joi.date(),
+  password: Joi.string().min(6).required().trim().messages({
+    'string.base': 'Password must be a string',
+    'string.min': 'Password should have more than 6 characters',
+    'string.empty': 'Password cannot be empty',
+    'any.required': 'Password is required',
+  }),
+  sequerityQuestion: Joi.string().allow(null).default(null),
   del_status: Joi.string().default(true),
-  });
-  
+});
+
 function validateStaffMiddleware(req: CustomRequest, res: Response, next: NextFunction) {
   const staffData: StaffModel = req.body; // Assuming the staff data is sent in the request body
 

@@ -10,15 +10,18 @@ interface CustomRequest extends Request {
 const expenseSchema: Schema<ExpenseModel> = Joi.object({
   date: Joi.date(),
   amount: Joi.number(),
-  staff_id: Joi.string().required().messages({
-    'any.required': 'Please enter staff_id',
+  staff_id: Joi.array().required().messages({
+    'array.base': 'Staff ID should be an array',
+    'any.required': 'Please enter staff ID',
   }),
   note: Joi.string().max(200).min(3).allow(null),
-  outlet_id: Joi.string().required().messages({
-    'any.required': 'Please enter outlet_id',
+  outlet_id: Joi.array().required().messages({
+    'array.base': 'Outlet ID should be an array',
+    'any.required': 'Please enter outlet ID',
   }),
-  payment_id: Joi.string().required().messages({
-    'any.required': 'Please enter payment_id',
+  payment_id: Joi.array().required().messages({
+    'array.base': 'Payment ID should be an array',
+    'any.required': 'Please enter payment ID',
   }),
   del_status: Joi.string().default(true),
   });

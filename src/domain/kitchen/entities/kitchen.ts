@@ -2,11 +2,11 @@
 
 export class KitchenModel {
     constructor(
-        public outlet_code:string = "",
+        public outletCode_byId:string = "",
         public kitchen_code:string = "",
         public kitchen_area:string = "",
         public kitchen_name:string = "",
-        public createdAt:Date,
+        public createdBy:Date,
         public del_status: boolean
     ) {}
 }
@@ -15,11 +15,11 @@ export class KitchenModel {
 export class KitchenEntity{
     constructor(
         public id: string | undefined = undefined, // Set as a default value for id
-        public outlet_code:string,
+        public outletCode_byId:string,
         public kitchen_code:string,
         public kitchen_area:string,
         public kitchen_name:string,
-        public createdAt:Date,
+        public createdBy:Date,
         public del_status: boolean
     ) {}
 }
@@ -35,16 +35,16 @@ export class KitchenMapper {
         // If existingKitchen is provided, merge the data from kitchenData with the existingKitchen
         return{
             ...existingKitchen,
-            outlet_code:
-                kitchenData.outlet_code !==undefined ? kitchenData.outlet_code : existingKitchen.outlet_code,
+            outletCode_byId:
+                kitchenData.outletCode_byId !==undefined ? kitchenData.outletCode_byId : existingKitchen.outletCode_byId,
             kitchen_code:
                 kitchenData.kitchen_code !==undefined ? kitchenData.kitchen_code : existingKitchen.kitchen_code,
             kitchen_area:
                 kitchenData.kitchen_area !==undefined ? kitchenData.kitchen_area : existingKitchen.kitchen_area,
             kitchen_name:
                 kitchenData.kitchen_name !==undefined ? kitchenData.kitchen_name : existingKitchen.kitchen_name,
-            createdAt:
-                kitchenData.createdAt !==undefined ? kitchenData.createdAt : existingKitchen.createdAt,
+            createdBy:
+                kitchenData.createdBy !==undefined ? kitchenData.createdBy : existingKitchen.createdBy,
             del_status:
                 kitchenData.del_status !==undefined ? kitchenData.del_status : existingKitchen.del_status,
         };
@@ -53,11 +53,11 @@ export class KitchenMapper {
              const kitchenEntity: KitchenEntity = {
                 id: includeId ? (kitchenData._id ? kitchenData._id.toString() : undefined) : undefined,
                 // id: includeId ? (tableData._id ? tableData._id.toString() : undefined) : undefined,
-                outlet_code: kitchenData.outlet_code,
+                outletCode_byId: kitchenData.outletCode_byId,
                 kitchen_code: kitchenData.kitchen_code,
                 kitchen_area: kitchenData.kitchen_area,
                 kitchen_name: kitchenData.kitchen_name,
-                createdAt: kitchenData.createdAt,
+                createdBy: kitchenData.createdBy,
                 del_status: kitchenData.del_status,
              };
              return kitchenEntity;
@@ -68,11 +68,11 @@ export class KitchenMapper {
             return {
                 id: kitchen.id,
                 // id: table.id,
-                outlet_code: kitchen.outlet_code,
+                outletCode_byId: kitchen.outletCode_byId,
                 kitchen_code: kitchen.kitchen_code,
                 kitchen_area: kitchen.kitchen_area,
                 kitchen_name: kitchen.kitchen_name,
-                createdAt: kitchen.createdAt,
+                createdBy: kitchen.createdBy,
                 del_status: kitchen.del_status, 
             };
         }

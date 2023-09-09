@@ -4,8 +4,8 @@ import { Request, Response, NextFunction } from 'express';
 
 // Define a custom type that extends the Express Request type
 interface CustomRequest extends Request {
-    validatedIngredientData?: IngredientModel; // Assuming IngredientModel is the type for the validated ingredient data
-  }
+  validatedIngredientData?: IngredientModel; // Assuming IngredientModel is the type for the validated ingredient data
+}
 
 const ingredientSchema: Schema<IngredientModel> = Joi.object({
   name: Joi.string().min(3).max(50).required().trim().messages({
@@ -20,21 +20,30 @@ const ingredientSchema: Schema<IngredientModel> = Joi.object({
     "number.empty": "Code is required",
     "any.required": "Code is required",
   }),
-  category: Joi.string().required().messages({
-    "string.base": "category must be a string",
-    "string.empty": "category is required",
-    "any.required": "category is required",
-  }),
-  PurchaseUnit: Joi.string().required().messages({
-    "string.base": "PurchaseUnit must be a string",
-    "string.empty": "PurchaseUnit is required",
-    "any.required": "PurchaseUnit is required",
-  }),
-  ConsumptionUnit: Joi.string().required().messages({
-    "string.base": "ConsumptionUnit must be a string",
-    "string.empty": "ConsumptionUnit is required",
-    "any.required": "ConsumptionUnit is required",
-  }),
+  category: Joi.array()
+    .items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/))
+    .required()
+    .description('An array of MongoDB ObjectIds referencing the "IngredientCategory" model')
+    .label('Ingredient Category')
+    .messages({
+      'any.required': 'Please enter IngredientCategory',
+    }),
+  PurchaseUnit: Joi.array()
+    .items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/))
+    .required()
+    .description('An array of MongoDB ObjectIds referencing the "IngredientUnit" model')
+    .label('Purchase Unit')
+    .messages({
+      'any.required': 'Please enter PurchaseUnit',
+    }),
+  ConsumptionUnit: Joi.array()
+    .items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/))
+    .required()
+    .description('An array of MongoDB ObjectIds referencing the "IngredientUnit" model')
+    .label('Consumption Unit')
+    .messages({
+      'any.required': 'Please enter ConsumptionUnit',
+    }),
   ConversionUnit: Joi.string().required().messages({
     "string.base": "ConversionUnit must be a string",
     "string.empty": "ConversionUnit is required",
@@ -57,7 +66,7 @@ const ingredientSchema: Schema<IngredientModel> = Joi.object({
   }),
   del_status: Joi.boolean().default("True")
 });
-  
+
 function validateIngredientMiddleware(req: CustomRequest, res: Response, next: NextFunction) {
   const ingredientData: IngredientModel = req.body; // Assuming the ingredient data is sent in the request body
 

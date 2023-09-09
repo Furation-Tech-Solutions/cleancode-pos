@@ -3,10 +3,10 @@ export class ExpenseModel {
   constructor(
     public date: Date,
     public amount: number = 0,
-    public staff_id: string = "",
+    public staff_id: string[] = [],
     public note: string = "",
-    public outlet_id: string = "",
-    public payment_id: string = "",
+    public outlet_id: string[] = [],
+    public payment_id: string[] = [],
     public del_status: boolean
   ) { }
 }
@@ -17,10 +17,10 @@ export class ExpenseEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public date: Date,
     public amount: number,
-    public staff_id: string,
+    public staff_id: string[],
     public note: string,
-    public outlet_id: string,
-    public payment_id: string,
+    public outlet_id: string[],
+    public payment_id: string[],
     public del_status: boolean
   ) { }
 }

@@ -26,23 +26,34 @@ const foodComboSchema: Schema<FoodComboModel> = Joi.object({
     'string.base': 'food category should be a string',
     'string.empty': 'food category is required',
   }),
-  food_menu: Joi.array().items(Joi.object({
-    food_item: Joi.string().required(),
-    quantity: Joi.number().min(1).max(10).required(),
-  })),
+  foodMenu: Joi.array().items(
+    Joi.object({
+      food_item: Joi.string().hex().length(24).required(),
+      quantity: Joi.number().min(0).default(0),
+    })
+  ),
   Dine_price: Joi.number(),
   Takeaway_price: Joi.number(),
-  Delivery_price: Joi.array().items(Joi.object({
-    deliveryPartnerName: Joi.string().default(null),
-    price: Joi.number().min(0).default(0),
-  })),
+  Delivery_price: Joi.array().items(
+    Joi.object({
+      deliveryPartnerName: Joi.string().hex().length(24).default(null),
+      price: Joi.number().min(0).default(0),
+    })
+  ),
   description: Joi.string().max(200).trim().allow(null).messages({
       'string.base': 'Description should be a string',
       'string.max': 'Maximum 200 characters are permitted',
     }),
   isVeg: Joi.boolean(),
   isBeverage: Joi.boolean(),
-  outlet: Joi.string(),
+  outlet: Joi.array()
+    .items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/))
+    .required()
+    .description('An array of MongoDB ObjectIds referencing the "Outlet" model')
+    .label('Outlet ID')
+    .messages({
+      'any.required': 'Please enter an outlet',
+    }),
   del_status: Joi.boolean().default(true)
   });
   

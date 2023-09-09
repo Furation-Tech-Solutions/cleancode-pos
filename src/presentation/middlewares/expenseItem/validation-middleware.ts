@@ -17,11 +17,17 @@ const expenseItemSchema: Schema<ExpenseItemModel> = Joi.object({
   description: Joi.string().max(500).trim().allow(null).default(null).messages({
       'string.max': "Description can't exceed 500 characters",
     }),
-  staff_id: Joi.string().trim().required().messages({
-      'any.required': 'Staff ID is required',
+    staff_id: Joi.array()
+    .required()
+    .messages({
+      'array.base': 'Staff ID should be an array',
+      'any.required': 'Please enter Staff ID',
     }),
-  company_id: Joi.string().trim().required().messages({
-      'any.required': 'Company ID is required',
+    company_id: Joi.array()
+    .required()
+    .messages({
+      'array.base': 'Company ID should be an array',
+      'any.required': 'Please enter Company ID',
     }),
   del_status: Joi.boolean().default(true),
   });

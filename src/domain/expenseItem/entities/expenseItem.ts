@@ -3,8 +3,8 @@ export class ExpenseItemModel {
   constructor(
     public name: string = "",
     public description: string = "",
-    public staff_id: string = "",
-    public company_id: string = "",
+    public staff_id: string[] = [],
+    public company_id: string[] = [],
     public del_status: boolean
   ) { }
 }
@@ -15,8 +15,8 @@ export class ExpenseItemEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
     public description: string,
-    public staff_id: string,
-    public company_id: string,
+    public staff_id: string[],
+    public company_id: string[],
     public del_status: boolean
   ) { }
 }
