@@ -10,7 +10,7 @@ export class StaffModel {
     public active: boolean,
     public createdAt: Date,
     public password: string = "",
-    public sequerityQuestion: string = "",
+    public secuerityQuestion: string = "",
     public del_status: boolean
   ) { }
 }
@@ -28,7 +28,7 @@ export class StaffEntity {
     public active: boolean,
     public createdAt: Date,
     public password: string,
-    public sequerityQuestion: string,
+    public secuerityQuestion: string,
     public del_status: boolean
   ) { }
 }
@@ -70,10 +70,10 @@ export class staffMapper {
           staffData.password !== undefined
             ? staffData.password
             : existingStaff.password,
-        sequerityQuestion:
-          staffData.sequerityQuestion !== undefined
-            ? staffData.sequerityQuestion
-            : existingStaff.sequerityQuestion,
+        secuerityQuestion:
+          staffData.secuerityQuestion !== undefined
+            ? staffData.secuerityQuestion
+            : existingStaff.secuerityQuestion,
         del_status:
           staffData.del_status !== undefined
             ? staffData.del_status
@@ -92,7 +92,7 @@ export class staffMapper {
         active: staffData.active,
         createdAt: staffData.createdAt,
         password: staffData.password,
-        sequerityQuestion: staffData.sequerityQuestion,
+        secuerityQuestion: staffData.secuerityQuestion,
         del_status: staffData.del_status,
       };
       return staffEntity;
@@ -111,7 +111,7 @@ export class staffMapper {
       active: staff.active,
       createdAt: staff.createdAt,
       password: staff.password,
-      sequerityQuestion: staff.sequerityQuestion,
+      secuerityQuestion: staff.secuerityQuestion,
       del_status: staff.del_status,
     };
   }

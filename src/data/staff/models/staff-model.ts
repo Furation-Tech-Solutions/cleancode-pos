@@ -10,7 +10,7 @@ const staffSchema = new mongoose.Schema({
   active: { type: Boolean, default: true },
   createdAt: { type: Date, default: Date.now },
   password: { type: String, minLength: [6, "Password should have more than 6 character"], required: [true, "please enter password"], trim: true },
-  sequerityQuestion: { type: String },
+  secuerityQuestion: { type: String },
   del_status: { type: Boolean, default: true }
 });
 

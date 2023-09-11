@@ -40,7 +40,7 @@ const staffSchema: Schema<StaffModel> = Joi.object({
     'string.empty': 'Password cannot be empty',
     'any.required': 'Password is required',
   }),
-  sequerityQuestion: Joi.string().allow(null).default(null),
+  secuerityQuestion: Joi.string().allow(null).default(null),
   del_status: Joi.string().default(true),
 });
 
