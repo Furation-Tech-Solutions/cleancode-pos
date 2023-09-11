@@ -8,19 +8,11 @@ const inventorySchema = new mongoose.Schema({
     maxlength: [100, "inventoryName name should be under 100 Characters"],
     unique: true,
   },
-  address: {
+  location: {
     type: String,
     required: true,
     minlength: [5, "address should be atleast 5 Characters"],
     maxlength: [200, "address should be under 200 Characters"],
-  },
-  storingCapacity: {
-    type: String,
-    required: true,
-  },
-  gstNo: {
-    type: String,
-    maxlength: [15, "gstNo should be of 15 Characters"],
   },
   description: {
     type: String,

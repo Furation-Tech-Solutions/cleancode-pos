@@ -1,10 +1,17 @@
 const mongoose = require("mongoose");
 const requisitionItemSchema = new mongoose.Schema({
-  itemName: {
-    type: String,
+  requisitionid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Requisition",
     required: true,
-    maxlength: [100, "Item name should be under 100 characters"],
   },
+
+  itemid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Item",
+    required: true,
+  },
+
   quantity: {
     type: Number,
     required: true,

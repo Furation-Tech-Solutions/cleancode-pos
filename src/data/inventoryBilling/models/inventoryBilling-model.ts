@@ -36,7 +36,7 @@ const inventoryBillingSchema = new mongoose.Schema({
   billingStatus: {
     type: String,
     enum: Object.values(BillingStatusEnum),
-    default: "unpaid",
+    default: "Unpaid",
   },
   paymentDate: {
     type: Date,

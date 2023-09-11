@@ -7,6 +7,8 @@ export class PurchaseModel {
     public date: string = "" ,
     public purchaseItem: string = "",
     public totalAmount: number = 0,
+    public amountPaid: number = 0,
+    public amountDue: number = 0,
     public paymentMode: string = "",
     public paymentStatus: string = ""
   ) {}
@@ -22,6 +24,8 @@ export class PurchaseEntity {
     public date: string,
     public purchaseItem: string,
     public totalAmount: number,
+    public amountPaid: number,
+    public amountDue: number,
     public paymentMode: string,
     public paymentStatus: string
   ) {}
@@ -61,6 +65,14 @@ export class PurchaseMapper {
           purchaseData.totalAmount !== undefined
             ? purchaseData.totalAmount
             : existingPurchase.totalAmount,
+        amountPaid:
+          purchaseData.amountPaid !== undefined
+            ? purchaseData.amountPaid
+            : existingPurchase.amountPaid,
+        amountDue:
+          purchaseData.amountDue !== undefined
+            ? purchaseData.amountDue
+            : existingPurchase.amountDue,
         paymentMode:
           purchaseData.paymentMode !== undefined
             ? purchaseData.paymentMode
@@ -84,6 +96,8 @@ export class PurchaseMapper {
         date: purchaseData.date,
         purchaseItem: purchaseData.purchaseItem,
         totalAmount: purchaseData.totalAmount,
+        amountPaid: purchaseData.amountPaid,
+        amountDue: purchaseData.amountDue,
         paymentMode: purchaseData.paymentMode,
         paymentStatus: purchaseData.paymentStatus,
       };
@@ -99,6 +113,8 @@ export class PurchaseMapper {
       date: purchase.date,
       purchaseItem: purchase.purchaseItem,
       totalAmount: purchase.totalAmount,
+      amountPaid: purchase.amountPaid,
+      amountDue: purchase.amountDue,
       paymentMode: purchase.paymentMode,
       paymentStatus: purchase.paymentStatus,
     };

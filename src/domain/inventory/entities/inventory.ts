@@ -2,9 +2,7 @@
 export class InventoryModel {
   constructor(
     public inventoryName: string = "",
-    public address: string = "",
-    public storingCapacity: string = "",
-    public gstNo: string = "",
+    public location: string = "",
     public description: string = "",
     public companyId: string = ""
   ) {}
@@ -15,9 +13,7 @@ export class InventoryEntity {
   constructor(
     public id: string | undefined = undefined,
     public inventoryName: string,
-    public address: string,
-    public storingCapacity: string,
-    public gstNo: string,
+    public location: string,
     public description: string,
     public companyId: string
   ) {}
@@ -37,18 +33,10 @@ export class InventoryMapper {
           inventoryData.inventoryName !== undefined
             ? inventoryData.inventoryName
             : existingInventory.inventoryName,
-        address:
-          inventoryData.address !== undefined
-            ? inventoryData.address
-            : existingInventory.address,
-        storingCapacity:
-          inventoryData.storingCapacity !== undefined
-            ? inventoryData.storingCapacity
-            : existingInventory.storingCapacity,
-        gstNo:
-          inventoryData.gstNo !== undefined
-            ? inventoryData.gstNo
-            : existingInventory.gstNo,
+        location:
+          inventoryData.location !== undefined
+            ? inventoryData.location
+            : existingInventory.location,
         description:
           inventoryData.description !== undefined
             ? inventoryData.description
@@ -67,9 +55,7 @@ export class InventoryMapper {
             : undefined
           : undefined,
         inventoryName: inventoryData.inventoryName,
-        address: inventoryData.address,
-        storingCapacity: inventoryData.storingCapacity,
-        gstNo: inventoryData.gstNo,
+        location: inventoryData.location,
         description: inventoryData.description,
         companyId: inventoryData.companyId,
       };
@@ -81,9 +67,7 @@ export class InventoryMapper {
     return {
       id: inventory.id,
       inventoryName: inventory.inventoryName,
-      address: inventory.address,
-      storingCapacity: inventory.storingCapacity,
-      gstNo: inventory.gstNo,
+      location: inventory.location,
       description: inventory.description,
       companyId: inventory.companyId,
     };

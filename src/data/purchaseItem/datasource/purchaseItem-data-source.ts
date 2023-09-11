@@ -2,7 +2,7 @@ import {
     PurchaseItemEntity,
     PurchaseItemModel,
 } from "@domain/purchaseItem/entities/purchaseItem";
-import { PurchaseItem } from "@data/purchaseItem/models/purchase-models";
+import { PurchaseItem } from "@data/purchaseItem/models/purchaseItem-models";
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
 

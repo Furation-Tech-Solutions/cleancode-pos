@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
-const inventoryItemSchema = new mongoose.Schema({
-  companyId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
-    required: false,
-  },
+const inventoryStockSchema = new mongoose.Schema({
   inventoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Inventory",
@@ -25,15 +20,18 @@ const inventoryItemSchema = new mongoose.Schema({
         type: String,
         required: true,
       },
-      supplierId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Supplier",
+      alertQuantity: {
+        type: Number,
+        required: true,
+      },
+      minimumQuantity: {
+        type: Number,
         required: true,
       },
     },
   ],
 });
 
-export const InventoryItem = mongoose.model("InventoryItem", inventoryItemSchema);
+export const InventoryStock = mongoose.model("InventoryStock", inventoryStockSchema);
 
 

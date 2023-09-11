@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 
+const PaymentStatusEnum = {
+  UNPAID: "Unpaid",
+  PARTIALLYPAID: "PartiallyPaid",
+  PAID: "Paid",
+};
+
 const purchaseSchema = new mongoose.Schema({
-  inventoryItemId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "InventoryItem",
-    required: true,
-  },
   addedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
+    ref: "Staff",
     required: true,
   },
   supplierId: {
@@ -17,7 +18,7 @@ const purchaseSchema = new mongoose.Schema({
     required: true,
   },
   date: {
-    type: String, 
+    type: String,
     required: true,
   },
   purchaseItem: {
@@ -29,13 +30,22 @@ const purchaseSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  amountPaid: {
+    type: Number,
+    required: false,
+  },
+  amountDue: {
+    type: Number,
+    required: false,
+  },
   paymentMode: {
     type: String,
     required: true,
   },
   paymentStatus: {
     type: String,
-    required: true,
+    enum: Object.values(PaymentStatusEnum),
+    default: "Unpaid"
   },
 });
 
