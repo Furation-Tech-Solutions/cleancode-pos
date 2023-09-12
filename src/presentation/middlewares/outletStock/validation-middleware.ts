@@ -8,7 +8,7 @@ interface CustomRequest extends Request {
   }
 
 const outletStockSchema: Schema<OutletStockModel> = Joi.object({
-  outletCode: Joi.array()
+  outletCode_byId: Joi.array()
     .items(Joi.string().required())
     .required(),
   items: Joi.string().max(200).allow(null).trim().default(null),

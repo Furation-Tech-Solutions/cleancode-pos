@@ -16,9 +16,13 @@ const modifierSchema: Schema<ModifierModel> = Joi.object({
       'any.required': 'Name is required',
     }),
   salePrice: Joi.number().required(),
-  ingredientConsumption: Joi.array().items(Joi.string().required()).required().messages({
-      'array.base': 'ingredientConsumption should be an array',
-      'array.empty': 'ingredientConsumption is required',
+  ingredientConsumption: Joi.array()
+    .items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/))
+    .required()
+    .description('An array of MongoDB ObjectIds referencing the "Ingredient" model')
+    .label('Ingredient ID')
+    .messages({
+      'any.required': 'At least one Ingredient ID is required',
     }),
   description: Joi.string().min(5).max(50).trim().required().messages({
       'string.base': 'Description must be a string',

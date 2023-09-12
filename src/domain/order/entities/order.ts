@@ -9,8 +9,8 @@ export class OrderModel {
     public waiter: string = "",
     public orderTime: string = "",
     public orderType: string = "",
-    public orderTable: string = "",
-    public kot_print: string = "",
+    public orderTable: string[] = [],
+    public kot_print: string[] = [],
     public total_order_price:number = 0,
     public order_status: string = "",
     public del_status: boolean
@@ -27,8 +27,8 @@ export class OrderEntity {
     public waiter: string,
     public orderTime: string,
     public orderType: string,
-    public orderTable: string,
-    public kot_print: string,
+    public orderTable: string[],
+    public kot_print: string[],
     public total_order_price:number,
     public order_status: string,
     public del_status: boolean

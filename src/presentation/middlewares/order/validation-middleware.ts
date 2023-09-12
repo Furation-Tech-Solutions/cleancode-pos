@@ -22,10 +22,11 @@ const orderSchema: Schema<OrderModel> = Joi.object({
     }),
   orderTime: Joi.string(),
   orderType: Joi.string().default('dine_In').valid('dine_In', 'take_Away', 'delivery'),
-  orderTable: Joi.string().required().messages({
+  orderTable: Joi.array().required().messages({
+    'array.base': 'Order table should be an array',
     'any.required': 'Please enter orderTable',
   }),
-  kot_print: Joi.string(),
+  kot_print: Joi.array(),
   total_order_price: Joi.number(),
   order_status: Joi.string().default('active').valid('active', 'running', 'billing', 'settle'),
   del_status: Joi.string().default(true),

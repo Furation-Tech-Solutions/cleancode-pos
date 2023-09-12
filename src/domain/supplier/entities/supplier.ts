@@ -1,7 +1,7 @@
 // Express API request populate the supplier Model
 export class SupplierModel {
   constructor(
-    public companyId: string = "",
+    public companyId: string[] = [],
     public contact: number = 0,
     public address: string = "",
     public email: string = "",
@@ -13,7 +13,7 @@ export class SupplierModel {
 export class SupplierEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
-    public companyId: string,
+    public companyId: string[],
     public contact: number,
     public address: string,
     public email: string,

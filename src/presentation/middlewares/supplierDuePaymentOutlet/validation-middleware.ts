@@ -9,9 +9,12 @@ interface CustomRequest extends Request {
 
 const supplierDuePaymentOutletSchema: Schema<SupplierDuePaymentOutletModel> = Joi.object({
   date: Joi.string(),
-  supplier_id: Joi.string().required().messages({
-    'any.required': 'Please enter supplier_id',
-  }),
+  supplier_id: Joi.array()
+    .required()
+    .messages({
+      'array.base': 'Supplier ID should be an array',
+      'any.required': 'Please enter supplier ID',
+    }),
   amount: Joi.number(),
   note: Joi.string().min(3).max(200).required().trim().default(null).messages({
       'string.base': 'Note should be a string',
@@ -19,12 +22,18 @@ const supplierDuePaymentOutletSchema: Schema<SupplierDuePaymentOutletModel> = Jo
       'string.max': 'Maximum 200 characters are permitted for note',
       'any.required': 'Please enter note',
     }),
-  staff_id: Joi.string().required().messages({
-    'any.required': 'Please enter staff_id',
-  }),
-  outlet_id: Joi.string().required().messages({
-    'any.required': 'Please enter outlet_id',
-  }),
+  staff_id: Joi.array()
+    .required()
+    .messages({
+      'array.base': 'Staff ID should be an array',
+      'any.required': 'Please enter staff ID',
+    }),
+  outlet_id: Joi.array()
+    .required()
+    .messages({
+      'array.base': 'Outlet ID should be an array',
+      'any.required': 'Please enter outlet ID',
+    }),
   paymentMethod: Joi.string().required().messages({
     'any.required': 'Payment method is required',
   }),

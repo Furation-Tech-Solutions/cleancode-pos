@@ -1,16 +1,16 @@
 // Express API request populate the staff Model
 export class StaffModel {
   constructor(
+    public outletCode_byId: string[] = [],
     public username: string = "",
-    public email_address: string = "",
     public phone: number = 0,
-    public password: string = "",
+    public email_address: string = "",
     public jobTitle: string = "",
-    public superAdmin: boolean = false,
-    public admin: boolean = false,
-    public permissions: number[] = [],
-    public outlet_code: string = "",
+    public permissions: number,
+    public active: boolean,
     public createdAt: Date,
+    public password: string = "",
+    public secuerityQuestion: string = "",
     public del_status: boolean
   ) { }
 }
@@ -19,16 +19,16 @@ export class StaffModel {
 export class StaffEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
+    public outletCode_byId: string[],
     public username: string,
-    public email_address: string,
     public phone: number,
-    public password: string,
+    public email_address: string,
     public jobTitle: string,
-    public superAdmin: boolean,
-    public admin: boolean,
-    public permissions: number[],
-    public outlet_code: string,
+    public permissions: number,
+    public active: boolean,
     public createdAt: Date,
+    public password: string,
+    public secuerityQuestion: string,
     public del_status: boolean
   ) { }
 }
@@ -44,40 +44,36 @@ export class staffMapper {
       // If existingstaff is provided, merge the data from staffData with the existingstaff
       return {
         ...existingStaff,
+        outletCode_byId:
+          staffData.outletCode_byId !== undefined ? staffData.outletCode_byId : existingStaff.outletCode_byId,
         username:
           staffData.username !== undefined ? staffData.username : existingStaff.username,
-        email_address:
-          staffData.email_address !== undefined ? staffData.email_address : existingStaff.email_address,
         phone:
           staffData.phone !== undefined ? staffData.phone : existingStaff.phone,
-        password:
-          staffData.password !== undefined ? staffData.password : existingStaff.password,
+        email_address:
+          staffData.email_address !== undefined ? staffData.email_address : existingStaff.email_address,
         jobTitle:
           staffData.jobTitle !== undefined
             ? staffData.jobTitle
             : existingStaff.jobTitle,
-        superAdmin:
-          staffData.superAdmin !== undefined
-            ? staffData.superAdmin
-            : existingStaff.superAdmin,
-        admin:
-          staffData.admin !== undefined ? staffData.admin : existingStaff.admin,
         permissions:
           staffData.permissions !== undefined
             ? staffData.permissions
             : existingStaff.permissions,
-        // active:
-        //   staffData.active !== undefined
-        //     ? staffData.active
-        //     : existingStaff.active,
-        outlet_code:
-          staffData.outlet_code !== undefined
-            ? staffData.outlet_code
-            : existingStaff.outlet_code,
+        active:
+          staffData.active !== undefined ? staffData.admin : existingStaff.active,
         createdAt:
           staffData.createdAt !== undefined
             ? staffData.createdAt
             : existingStaff.createdAt,
+        password:
+          staffData.password !== undefined
+            ? staffData.password
+            : existingStaff.password,
+        secuerityQuestion:
+          staffData.secuerityQuestion !== undefined
+            ? staffData.secuerityQuestion
+            : existingStaff.secuerityQuestion,
         del_status:
           staffData.del_status !== undefined
             ? staffData.del_status
@@ -87,17 +83,16 @@ export class staffMapper {
       // If existingStaff is not provided, create a new staffEntity using staffData
       const staffEntity: StaffEntity = {
         id: includeId ? (staffData._id ? staffData._id.toString() : undefined) : undefined,
+        outletCode_byId: staffData.outletCode_byId,
         username: staffData.username,
-        email_address: staffData.email_address,
         phone: staffData.phone,
-        password: staffData.password,
+        email_address: staffData.email_address,
         jobTitle: staffData.jobTitle,
-        superAdmin: staffData.superAdmin,
-        admin: staffData.admin,
         permissions: staffData.permissions,
-        // active: staffData.active,
-        outlet_code: staffData.outlet_code,
+        active: staffData.active,
         createdAt: staffData.createdAt,
+        password: staffData.password,
+        secuerityQuestion: staffData.secuerityQuestion,
         del_status: staffData.del_status,
       };
       return staffEntity;
@@ -107,17 +102,16 @@ export class staffMapper {
   static toModel(staff: StaffEntity): any {
     return {
       id: staff.id,
+      outletCode_byId: staff.outletCode_byId,
       username: staff.username,
-      email_address: staff.email_address,
       phone: staff.phone,
-      password: staff.password,
+      email_address: staff.email_address,
       jobTitle: staff.jobTitle,
-      superStaff: staff.superAdmin,
-      admin: staff.admin,
       permissions: staff.permissions,
-      // active: staff.active,
-      outlet_code: staff.outlet_code,
+      active: staff.active,
       createdAt: staff.createdAt,
+      password: staff.password,
+      secuerityQuestion: staff.secuerityQuestion,
       del_status: staff.del_status,
     };
   }

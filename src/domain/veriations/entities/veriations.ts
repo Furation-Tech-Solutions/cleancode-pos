@@ -2,7 +2,7 @@
 export class VeriationsModel {
   constructor(
     public name: string = "",
-    public code: string = "",
+    public foodMenuCode_byId: string[] = [],
     public dineInPrice: number,
     public takeAwayPrice: number,
     public deliveryPrice: string[] = [],
@@ -16,7 +16,7 @@ export class VeriationsEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
-    public code: string,
+    public foodMenuCode_byId: string[],
     public dineInPrice: number,
     public takeAwayPrice: number,
     public deliveryPrice: string[],
@@ -38,8 +38,8 @@ export class VeriationsMapper {
         ...existingVeriations,
         name:
           veriationsData.name !== undefined ? veriationsData.name : existingVeriations.name,
-        code:
-          veriationsData.code !== undefined ? veriationsData.code : existingVeriations.code,
+        foodMenuCode_byId:
+          veriationsData.foodMenuCode_byId !== undefined ? veriationsData.foodMenuCode_byId : existingVeriations.foodMenuCode_byId,
         dineInPrice:
           veriationsData.dineInPrice !== undefined ? veriationsData.dineInPrice : existingVeriations.dineInPrice,
         takeAwayPrice:
@@ -56,7 +56,7 @@ export class VeriationsMapper {
       const VeriationsEntity: VeriationsEntity = {
         id: includeId ? (veriationsData._id ? veriationsData._id.toString() : undefined) : undefined,
         name: veriationsData.name,
-        code: veriationsData.code,
+        foodMenuCode_byId: veriationsData.foodMenuCode_byId,
         dineInPrice: veriationsData.dineInPrice,
         takeAwayPrice: veriationsData.takeAwayPrice,
         deliveryPrice: veriationsData.deliveryPrice,
@@ -71,7 +71,7 @@ export class VeriationsMapper {
     return {
       id: veriations.id,
       name: veriations.name,
-      code: veriations.code,
+      foodMenuCode_byId: veriations.foodMenuCode_byId,
       dineInPrice: veriations.dineInPrice,
       takeAwayPrice: veriations.takeAwayPrice,
       deliveryPrice: veriations.deliveryPrice,
