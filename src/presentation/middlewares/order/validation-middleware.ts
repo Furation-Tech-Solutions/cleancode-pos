@@ -9,7 +9,7 @@ interface CustomRequest extends Request {
 
 const orderSchema: Schema<OrderModel> = Joi.object({
   orderNumber: Joi.number().max(999),
-  date: Joi.string(),
+  date: Joi.date().default(new Date()),
   persons: Joi.string().max(50).min(3).trim().default(null).required().messages({
       'string.max': 'Maximum 50 characters are permitted for persons',
       'string.min': 'Persons should have more than 3 characters',
@@ -20,7 +20,7 @@ const orderSchema: Schema<OrderModel> = Joi.object({
       'string.min': 'Waiter should have more than 3 characters',
       'any.required': 'Please enter waiter',
     }),
-  orderTime: Joi.string(),
+  orderTime: Joi.date().default(new Date()),
   orderType: Joi.string().default('dine_In').valid('dine_In', 'take_Away', 'delivery'),
   orderTable: Joi.array().required().messages({
     'array.base': 'Order table should be an array',

@@ -1,6 +1,6 @@
 export class OutletModel {
   constructor(
-      public company_id:string = "",
+      public company_id:string[] = [],
       public outlet_code:string = "",
       public address:string = "",
       public ownerName:string = "",
@@ -18,7 +18,7 @@ export class OutletModel {
 export class OutletEntity{
   constructor(
       public id: string | undefined = undefined, // Set as a default value for id
-      public company_id:string,
+      public company_id:string[],
       public outlet_code:string,
       public address:string,
       public ownerName:string,
@@ -68,7 +68,11 @@ export class OutletMapper {
       }else {
            // If existingAdmin is not provided, create a new AdminEntity using adminData
            const outletEntity:OutletEntity = {
-              id: includeId ? (outletData._id ? outletData._id.toString() : undefined) : undefined,
+              id: includeId 
+                ? outletData._id 
+                    ? outletData._id.toString() 
+                    : undefined 
+                : outletData._id.toString(),
               company_id: outletData.company_id,
               outlet_code: outletData.outlet_code,
               address: outletData.address,
