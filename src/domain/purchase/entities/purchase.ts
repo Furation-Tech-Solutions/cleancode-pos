@@ -1,33 +1,29 @@
 // Express API request DTO
 export class PurchaseModel {
   constructor(
-    public inventoryItemId: string = "",
-    public addedBy: string = "",
+    public inventoryId: string = "",
     public supplierId: string = "",
-    public date: string = "" ,
-    public purchaseItem: string = "",
-    public totalAmount: number = 0,
-    public amountPaid: number = 0,
-    public amountDue: number = 0,
     public paymentMode: string = "",
-    public paymentStatus: string = ""
+    public grandTotal: number = 0,
+    public amountDue: number = 0,
+    public amountPaid: number = 0,
+    public invoiceNumber: string = "",
+    public date: string = ""
   ) {}
 }
 
-// Inventory Entity provided by Inventory Repository is converted to Express API Response
+// Purchase Entity provided by Purchase Repository is converted to Express API Response
 export class PurchaseEntity {
   constructor(
     public id: string | undefined = undefined,
-    public inventoryItemId: string,
-    public addedBy: string,
+    public inventoryId: string,
     public supplierId: string,
-    public date: string,
-    public purchaseItem: string,
-    public totalAmount: number,
-    public amountPaid: number,
-    public amountDue: number,
     public paymentMode: string,
-    public paymentStatus: string
+    public grandTotal: number,
+    public amountDue: number,
+    public amountPaid: number,
+    public invoiceNumber: string,
+    public date: string
   ) {}
 }
 
@@ -41,46 +37,38 @@ export class PurchaseMapper {
       // If existingPurchase is provided, merge the data from purchaseData with the existingPurchase
       return {
         ...existingPurchase,
-        inventoryItemId:
-          purchaseData.inventoryItemId !== undefined
-            ? purchaseData.inventoryItemId
-            : existingPurchase.inventoryItemId,
-        addedBy:
-          purchaseData.addedBy !== undefined
-            ? purchaseData.addedBy
-            : existingPurchase.addedBy,
+        inventoryId:
+          purchaseData.inventoryId !== undefined
+            ? purchaseData.inventoryId
+            : existingPurchase.inventoryId,
         supplierId:
           purchaseData.supplierId !== undefined
             ? purchaseData.supplierId
             : existingPurchase.supplierId,
-        date:
-          purchaseData.date !== undefined
-            ? purchaseData.date
-            : existingPurchase.date,
-        purchaseItem:
-          purchaseData.purchaseItem !== undefined
-            ? purchaseData.purchaseItem
-            : existingPurchase.purchaseItem,
-        totalAmount:
-          purchaseData.totalAmount !== undefined
-            ? purchaseData.totalAmount
-            : existingPurchase.totalAmount,
-        amountPaid:
-          purchaseData.amountPaid !== undefined
-            ? purchaseData.amountPaid
-            : existingPurchase.amountPaid,
-        amountDue:
-          purchaseData.amountDue !== undefined
-            ? purchaseData.amountDue
-            : existingPurchase.amountDue,
         paymentMode:
           purchaseData.paymentMode !== undefined
             ? purchaseData.paymentMode
             : existingPurchase.paymentMode,
-        paymentStatus:
-          purchaseData.paymentStatus !== undefined
-            ? purchaseData.paymentStatus
-            : existingPurchase.paymentStatus,
+        grandTotal:
+          purchaseData.grandTotal !== undefined
+            ? purchaseData.grandTotal
+            : existingPurchase.grandTotal,
+        amountDue:
+          purchaseData.amountDue !== undefined
+            ? purchaseData.amountDue
+            : existingPurchase.amountDue,
+        amountPaid:
+          purchaseData.amountPaid !== undefined
+            ? purchaseData.amountPaid
+            : existingPurchase.amountPaid,
+        invoiceNumber:
+          purchaseData.invoiceNumber !== undefined
+            ? purchaseData.invoiceNumber
+            : existingPurchase.invoiceNumber,
+        date:
+          purchaseData.date !== undefined
+            ? purchaseData.date
+            : existingPurchase.date,
       };
     } else {
       // If existingPurchase is not provided, create a new PurchaseEntity using purchaseData
@@ -90,16 +78,14 @@ export class PurchaseMapper {
             ? purchaseData._id.toString()
             : undefined
           : undefined,
-        inventoryItemId: purchaseData.inventoryItemId,
-        addedBy: purchaseData.addedBy,
+        inventoryId: purchaseData.inventoryId,
         supplierId: purchaseData.supplierId,
-        date: purchaseData.date,
-        purchaseItem: purchaseData.purchaseItem,
-        totalAmount: purchaseData.totalAmount,
-        amountPaid: purchaseData.amountPaid,
-        amountDue: purchaseData.amountDue,
         paymentMode: purchaseData.paymentMode,
-        paymentStatus: purchaseData.paymentStatus,
+        grandTotal: purchaseData.grandTotal,
+        amountDue: purchaseData.amountDue,
+        amountPaid: purchaseData.amountPaid,
+        invoiceNumber: purchaseData.invoiceNumber,
+        date: purchaseData.date,
       };
       return purchaseEntity;
     }
@@ -107,16 +93,14 @@ export class PurchaseMapper {
 
   static toModel(purchase: PurchaseEntity): PurchaseModel {
     return {
-      inventoryItemId: purchase.inventoryItemId,
-      addedBy: purchase.addedBy,
+      inventoryId: purchase.inventoryId,
       supplierId: purchase.supplierId,
-      date: purchase.date,
-      purchaseItem: purchase.purchaseItem,
-      totalAmount: purchase.totalAmount,
-      amountPaid: purchase.amountPaid,
-      amountDue: purchase.amountDue,
       paymentMode: purchase.paymentMode,
-      paymentStatus: purchase.paymentStatus,
+      grandTotal: purchase.grandTotal,
+      amountDue: purchase.amountDue,
+      amountPaid: purchase.amountPaid,
+      invoiceNumber: purchase.invoiceNumber,
+      date: purchase.date,
     };
   }
 }

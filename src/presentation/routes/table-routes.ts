@@ -9,22 +9,8 @@ import { DeleteTable } from "@domain/table/usecases/delete-table";
 import { GetTableById } from "@domain/table/usecases/get-table-by-id";
 import { GetAllTables } from "@domain/table/usecases/get-all-tables";
 import { UpdateTable } from "@domain/table/usecases/update-table";
-
-// const dbURL =
-//   "mongodb+srv://satansharma:satansharma@cluster0.ncc9mtu.mongodb.net/iRestoNews?retryWrites=true&w=majority"; // Replace with your actual MongoDB connection URL
-
-// // Set up the required options for the connection
-// const dbOptions = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   dbName: "iRestoNews", // Replace with the name of your database
-//   // Other options like user and password can also be added if necessary
-// };
-
-// // Create the mongoose connection
-// mongoose.connect(dbURL, dbOptions).then(() => {
-//   console.log("Connected to MongoDB(Table) successfully!");
-// });
+// import { TableModel } from "@domain/table/entities/table";
+import validateTableMiddleware from "@presentation/middlewares/table/validation-middleware";
 
 // Create an instance of the TableDataSourceImpl and pass the mongoose connection
 const tableDataSource = new TableDataSourceImpl(mongoose.connection);
@@ -52,7 +38,9 @@ const tableService = new TableService(
 export const tableRouter = Router();
 
 // Route handling for creating a new table
-tableRouter.post("/new", tableService.createTable.bind(tableService));
+// tableRouter.post("/new", tableService.createTable.bind(tableService));
+tableRouter.post("/new", validateTableMiddleware, tableService.createTable.bind(tableService));
+
 
 // Route handling for getting an table by ID
 tableRouter.get("/show/:tableId", tableService.getTableById.bind(tableService));

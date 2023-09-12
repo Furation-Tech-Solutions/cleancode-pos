@@ -1,18 +1,14 @@
 // Express API request DTO
 export class PurchaseItemModel {
   constructor(
-    public companyId: string | null = null,
-    public inventoryId: string = "",
-    public items: PurchaseItemModelItem[] = []
-  ) {}
-}
-
-export class PurchaseItemModelItem {
-  constructor(
-    public itemName: string = "",
-    public totalQuantity: number = 0,
+    public purchaseid: string = "",
+    public itemid: string = "",
+    public quantity: number = 0,
     public unitOfMeasurement: string = "",
-    public supplierId: string = ""
+    public price: number = 0,
+    public date: string = "",
+    public modifiedAt: Date = new Date(),
+    public modifiedBy: string = ""
   ) {}
 }
 
@@ -20,18 +16,14 @@ export class PurchaseItemModelItem {
 export class PurchaseItemEntity {
   constructor(
     public id: string | undefined = undefined,
-    public companyId: string | null = null,
-    public inventoryId: string,
-    public items: PurchaseItemEntityItem[]
-  ) {}
-}
-
-export class PurchaseItemEntityItem {
-  constructor(
-    public itemName: string,
-    public totalQuantity: number,
+    public purchaseid: string,
+    public itemid: string,
+    public quantity: number,
     public unitOfMeasurement: string,
-    public supplierId: string
+    public price: number,
+    public date: string,
+    public modifiedAt: Date,
+    public modifiedBy: string
   ) {}
 }
 
@@ -45,18 +37,38 @@ export class PurchaseItemMapper {
       // If existingPurchaseItem is provided, merge the data from purchaseItemData with the existingPurchaseItem
       return {
         ...existingPurchaseItem,
-        companyId:
-          purchaseItemData.companyId !== undefined
-            ? purchaseItemData.companyId
-            : existingPurchaseItem.companyId,
-        inventoryId:
-          purchaseItemData.inventoryId !== undefined
-            ? purchaseItemData.inventoryId
-            : existingPurchaseItem.inventoryId,
-        items:
-          purchaseItemData.items !== undefined
-            ? purchaseItemData.items
-            : existingPurchaseItem.items,
+        purchaseid:
+          purchaseItemData.purchaseid !== undefined
+            ? purchaseItemData.purchaseid
+            : existingPurchaseItem.purchaseid,
+        itemid:
+          purchaseItemData.itemid !== undefined
+            ? purchaseItemData.itemid
+            : existingPurchaseItem.itemid,
+        quantity:
+          purchaseItemData.quantity !== undefined
+            ? purchaseItemData.quantity
+            : existingPurchaseItem.quantity,
+        unitOfMeasurement:
+          purchaseItemData.unitOfMeasurement !== undefined
+            ? purchaseItemData.unitOfMeasurement
+            : existingPurchaseItem.unitOfMeasurement,
+        price:
+          purchaseItemData.price !== undefined
+            ? purchaseItemData.price
+            : existingPurchaseItem.price,
+        date:
+          purchaseItemData.date !== undefined
+            ? purchaseItemData.date
+            : existingPurchaseItem.date,
+        modifiedAt:
+          purchaseItemData.modifiedAt !== undefined
+            ? purchaseItemData.modifiedAt
+            : existingPurchaseItem.modifiedAt,
+        modifiedBy:
+          purchaseItemData.modifiedBy !== undefined
+            ? purchaseItemData.modifiedBy
+            : existingPurchaseItem.modifiedBy,
       };
     } else {
       // If existingPurchaseItem is not provided, create a new PurchaseItemEntity using purchaseItemData
@@ -66,9 +78,14 @@ export class PurchaseItemMapper {
             ? purchaseItemData._id.toString()
             : undefined
           : undefined,
-        companyId: purchaseItemData.companyId,
-        inventoryId: purchaseItemData.inventoryId,
-        items: purchaseItemData.items,
+        purchaseid: purchaseItemData.purchaseid,
+        itemid: purchaseItemData.itemid,
+        quantity: purchaseItemData.quantity,
+        unitOfMeasurement: purchaseItemData.unitOfMeasurement,
+        price: purchaseItemData.price,
+        date: purchaseItemData.date,
+        modifiedAt: purchaseItemData.modifiedAt,
+        modifiedBy: purchaseItemData.modifiedBy,
       };
       return purchaseItemEntity;
     }
@@ -77,9 +94,14 @@ export class PurchaseItemMapper {
   static toModel(purchaseItem: PurchaseItemEntity): any {
     return {
       id: purchaseItem.id,
-      companyId: purchaseItem.companyId,
-      inventoryId: purchaseItem.inventoryId,
-      items: purchaseItem.items,
+      purchaseid: purchaseItem.purchaseid,
+      itemid: purchaseItem.itemid,
+      quantity: purchaseItem.quantity,
+      unitOfMeasurement: purchaseItem.unitOfMeasurement,
+      price: purchaseItem.price,
+      date: purchaseItem.date,
+      modifiedAt: purchaseItem.modifiedAt,
+      modifiedBy: purchaseItem.modifiedBy,
     };
   }
 }

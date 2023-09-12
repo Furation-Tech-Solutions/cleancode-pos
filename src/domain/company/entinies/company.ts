@@ -1,4 +1,5 @@
 // Express API request populate the Company Model
+import { Date } from "mongoose";
 export class CompanyModel {
   constructor(
     public name: string = "",
@@ -8,7 +9,8 @@ export class CompanyModel {
     public companyLogo: string | null = null,
     public ownerName: string = "",
     public brand: string = "",
-    // public active: boolean = true
+    public active: boolean,
+    public createdAt: Date
   ) {}
 }
 
@@ -24,7 +26,7 @@ export class CompanyEntity {
     public ownerName: string = "",
     public brand: string,
     public active: boolean,
-    public createdAt: string
+    public createdAt: Date
   ) {}
 }
 

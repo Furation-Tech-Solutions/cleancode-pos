@@ -9,6 +9,7 @@ import { DeleteIngredientUnit } from "@domain/ingredientUnit/usecases/delete-ing
 import { GetIngredientUnitById } from "@domain/ingredientUnit/usecases/get-ingredientUnit-by-id";
 import { GetAllIngredientUnits } from "@domain/ingredientUnit/usecases/get-all-ingredientUnits";
 import { UpdateIngredientUnit } from "@domain/ingredientUnit/usecases/update-ingredientUnit";
+import validateIngredientUnitMiddleware from "@presentation/middlewares/ingredientUnit/validation-middleware";
 
 // Create an instance of the IngredientUnitDataSourceImpl and pass the mongoose connection
 const ingredientUnitDataSource = new IngredientUnitDataSourceImpl(mongoose.connection);
@@ -36,7 +37,7 @@ const ingredientUnitService = new IngredientUnitService(
 export const ingredientUnitRouter = Router();
 
 // Route handling for creating a new ingredientUnit
-ingredientUnitRouter.post("/new", ingredientUnitService.createIngredientUnit.bind(ingredientUnitService));
+ingredientUnitRouter.post("/new", validateIngredientUnitMiddleware, ingredientUnitService.createIngredientUnit.bind(ingredientUnitService));
 
 // Route handling for getting an ingredientUnit by ID
 ingredientUnitRouter.get("/show/:ingredientUnitId", ingredientUnitService.getIngredientUnitById.bind(ingredientUnitService));

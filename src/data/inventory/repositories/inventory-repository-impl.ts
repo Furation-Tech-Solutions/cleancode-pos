@@ -21,6 +21,8 @@ export class InventoryRepositoryImpl implements InventoryRepository {
       const i = await this.dataSource.create(inventory);
       return Right<ErrorClass, InventoryEntity>(i);
     } catch (error) {
+      console.log(error);
+      
       if (error instanceof ApiError && error.status === 409) {
         return Left<ErrorClass, InventoryEntity>(
           ApiError.inventory_nameExists()

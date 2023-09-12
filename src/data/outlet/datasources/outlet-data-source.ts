@@ -7,23 +7,23 @@ export interface OutletDataSource {
   update(id: string, outlet: OutletModel): Promise<any>; // Return type should be Promise of OutletEntity
   delete(id: string): Promise<void>;
   read(id: string): Promise<any | null>; // Return type should be Promise of OutletEntity or null
-  getAlloutlets(): Promise<any[]>; // Return type should be Promise of an array of OutletEntity
+  getAllOutlets(): Promise<any[]>; // Return type should be Promise of an array of OutletEntity
 }
 
 export class OutletDataSourceImpl implements OutletDataSource {
-  constructor(private db: mongoose.Connection) {}
+  constructor(private db: mongoose.Connection) { }
 
   async create(outlet: OutletModel): Promise<any> {
-    const existingOutlet = await Outlet.findOne({gstNo: outlet.gstNo});
+    const existingOutlet = await Outlet.findOne({ gstNo: outlet.gstNo });
     if (existingOutlet) {
-    //   throw ApiError.gstExists()
+      throw ApiError.emailExits()
     }
 
     const outletData = new Outlet(outlet);
 
-    const createOutlet = await outletData.save();
-    
-    return createOutlet.toObject();
+    const createdOutlet = await outletData.save();
+
+    return createdOutlet.toObject();
   }
 
   async update(id: string, outlet: OutletModel): Promise<any> {
@@ -42,8 +42,9 @@ export class OutletDataSourceImpl implements OutletDataSource {
     return outlet ? outlet.toObject() : null; // Convert to plain JavaScript object before returning
   }
 
-  async getAlloutlets(): Promise<any[]> {
+  async getAllOutlets(): Promise<any[]> {
     const outlets = await Outlet.find();
     return outlets.map((outlet) => outlet.toObject()); // Convert to plain JavaScript objects before returning
   }
 }
+

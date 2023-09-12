@@ -53,7 +53,7 @@ export class InventoryMapper {
           ? inventoryData._id
             ? inventoryData._id.toString()
             : undefined
-          : undefined,
+          : inventoryData._id.toString(),
         inventoryName: inventoryData.inventoryName,
         location: inventoryData.location,
         description: inventoryData.description,
@@ -65,7 +65,6 @@ export class InventoryMapper {
 
   static toModel(inventory: InventoryEntity): any {
     return {
-      id: inventory.id,
       inventoryName: inventory.inventoryName,
       location: inventory.location,
       description: inventory.description,

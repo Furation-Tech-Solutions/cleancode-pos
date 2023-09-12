@@ -21,6 +21,8 @@ export class PurchaseItemRepositoryImpl implements PurchaseItemRepository {
             const i = await this.dataSource.create(purchaseItem);
             return Right<ErrorClass, PurchaseItemEntity>(i);
         } catch (error) {
+            
+            
             if (error instanceof ApiError && error.status === 401) {
                 return Left<ErrorClass, PurchaseItemEntity>(ApiError.unAuthorized());
             }

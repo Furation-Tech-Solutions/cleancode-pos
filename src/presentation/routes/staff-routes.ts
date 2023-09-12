@@ -9,6 +9,7 @@ import { DeleteStaff } from "@domain/staff/usecases/delete-staff";
 import { GetStaffById } from "@domain/staff/usecases/get-staff-by-id";
 import { GetAllStaffs } from "@domain/staff/usecases/get-all-staff";
 import { UpdateStaff } from "@domain/staff/usecases/update-staff";
+import validateStaffMiddleware from "@presentation/middlewares/staff/validation-middleware";
 
 // Create an instance of the staffDataSourceImpl and pass the mongoose connection
 const staffDataSource = new StaffDataSourceImpl(mongoose.connection);
@@ -36,16 +37,16 @@ const staffService = new StaffService(
 export const staffRouter = Router();
 
 // Route handling for creating a new staff
-staffRouter.post("/add", staffService.createStaff.bind(staffService));
+staffRouter.post("/new", validateStaffMiddleware, staffService.createStaff.bind(staffService));
 
 // Route handling for getting an staff by ID
-staffRouter.get("/:staffId", staffService.getStaffById.bind(staffService));
+staffRouter.get("/show/:staffId", staffService.getStaffById.bind(staffService));
 
 // Route handling for updating an staff by ID
-staffRouter.put("/:staffId", staffService.updateStaff.bind(staffService));
+staffRouter.put("/update/:staffId", staffService.updateStaff.bind(staffService));
 
 // Route handling for deleting an staff by ID
-staffRouter.delete("/:staffId", staffService.deleteStaff.bind(staffService));
+staffRouter.delete("/delete/:staffId", staffService.deleteStaff.bind(staffService));
 
 // Route handling for getting all staffs
-staffRouter.get("/", staffService.getAllStaffs.bind(staffService));
+staffRouter.get("/list", staffService.getAllStaffs.bind(staffService));

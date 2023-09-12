@@ -6,7 +6,8 @@ export class KitchenModel {
         public kitchen_code:string = "",
         public kitchen_area:string = "",
         public kitchen_name:string = "",
-        public del_status:string = ""
+        public createdAt:Date,
+        public del_status: boolean
     ) {}
 }
 
@@ -18,8 +19,8 @@ export class KitchenEntity{
         public kitchen_code:string,
         public kitchen_area:string,
         public kitchen_name:string,
-        
-        public del_status:string
+        public createdAt:Date,
+        public del_status: boolean
     ) {}
 }
 
@@ -35,15 +36,17 @@ export class KitchenMapper {
         return{
             ...existingKitchen,
             outlet_code:
-            kitchenData.outlet_code !==undefined ? kitchenData.outlet_code : existingKitchen.outlet_code,
+                kitchenData.outlet_code !==undefined ? kitchenData.outlet_code : existingKitchen.outlet_code,
             kitchen_code:
-            kitchenData.kitchen_code !==undefined ? kitchenData.kitchen_code : existingKitchen.kitchen_code,
+                kitchenData.kitchen_code !==undefined ? kitchenData.kitchen_code : existingKitchen.kitchen_code,
             kitchen_area:
-            kitchenData.kitchen_area !==undefined ? kitchenData.kitchen_area : existingKitchen.kitchen_area,
+                kitchenData.kitchen_area !==undefined ? kitchenData.kitchen_area : existingKitchen.kitchen_area,
             kitchen_name:
-            kitchenData.kitchen_name !==undefined ? kitchenData.kitchen_name : existingKitchen.kitchen_name,
+                kitchenData.kitchen_name !==undefined ? kitchenData.kitchen_name : existingKitchen.kitchen_name,
+            createdAt:
+                kitchenData.createdAt !==undefined ? kitchenData.createdAt : existingKitchen.createdAt,
             del_status:
-            kitchenData.del_status !==undefined ? kitchenData.del_status : existingKitchen.del_status,
+                kitchenData.del_status !==undefined ? kitchenData.del_status : existingKitchen.del_status,
         };
         }else {
              // If existingKitchen is not provided, create a new KitchenEntity using kitchenData
@@ -54,6 +57,7 @@ export class KitchenMapper {
                 kitchen_code: kitchenData.kitchen_code,
                 kitchen_area: kitchenData.kitchen_area,
                 kitchen_name: kitchenData.kitchen_name,
+                createdAt: kitchenData.createdAt,
                 del_status: kitchenData.del_status,
              };
              return kitchenEntity;
@@ -68,6 +72,7 @@ export class KitchenMapper {
                 kitchen_code: kitchen.kitchen_code,
                 kitchen_area: kitchen.kitchen_area,
                 kitchen_name: kitchen.kitchen_name,
+                createdAt: kitchen.createdAt,
                 del_status: kitchen.del_status, 
             };
         }

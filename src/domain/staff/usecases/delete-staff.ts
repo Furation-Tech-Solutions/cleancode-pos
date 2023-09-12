@@ -1,7 +1,9 @@
 import {type StaffRepository } from "@domain/staff/repositories/staff-repository"; 
+import { Either } from "monet";
+import  ErrorClass  from "@presentation/error-handling/api-error";
 
 export interface DeleteStaffUsecase {
-  execute: (staffId: string) => Promise<void>
+  execute: (staffId: string) => Promise<Either<ErrorClass, void>>
 }
 
 export class DeleteStaff implements DeleteStaffUsecase {
@@ -11,7 +13,7 @@ export class DeleteStaff implements DeleteStaffUsecase {
     this.staffRepository = staffRepository;
   }
 
-  async execute(staffId: string): Promise<void> {
-    await this.staffRepository.deleteStaff(staffId);
+  async execute(staffId: string): Promise<Either<ErrorClass, void>> {
+    return await this.staffRepository.deleteStaff(staffId);
   }
 }

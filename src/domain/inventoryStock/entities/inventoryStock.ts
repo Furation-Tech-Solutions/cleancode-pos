@@ -61,7 +61,7 @@ export class InventoryStockMapper {
           ? inventoryStockData._id
             ? inventoryStockData._id.toString()
             : undefined
-          : undefined,
+          : inventoryStockData._id.toString(),
         inventoryId: inventoryStockData.inventoryId,
         items: inventoryStockData.items,
       };
@@ -71,7 +71,6 @@ export class InventoryStockMapper {
 
   static toModel(inventoryStock: InventoryStockEntity): any {
     return {
-      id: inventoryStock.id,
       inventoryId: inventoryStock.inventoryId,
       items: inventoryStock.items,
     };

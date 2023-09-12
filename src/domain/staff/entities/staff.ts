@@ -9,8 +9,9 @@ export class StaffModel {
     public superAdmin: boolean = false,
     public admin: boolean = false,
     public permissions: number[] = [],
-    public active: boolean = false,
-    public outlet_code: string = ""
+    public outlet_code: string = "",
+    public createdAt: Date,
+    public del_status: boolean
   ) { }
 }
 
@@ -18,16 +19,17 @@ export class StaffModel {
 export class StaffEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
-    public username: string = "",
-    public email_address: string = "",
-    public phone: number = 0,
-    public password: string = "",
-    public jobTitle: string = "",
-    public superAdmin: boolean = false,
-    public admin: boolean = false,
-    public permissions: number[] = [],
-    public active: boolean = false,
-    public outlet_code: string = ""
+    public username: string,
+    public email_address: string,
+    public phone: number,
+    public password: string,
+    public jobTitle: string,
+    public superAdmin: boolean,
+    public admin: boolean,
+    public permissions: number[],
+    public outlet_code: string,
+    public createdAt: Date,
+    public del_status: boolean
   ) { }
 }
 
@@ -64,14 +66,22 @@ export class staffMapper {
           staffData.permissions !== undefined
             ? staffData.permissions
             : existingStaff.permissions,
-        active:
-          staffData.active !== undefined
-            ? staffData.active
-            : existingStaff.active,
+        // active:
+        //   staffData.active !== undefined
+        //     ? staffData.active
+        //     : existingStaff.active,
         outlet_code:
           staffData.outlet_code !== undefined
             ? staffData.outlet_code
             : existingStaff.outlet_code,
+        createdAt:
+          staffData.createdAt !== undefined
+            ? staffData.createdAt
+            : existingStaff.createdAt,
+        del_status:
+          staffData.del_status !== undefined
+            ? staffData.del_status
+            : existingStaff.del_status
       };
     } else {
       // If existingStaff is not provided, create a new staffEntity using staffData
@@ -85,8 +95,10 @@ export class staffMapper {
         superAdmin: staffData.superAdmin,
         admin: staffData.admin,
         permissions: staffData.permissions,
-        active: staffData.active,
+        // active: staffData.active,
         outlet_code: staffData.outlet_code,
+        createdAt: staffData.createdAt,
+        del_status: staffData.del_status,
       };
       return staffEntity;
     }
@@ -103,8 +115,10 @@ export class staffMapper {
       superStaff: staff.superAdmin,
       admin: staff.admin,
       permissions: staff.permissions,
-      active: staff.active,
+      // active: staff.active,
       outlet_code: staff.outlet_code,
+      createdAt: staff.createdAt,
+      del_status: staff.del_status,
     };
   }
 }

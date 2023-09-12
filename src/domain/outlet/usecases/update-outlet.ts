@@ -1,11 +1,12 @@
-import { OutletEntity, OutletModel } from "@domain/outlet/entities/outlet";
-import { OutletRepository } from "@domain/outlet/repositories/outlet-repository";
-
+import { OutletModel, OutletEntity } from "@domain/outlet/entities/outlet";
+import { OutletRepository } from "@domain/outlet/repositories/outlet-repository"; 
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 export interface UpdateOutletUsecase {
   execute: (
     outletId: string,
-    outletData: Partial<OutletModel>
-  ) => Promise<OutletEntity>;
+    outletData: OutletModel
+  ) => Promise<Either<ErrorClass, OutletEntity>>;
 }
 
 export class UpdateOutlet implements UpdateOutletUsecase {
@@ -14,39 +15,7 @@ export class UpdateOutlet implements UpdateOutletUsecase {
   constructor(outletRepository: OutletRepository) {
     this.outletRepository = outletRepository;
   }
-
-  // async execute(outletId: string, outletData: OutletModel): Promise<OutletEntity> {
-  //   return await this.outletRepository.updateOutlet(outletId, outletData);
-  // }
-  // UpdateOutletUsecase
-  async execute(
-    outletId: string,
-    outletData: Partial<OutletModel>
-  ): Promise<OutletEntity> {
-    const existingOutlet: OutletEntity | null =
-      await this.outletRepository.getOutletById(outletId);
-
-    if (!existingOutlet) {
-      throw new Error("Outlet not found.");
-    }
-
-    // Perform the partial update by merging outletData with existingOutlet
-    const updatedOutletData: OutletModel = {
-      ...existingOutlet,
-      ...outletData,
-    };
-
-    // Save the updatedOutletData to the repository
-    await this.outletRepository.updateOutlet(outletId, updatedOutletData);
-
-    // Fetch the updated admin entity from the repository
-    const updatedOutletEntity: OutletEntity | null =
-      await this.outletRepository.getOutletById(outletId);
-
-    if (!updatedOutletEntity) {
-      throw new Error("Outlet not found after update.");
-    }
-
-    return updatedOutletEntity;
-  }
+  async execute(outletId: string, outletData: OutletModel): Promise<Either<ErrorClass, OutletEntity>> {
+   return await this.outletRepository.updateOutlet(outletId, outletData);
+ }
 }

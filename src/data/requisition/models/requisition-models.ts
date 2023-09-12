@@ -36,6 +36,7 @@ const requisitionSchema = new mongoose.Schema({
   requestDate: {
     type: Date,
     default: Date.now,
+    required: true,
   },
 
   status: {

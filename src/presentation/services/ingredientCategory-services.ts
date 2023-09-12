@@ -10,6 +10,8 @@ import { GetIngredientCategoryByIdUsecase } from "@domain/ingredientCategory/use
 import { UpdateIngredientCategoryUsecase } from "@domain/ingredientCategory/usecases/update-ingredientCategory";
 import { GetAllIngredientCategorysUsecase } from "@domain/ingredientCategory/usecases/get-all-ingredientCategorys";
 import ApiError from "@presentation/error-handling/api-error";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 
 export class IngredientCategoryService {
   private readonly createIngredientCategoryUsecase: CreateIngredientCategoryUsecase;
@@ -34,85 +36,73 @@ export class IngredientCategoryService {
 
   
   async createIngredientCategory(req: Request, res: Response): Promise<void> {
-    try {
-      
       // Extract IngredientCategory data from the request body and convert it to IngredientCategoryModel
       const ingredientCategoryData: IngredientCategoryModel = IngredientCategoryMapper.toModel(req.body);
 
       // Call the CreateIngredientCategoryUsecase to create the ingredientCategory
-      const newIngredientCategory: IngredientCategoryEntity = await this.createIngredientCategoryUsecase.execute(
+      const newIngredientCategory: Either<ErrorClass, IngredientCategoryEntity> = await this.createIngredientCategoryUsecase.execute(
         ingredientCategoryData
       );
 
-      // Convert newIngredientCategory from IngredientCategoryEntity to the desired format using IngredientCategoryMapper
-      const responseData = IngredientCategoryMapper.toEntity(newIngredientCategory, true);
-
-      // Send the created ingredientCategory as a JSON response
-      res.json(responseData);
-
-    } catch (error) {
-
-      if(error instanceof ApiError){
-       res.status(error.status).json({ error: error.message });
-      }
-
-         ApiError.internalError()
-    }
+      newIngredientCategory.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: IngredientCategoryEntity) =>{
+          const responseData = IngredientCategoryMapper.toEntity(result, true);
+          return res.json(responseData)
+        }
+      )
   }
 
   async deleteIngredientCategory(req: Request, res: Response): Promise<void> {
-    try {
       const ingredientCategoryId: string = req.params.ingredientCategoryId;
 
       // Call the DeleteIngredientCategoryUsecase to delete the ingredientCategory
-      await this.deleteIngredientCategoryUsecase.execute(ingredientCategoryId);
+      const updatedIngredientCategoryEntity: IngredientCategoryEntity = IngredientCategoryMapper.toEntity(
+        { del_status: false },
+        true
+      );
 
-      // Send a success message as a JSON response
-      res.json({ message: "IngredientCategory deleted successfully." });
-    } catch (error) {
+      // Call the UpdateIngredientCategoryUsecase to update the ingredientCategory
+      const updatedIngredientCategory: Either<ErrorClass, IngredientCategoryEntity> = await this.updateIngredientCategoryUsecase.execute(
+        ingredientCategoryId,
+        updatedIngredientCategoryEntity
+      );
 
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError();
-    }
+      updatedIngredientCategory.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: IngredientCategoryEntity) =>{
+          const responseData = IngredientCategoryMapper.toModel(result);
+          return res.json(responseData)
+        }
+      )
   }
 
   async getIngredientCategoryById(req: Request, res: Response): Promise<void> {
-    try {
       const ingredientCategoryId: string = req.params.ingredientCategoryId;
 
       // Call the GetIngredientCategoryByIdUsecase to get the ingredientCategory by ID
-      const ingredientCategory: IngredientCategoryEntity | null = await this.getIngredientCategoryByIdUsecase.execute(
+      const ingredientCategory: Either<ErrorClass, IngredientCategoryEntity | null> = await this.getIngredientCategoryByIdUsecase.execute(
         ingredientCategoryId
       );
 
-      if (ingredientCategory) {
-        // Convert ingredientCategory from IngredientCategoryEntity to plain JSON object using IngredientCategoryMapper
-        const responseData = IngredientCategoryMapper.toModel(ingredientCategory);
-
-        // Send the ingredientCategory as a JSON response
-        res.json(responseData);
-      } else {
-        // Send a not found message as a JSON response
-        ApiError.notFound()
-      }
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-       
-    }
+      ingredientCategory.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: IngredientCategoryEntity | null) =>{
+          const responseData = IngredientCategoryMapper.toEntity(result, true);
+          return res.json(responseData)
+        }
+      )
   }
 
   async updateIngredientCategory(req: Request, res: Response): Promise<void> {
-    try {
       const ingredientCategoryId: string = req.params.ingredientCategoryId;
       const ingredientCategoryData: IngredientCategoryModel = req.body;
 
       // Get the existing IngredientCategory by ID
-      const existingIngredientCategory: IngredientCategoryEntity | null =
+      const existingIngredientCategory: Either<ErrorClass, IngredientCategoryEntity | null> =
         await this.getIngredientCategoryByIdUsecase.execute(ingredientCategoryId);
 
       if (!existingIngredientCategory) {
@@ -125,45 +115,39 @@ export class IngredientCategoryService {
       const updatedIngredientCategoryEntity: IngredientCategoryEntity = IngredientCategoryMapper.toEntity(
         ingredientCategoryData,
         true,
-        existingIngredientCategory
+        // existingIngredientCategory
       );
 
       // Call the UpdateIngredientCategoryUsecase to update the ingredientCategory
-      const updatedIngredientCategory: IngredientCategoryEntity = await this.updateIngredientCategoryUsecase.execute(
+      const updatedIngredientCategory: Either<ErrorClass, IngredientCategoryEntity> = await this.updateIngredientCategoryUsecase.execute(
         ingredientCategoryId,
         updatedIngredientCategoryEntity
       );
 
-      // Convert updatedIngredientCategory from IngredientCategoryEntity to plain JSON object using IngredientCategoryMapper
-      const responseData = IngredientCategoryMapper.toModel(updatedIngredientCategory);
-
-      // Send the updated ingredientCategory as a JSON response
-      res.json(responseData);
-    } catch (error) {
-
-      console.log(error);
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-    }
+      updatedIngredientCategory.cata(
+        (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+        (result: IngredientCategoryEntity) =>{
+          const responseData = IngredientCategoryMapper.toModel(result);
+          return res.json(responseData)
+        }
+      )
   }
 
   async getAllIngredientCategorys(req: Request, res: Response, next:NextFunction): Promise<void> {
-    try {
       // Call the GetAllIngredientCategorysUsecase to get all ingredientCategorys
-      const ingredientCategorys: IngredientCategoryEntity[] = await this.getAllIngredientCategorysUsecase.execute();
+      const ingredientCategorys: Either<ErrorClass, IngredientCategoryEntity[]> = await this.getAllIngredientCategorysUsecase.execute();
 
-      // Convert ingredientCategorys from an array of IngredientCategoryEntity to an array of plain JSON objects using IngredientCategoryMapper
-      const responseData = ingredientCategorys.map((ingredientCategory) => IngredientCategoryMapper.toModel(ingredientCategory));
+      ingredientCategorys.cata(
+        (error: ErrorClass) => res.status(error.status).json({ error: error.message }),
+        (result: IngredientCategoryEntity[]) => {
+          // Filter out tables with del_status set to "Deleted"
+          const nonDeletedIngredientCategory = result.filter((ingredientCategory) => ingredientCategory.del_status !== false);
 
-      // Send the ingredientCategorys as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if(error instanceof ApiError){
-        res.status(error.status).json({ error: error.message });
-       }
-          ApiError.internalError()
-    }
+          // Convert tables from an array of TableEntity to an array of plain JSON objects using TableMapper
+          const responseData = nonDeletedIngredientCategory.map((IngredientCategory) => IngredientCategoryMapper.toModel(IngredientCategory));
+          return res.json(responseData);
+        }
+      );
   }
 }

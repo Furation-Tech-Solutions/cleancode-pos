@@ -3,8 +3,8 @@ export class IngredientCategoryModel {
   constructor(
     public ingredientCategory_name: string = "",
     public description: string = "",
-    public company_id: string = "",
-    public del_status: string = ""
+    public createdBy: Date,
+    public del_status: boolean
   ) { }
 }
 
@@ -14,8 +14,8 @@ export class IngredientCategoryEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public ingredientCategory_name: string,
     public description: string,
-    public company_id: string,
-    public del_status: string
+    public createdBy: Date,
+    public del_status: boolean
   ) { }
 }
 
@@ -35,8 +35,8 @@ export class IngredientCategoryMapper {
           ingredientCategoryData.ingredientCategory_name !== undefined ? ingredientCategoryData.ingredientCategory_name : existingIngredientCategory.ingredientCategory_name,
         description:
           ingredientCategoryData.description !== undefined ? ingredientCategoryData.description : existingIngredientCategory.description,
-        company_id:
-          ingredientCategoryData.company_id !== undefined ? ingredientCategoryData.company_id : existingIngredientCategory.company_id,
+        createdBy:
+          ingredientCategoryData.createdBy !== undefined ? ingredientCategoryData.createdBy : existingIngredientCategory.createdBy,
         del_status:
           ingredientCategoryData.del_status !== undefined ? ingredientCategoryData.del_status : existingIngredientCategory.del_status,
 
@@ -47,7 +47,7 @@ export class IngredientCategoryMapper {
         id: includeId ? (ingredientCategoryData._id ? ingredientCategoryData._id.toString() : undefined) : undefined,
         ingredientCategory_name: ingredientCategoryData.ingredientCategory_name,
         description: ingredientCategoryData.description,
-        company_id: ingredientCategoryData.company_id,
+        createdBy: ingredientCategoryData.createdBy,
         del_status: ingredientCategoryData.del_status,
       };
       return ingredientCategoryEntity;
@@ -59,7 +59,7 @@ export class IngredientCategoryMapper {
       id: ingredientCategory.id,
       ingredientCategory_name: ingredientCategory.ingredientCategory_name,
       description: ingredientCategory.description,
-      company_id: ingredientCategory.company_id,
+      createdBy: ingredientCategory.createdBy,
       del_status: ingredientCategory.del_status,
     };
   }

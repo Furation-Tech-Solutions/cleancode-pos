@@ -80,6 +80,14 @@ class ApiError extends ErrorClass {
     return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CONFLICT, "conflict");
   }
 
+  static gstExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.GST_CONFLICT, "gst_conflict");
+  }
+
+  static areaNameExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.AREA_CONFLICT, "areaName_conflict");
+  }
+
   static kitchen_codeExists(): ApiError {
     return new ApiError(
       HttpStatus.CONFLICT,
@@ -103,6 +111,56 @@ class ApiError extends ErrorClass {
       "conflict"
     );
   }
+  static phoneNumberExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.PHONE_NUMBER_CONFLICT, "phoneNumber_conflict");
+  }
+
+  static ingredientUnitNameExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.INGREDIENTUNIT_CONFLICT, "ingredientUnitName_conflict");
+  }
+
+  static ingredientCategoryExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.INGREDIENTCATEGORY_CONFLICT, "ingredientCategory_conflict");
+  }
+
+  static ingredientExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.INGREDIENT_CONFLICT, "ingredient_conflict");
+  }
+
+  static foodCategoryExits(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODCATEGORY_CONFLICT, "foodCategory_conflict");
+  }
+
+  static cuisineExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CUISINE_NAME_CONFLICT, "cuisineName_conflict");
+  }
+
+  static foodMenuExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODMENU_NAME_CONFLICT, "foodMenuName_conflict");
+  }
+
+  static modifierExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.MODIFIER_NAME_CONFLICT, "modifierName_conflict");
+  }
+
+  static veriationsExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.VERIATIONS_NAME_CONFLICT, "veriationsName_conflict");
+  }
+
+  static preMadeFoodExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.PREMADEFOOD_NAME_CONFLICT, "preMadeFoodName_conflict");
+  }
+
+  static foodComboExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODCOMBO_NAME_CONFLICT, "foodComboName_conflict");
+  }
+
+  static expenseItemNameExists(): ApiError {
+    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.EXPENSE_ITEM_NAME_CONFLICT, "expenseItemName_conflict");
+  }
+
+
+ 
 }
 
 export default ApiError;

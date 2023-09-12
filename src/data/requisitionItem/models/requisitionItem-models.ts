@@ -8,7 +8,7 @@ const requisitionItemSchema = new mongoose.Schema({
 
   itemid: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Item",
+    ref: "Ingredient",
     required: true,
   },
 

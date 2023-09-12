@@ -1,11 +1,12 @@
 import { StaffModel, StaffEntity } from "@domain/staff/entities/staff";
 import { StaffRepository } from "@domain/staff/repositories/staff-repository"; 
-
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 export interface UpdateStaffUsecase {
   execute: (
     staffId: string,
-    staffData: Partial<StaffModel>
-  ) => Promise<StaffEntity>;
+    staffData: StaffModel
+  ) => Promise<Either<ErrorClass, StaffEntity>>;
 }
 
 export class UpdateStaff implements UpdateStaffUsecase {
@@ -14,36 +15,7 @@ export class UpdateStaff implements UpdateStaffUsecase {
   constructor(staffRepository: StaffRepository) {
     this.staffRepository = staffRepository;
   }
-
-
-  async execute(
-    staffId: string,
-    staffData: Partial<StaffModel>
-  ): Promise<StaffEntity> {
-    const existingStaff: StaffEntity | null =
-      await this.staffRepository.getStaffById(staffId);
-
-    if (!existingStaff) {
-      throw new Error("Admin not found.");
-    }
-
-    // Perform the partial update by merging adminData with existingAdmin
-    const updatedStaffData: StaffModel = {
-      ...existingStaff,
-      ...staffData,
-    };
-
-    // Save the updatedAdminData to the repository
-    await this.staffRepository.updateStaff(staffId, updatedStaffData);
-
-    // Fetch the updated admin entity from the repository
-    const updatedStaffEntity: StaffEntity | null =
-      await this.staffRepository.getStaffById(staffId);
-
-    if (!updatedStaffEntity) {
-      throw new Error("Staff not found after update.");
-    }
-
-    return updatedStaffEntity;
-  }
+  async execute(staffId: string, staffData: StaffModel): Promise<Either<ErrorClass, StaffEntity>> {
+   return await this.staffRepository.updateStaff(staffId, staffData);
+ }
 }

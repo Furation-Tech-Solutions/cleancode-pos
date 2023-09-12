@@ -1,9 +1,11 @@
-import {OutletModel,OutletEntity } from "@domain/outlet/entities/outlet";
-
+import { OutletModel, OutletEntity } from "@domain/outlet/entities/outlet";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
 export interface OutletRepository {
-  createOutlet(outlet: OutletModel): Promise<OutletEntity>;
-  deleteOutlet(id: string): Promise<void>;
-  updateOutlet(id: string, data: OutletModel): Promise<OutletEntity>;
-  getOutlets(): Promise<OutletEntity[]>;
-  getOutletById(id: string): Promise<OutletEntity | null>;
+  createOutlet(outlet: OutletModel): Promise<Either<ErrorClass, OutletEntity>>;
+  deleteOutlet(id: string): Promise<Either<ErrorClass, void>>;
+  updateOutlet(id: string, data: OutletModel): Promise<Either<ErrorClass, OutletEntity>>;
+  getOutlets(): Promise<Either<ErrorClass, OutletEntity[]>>;
+  getOutletById(id: string): Promise<Either<ErrorClass, OutletEntity | null>>;
 }
+

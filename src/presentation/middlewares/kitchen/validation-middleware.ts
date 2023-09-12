@@ -34,6 +34,7 @@ interface CustomRequest extends Request {
         'any.required': 'Please enter Kitchen Name',
       }),
   
+    createdBy: Joi.date(),
     del_status: Joi.string().valid('Live', 'Deleted').default('Live')
       .messages({
         'any.only': 'Value is not matched',

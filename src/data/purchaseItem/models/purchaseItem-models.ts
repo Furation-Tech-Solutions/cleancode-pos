@@ -1,37 +1,48 @@
 const mongoose = require("mongoose");
-
 const purchaseItemSchema = new mongoose.Schema({
-  companyId: {
+  purchaseid: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Company",
-    required: false,
-  },
-  inventoryId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Inventory",
+    ref: "Purchase",
     required: true,
   },
-  items: [
-    {
-      itemName: {
-        type: String,
-        required: true,
-      },
-      totalQuantity: {
-        type: Number,
-        required: true,
-      },
-      unitOfMeasurement: {
-        type: String,
-        required: true,
-      },
-      supplierId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Supplier",
-        required: true,
-      },
-    },
-  ],
+
+  itemid: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Ingredient",
+    required: true,
+  },
+
+  quantity: {
+    type: Number,
+    required: true,
+    min: [1, "Quantity should be at least 1"],
+  },
+  unitOfMeasurement: {
+    type: String,
+    required: true,
+    maxlength: [50, "Unit of measurement should be under 50 characters"],
+  },
+
+  price: {
+    type: Number,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+    default: Date.now, // Set the default value to the current date and time
+  },
+
+  modifiedAt: {
+    type: Date,
+    default: Date.now, // Set the default value to the current date and time
+  },
+
+  modifiedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Staff",
+    required: true,
+  },
 });
 
 export const PurchaseItem = mongoose.model("PurchaseItem", purchaseItemSchema);

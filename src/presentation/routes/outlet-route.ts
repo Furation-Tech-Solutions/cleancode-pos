@@ -3,33 +3,18 @@ import mongoose from "mongoose";
 import { Router } from "express"; // Correctly import Request and Response
 import { OutletService } from "@presentation/services/outlet-services";
 import { OutletDataSourceImpl } from "@data/outlet/datasources/outlet-data-source";
-import { OutletRepositoryImpl } from "@data/outlet/repositories/outlet-repositories-impl";
+import { OutletRepositoryImpl } from "@data/outlet/repositories/outlet-repository-impl";
 import { CreateOutlet } from "@domain/outlet/usecases/create-outlet";
 import { DeleteOutlet } from "@domain/outlet/usecases/delete-outlet";
 import { GetOutletById } from "@domain/outlet/usecases/get-outlet-by-id";
-import { GetAllOutlets } from "@domain/outlet/usecases/get -all-outlet";
+import { GetAllOutlets } from "@domain/outlet/usecases/get-all-outlet";
 import { UpdateOutlet } from "@domain/outlet/usecases/update-outlet";
+import validateOutletMiddleware from "@presentation/middlewares/outlet/validation-middleware";
 
-// const dbURL =
-//   "mongodb+srv://mongodb+srv://satansharma:satansharma@cluster0.ncc9mtu.mongodb.net/?retryWrites=true&w=majority"; // Replace with your actual MongoDB connection URL
-
-// // Set up the required options for the connection
-// const dbOptions = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   dbName: "myDatabase", // Replace with the name of your database
-//   // Other options like user and password can also be added if necessary
-// };
-
-// // Create the mongoose connection
-// mongoose.connect(dbURL, dbOptions).then(() => {
-//   console.log("Connected to MongoDB successfully!");
-// });
-
-// Create an instance of the OutletDataSourceImpl and pass the mongoose connection
+// Create an instance of the outletDataSourceImpl and pass the mongoose connection
 const outletDataSource = new OutletDataSourceImpl(mongoose.connection);
 
-// Create an instance of the OutletRepositoryImpl and pass the OutletDataSourceImpl
+// Create an instance of the outletRepositoryImpl and pass the outletDataSourceImpl
 const outletRepository = new OutletRepositoryImpl(outletDataSource);
 
 // Create instances of the required use cases and pass the OutletRepositoryImpl
@@ -52,16 +37,16 @@ const outletService = new OutletService(
 export const outletRouter = Router();
 
 // Route handling for creating a new outlet
-outletRouter.post("/new", outletService.createOutlet.bind(outletService));
+outletRouter.post("/new", validateOutletMiddleware, outletService.createOutlet.bind(outletService));
 
 // Route handling for getting an outlet by ID
-outletRouter.get("/:outletId", outletService.getOutletById.bind(outletService));
+outletRouter.get("/show/:outletId", outletService.getOutletById.bind(outletService));
 
 // Route handling for updating an outlet by ID
-outletRouter.put("/:outletId", outletService.updateOutlet.bind(outletService));
+outletRouter.put("/update/:outletId", outletService.updateOutlet.bind(outletService));
 
 // Route handling for deleting an outlet by ID
-outletRouter.delete("/:outletId", outletService.deleteOutlet.bind(outletService));
+outletRouter.delete("/delete/:outletId", outletService.deleteOutlet.bind(outletService));
 
 // Route handling for getting all outlets
-outletRouter.get("/", outletService.getAllOutlets.bind(outletService));
+outletRouter.get("/list", outletService.getAllOutlets.bind(outletService));

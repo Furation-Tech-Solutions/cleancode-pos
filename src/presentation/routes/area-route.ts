@@ -9,6 +9,7 @@ import { DeleteArea } from "@domain/area/usecases/delete-area";
 import { GetAreaById } from "@domain/area/usecases/get-area-by-id";
 import { GetAllAreas } from "@domain/area/usecases/get-all-area";
 import { UpdateArea } from "@domain/area/usecases/update-area";
+import validateAreaMiddleware from "@presentation/middlewares/area/validation-middleware";
 
 // const dbURL =
 //   "mongodb+srv://mongodb+srv://satansharma:satansharma@cluster0.ncc9mtu.mongodb.net/?retryWrites=true&w=majority"; // Replace with your actual MongoDB connection URL
@@ -52,16 +53,16 @@ const areaService = new AreaService(
 export const areaRouter = Router();
 
 // Route handling for creating a new area
-areaRouter.post("/new", areaService.createArea.bind(areaService));
+areaRouter.post("/new", validateAreaMiddleware, areaService.createArea.bind(areaService));
 
 // Route handling for getting an Area by ID
-areaRouter.get("/:areaId", areaService.getAreaById.bind(areaService));
+areaRouter.get("/show/:areaId", areaService.getAreaById.bind(areaService));
 
 // Route handling for updating an area by ID
-areaRouter.put("/:areaId", areaService.updateArea.bind(areaService));
+areaRouter.put("/update/:areaId", areaService.updateArea.bind(areaService));
 
 // Route handling for deleting an area by ID
-areaRouter.delete("/:areaId", areaService.deleteArea.bind(areaService));
+areaRouter.delete("/delete/:areaId", areaService.deleteArea.bind(areaService));
 
 // Route handling for getting all areas
-areaRouter.get("/", areaService.getAllAreas.bind(areaService));
+areaRouter.get("/list", areaService.getAllAreas.bind(areaService));
