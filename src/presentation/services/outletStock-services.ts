@@ -135,7 +135,7 @@ export class OutletStockService {
       )
   }
 
-  async getAllOutletStocks(req: Request, res: Response): Promise<void> {
+  async getAllOutletStocks(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllOutletStocksUsecase to get all OutletStocks
       const outletStocks: Either<ErrorClass, OutletStockEntity[]> = await this.getAllOutletStocksUsecase.execute();
@@ -147,7 +147,7 @@ export class OutletStockService {
             const nonDeletedOutletStocks = result.filter((outletStock) => outletStock.del_status !== false);
 
             // Convert non-deleted outletStocks from an array of OutletStockEntity to an array of plain JSON objects using OutletStockMapper
-            const responseData = nonDeletedOutletStocks.map((outletStock) => OutletStockMapper.toModel(outletStock));
+            const responseData = nonDeletedOutletStocks.map((outletStock) => OutletStockMapper.toEntity(outletStock));
             return res.json(responseData);
         }
     );

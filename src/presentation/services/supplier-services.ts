@@ -135,7 +135,7 @@ export class SupplierService {
       )
   }
 
-  async getAllSuppliers(req: Request, res: Response): Promise<void> {
+  async getAllSuppliers(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllSuppliersUsecase to get all Suppliers
       const suppliers: Either<ErrorClass, SupplierEntity[]> = await this.getAllSuppliersUsecase.execute();
@@ -147,7 +147,7 @@ export class SupplierService {
             const nonDeletedSuppliers = result.filter((supplier) => supplier.del_status !== false);
 
             // Convert non-deleted suppliers from an array of SupplierEntity to an array of plain JSON objects using SupplierMapper
-            const responseData = nonDeletedSuppliers.map((supplier) => SupplierMapper.toModel(supplier));
+            const responseData = nonDeletedSuppliers.map((supplier) => SupplierMapper.toEntity(supplier));
             return res.json(responseData);
         }
     );

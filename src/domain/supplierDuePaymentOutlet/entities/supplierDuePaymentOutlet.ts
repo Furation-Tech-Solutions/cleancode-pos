@@ -62,7 +62,7 @@ export class SupplierDuePaymentOutletMapper {
     } else {
       // If existingSupplierDuePaymentOutlet is not provided, create a new SupplierDuePaymentOutletEntity using supplierDuePaymentOutletData
       const SupplierDuePaymentOutletEntity: SupplierDuePaymentOutletEntity = {
-        id: includeId ? (supplierDuePaymentOutletData._id ? supplierDuePaymentOutletData._id.toString() : undefined) : undefined,
+        id: includeId ? (supplierDuePaymentOutletData._id ? supplierDuePaymentOutletData._id.toString() : undefined) : supplierDuePaymentOutletData._id.toString(),
         date: supplierDuePaymentOutletData.date,
         supplier_id: supplierDuePaymentOutletData.supplier_id,
         amount: supplierDuePaymentOutletData.amount,

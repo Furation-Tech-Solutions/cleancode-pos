@@ -76,7 +76,7 @@ export class FoodMenuMapper {
     } else {
       // If existingFoodMenu is not provided, create a new FoodMenuEntity using FoodMenuData
       const FoodMenuEntity: FoodMenuEntity = {
-        id: includeId ? (FoodMenuData._id ? FoodMenuData._id.toString() : undefined) : undefined,
+        id: includeId ? (FoodMenuData._id ? FoodMenuData._id.toString() : undefined) : FoodMenuData._id.toString(),
         name: FoodMenuData.name,
         code: FoodMenuData.code,
         cuisine: FoodMenuData.cuisine,

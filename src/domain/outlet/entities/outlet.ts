@@ -68,11 +68,7 @@ export class OutletMapper {
       }else {
            // If existingAdmin is not provided, create a new AdminEntity using adminData
            const outletEntity:OutletEntity = {
-              id: includeId 
-                ? outletData._id 
-                    ? outletData._id.toString() 
-                    : undefined 
-                : outletData._id.toString(),
+              id: includeId ? outletData._id ? outletData._id.toString() : undefined : outletData._id.toString(),
               company_id: outletData.company_id,
               outlet_code: outletData.outlet_code,
               address: outletData.address,

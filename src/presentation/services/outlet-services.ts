@@ -135,7 +135,7 @@ export class OutletService {
       )
   }
 
-  async getAllOutlets(req: Request, res: Response): Promise<void> {
+  async getAllOutlets(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllOutletsUsecase to get all outlets
       const outlets: Either<ErrorClass, OutletEntity[]> = await this.getAllOutletsUsecase.execute();
@@ -147,7 +147,7 @@ export class OutletService {
             const nonDeletedOutlets = result.filter((outlet) => outlet.del_status !== false);
 
             // Convert non-deleted outlets from an array of OutletEntity to an array of plain JSON objects using OutletMapper
-            const responseData = nonDeletedOutlets.map((outlet) => OutletMapper.toModel(outlet));
+            const responseData = nonDeletedOutlets.map((outlet: any) => OutletMapper.toEntity(outlet));
             return res.json(responseData);
         }
     );

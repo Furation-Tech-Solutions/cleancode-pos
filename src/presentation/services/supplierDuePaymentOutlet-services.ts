@@ -135,7 +135,7 @@ export class SupplierDuePaymentOutletService {
       )
   }
 
-  async getAllSupplierDuePaymentOutlets(req: Request, res: Response): Promise<void> {
+  async getAllSupplierDuePaymentOutlets(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllSupplierDuePaymentOutletsUsecase to get all SupplierDuePaymentOutlets
       const supplierDuePaymentOutlets: Either<ErrorClass, SupplierDuePaymentOutletEntity[]> = await this.getAllSupplierDuePaymentOutletsUsecase.execute();
@@ -147,7 +147,7 @@ export class SupplierDuePaymentOutletService {
             const nonDeletedSupplierDuePaymentOutlets = result.filter((supplierDuePaymentOutlet) => supplierDuePaymentOutlet.del_status !== false);
 
             // Convert non-deleted supplierDuePaymentOutlets from an array of SupplierDuePaymentOutletEntity to an array of plain JSON objects using SupplierDuePaymentOutletMapper
-            const responseData = nonDeletedSupplierDuePaymentOutlets.map((supplierDuePaymentOutlet) => SupplierDuePaymentOutletMapper.toModel(supplierDuePaymentOutlet));
+            const responseData = nonDeletedSupplierDuePaymentOutlets.map((supplierDuePaymentOutlet) => SupplierDuePaymentOutletMapper.toEntity(supplierDuePaymentOutlet));
             return res.json(responseData);
         }
     );

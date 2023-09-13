@@ -147,7 +147,7 @@ export class DeliveryPartnerService {
           const nonDeletedDeliveryPartner = result.filter((deliveryPartner) => deliveryPartner.del_status !== false);
 
           // Convert tables from an array of TableEntity to an array of plain JSON objects using TableMapper
-          const responseData = nonDeletedDeliveryPartner.map((DeliveryPartner) => DeliveryPartnerMapper.toModel(DeliveryPartner));
+          const responseData = nonDeletedDeliveryPartner.map((DeliveryPartner) => DeliveryPartnerMapper.toEntity(DeliveryPartner));
           return res.json(responseData);
         }
       )

@@ -143,7 +143,7 @@ export class BillingDetailsService {
       )
   }
 
-  async getAllBillingDetailss(req: Request, res: Response): Promise<void> {
+  async getAllBillingDetailss(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllBillingDetailssUsecase to get all billingDetailss
       const billingDetailss: Either<ErrorClass, BillingDetailsEntity[]> = await this.getAllBillingDetailssUsecase.execute();
@@ -155,7 +155,7 @@ export class BillingDetailsService {
             const nonDeletedBillingDetailss = result.filter((billingDetails) => billingDetails.del_status !== false);
 
             // Convert non-deleted billingDetailss from an array of BillingDetailsEntity to an array of plain JSON objects using BillingDetailsMapper
-            const responseData = nonDeletedBillingDetailss.map((billingDetails) => BillingDetailsMapper.toModel(billingDetails));
+            const responseData = nonDeletedBillingDetailss.map((billingDetails) => BillingDetailsMapper.toEntity(billingDetails));
             return res.json(responseData);
         }
     );

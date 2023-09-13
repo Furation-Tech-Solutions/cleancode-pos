@@ -42,7 +42,7 @@ export class CuisineMapper {
     } else {
       // If existingCuisine is not provided, create a new CuisineEntity using cuisineData
       const CuisineEntity: CuisineEntity = {
-        id: includeId ? (cuisineData._id ? cuisineData._id.toString() : undefined) : undefined,
+        id: includeId ? (cuisineData._id ? cuisineData._id.toString() : undefined) : cuisineData._id.toString(),
         name: cuisineData.name,
         description: cuisineData.description,
         createdBy: cuisineData.createdBy,

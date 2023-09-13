@@ -50,7 +50,7 @@ export class ModifierMapper {
     } else {
       // If existingModifier is not provided, create a new ModifierEntity using modifierData
       const ModifierEntity: ModifierEntity = {
-        id: includeId ? (modifierData._id ? modifierData._id.toString() : undefined) : undefined,
+        id: includeId ? (modifierData._id ? modifierData._id.toString() : undefined) : modifierData._id.toString(),
         name: modifierData.name,
         salePrice: modifierData.salePrice,
         ingredientConsumption: modifierData.ingredientConsumption,

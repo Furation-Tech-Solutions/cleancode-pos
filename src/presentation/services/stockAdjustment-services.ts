@@ -132,7 +132,7 @@ export class StockAdjustmentService {
       )
   }
 
-  async getAllStockAdjustments(req: Request, res: Response): Promise<void> {
+  async getAllStockAdjustments(req: Request, res: Response, next: NextFunction): Promise<void> {
       // Call the GetAllStockAdjustmentsUsecase to get all StockAdjustments
       const stockAdjustments: Either<ErrorClass, StockAdjustmentEntity[]> = await this.GetAllStockAdjustmentsUsecase.execute();
       
@@ -143,7 +143,7 @@ export class StockAdjustmentService {
             const nonDeletedStockAdjustments = result.filter((stockAdjustment) => stockAdjustment.del_status !== false);
 
             // Convert non-deleted stockAdjustments from an array of StockAdjustmentEntity to an array of plain JSON objects using FoodCategoryMapper
-            const responseData = nonDeletedStockAdjustments.map((stockAdjustment) => StockAdjustmentMapper.toModel(stockAdjustment));
+            const responseData = nonDeletedStockAdjustments.map((stockAdjustment) => StockAdjustmentMapper.toEntity(stockAdjustment));
             return res.json(responseData);
         }
     );

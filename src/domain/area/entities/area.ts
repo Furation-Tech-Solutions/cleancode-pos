@@ -53,7 +53,7 @@ export class AreaModel {
       } else {
         // If existingArea is not provided, create a new areaEntity using areaData
         const areaEntity: AreaEntity = {
-            id: includeId ? (areaData._id ? areaData._id.toString() : undefined) : undefined,
+            id: includeId ? (areaData._id ? areaData._id.toString() : undefined) : areaData._id.toString(),
             outletCode_byId: areaData.outletCode_byId,
             area_name: areaData.area_name,
             description: areaData.description,

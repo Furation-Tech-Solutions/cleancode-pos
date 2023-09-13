@@ -135,7 +135,7 @@ export class FoodComboService {
       )
   }
 
-  async getAllFoodCombos(req: Request, res: Response): Promise<void> {
+  async getAllFoodCombos(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllFoodCombosUsecase to get all foodCombos
       const foodCombos: Either<ErrorClass, FoodComboEntity[]> = await this.getAllFoodCombosUsecase.execute();
@@ -147,7 +147,7 @@ export class FoodComboService {
             const nonDeletedFoodCombos = result.filter((foodCombo) => foodCombo.del_status !== false);
 
             // Convert non-deleted foodCombos from an array of FoodComboEntity to an array of plain JSON objects using FoodComboMapper
-            const responseData = nonDeletedFoodCombos.map((foodCombo) => FoodComboMapper.toModel(foodCombo));
+            const responseData = nonDeletedFoodCombos.map((foodCombo) => FoodComboMapper.toEntity(foodCombo));
             return res.json(responseData);
         }
     );

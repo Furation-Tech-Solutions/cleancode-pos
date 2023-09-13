@@ -39,7 +39,7 @@ export class InventoryMapper {
         } else {
             // If existingAdmin is not provided, create a new AdminEntity using adminData
             const inventoryEntity: InventoryEntity = {
-                id: includeId ? (inventoryData._id ? inventoryData._id.toString() : undefined) : undefined,
+                id: includeId ? (inventoryData._id ? inventoryData._id.toString() : undefined) : inventoryData._id.toString(),
                 name: inventoryData.name,
                 place: inventoryData.place,
                 companyId: inventoryData.companyId,

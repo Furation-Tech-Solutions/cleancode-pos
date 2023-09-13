@@ -127,7 +127,7 @@ export class KitchenService {
   }
    
 
-  async getAllKitchens(req: Request, res: Response): Promise<void> {
+  async getAllKitchens(req: Request, res: Response, next: NextFunction): Promise<void> {
     // Call the GetAllKitchensUsecase to get all kitchens
     const kitchens: Either<ErrorClass, KitchenEntity[]> =
       await this.GetAllKitchensUsecase.execute();
@@ -141,7 +141,7 @@ export class KitchenService {
 
         // Convert kitchens from an array of KitchenEntity to an array of plain JSON objects using KitchenMapper
         const responseData = nonDeletedKitchens.map((kitchen) =>
-          KitchenMapper.toModel(kitchen)
+          KitchenMapper.toEntity(kitchen)
         );
         return res.json(responseData);
       }

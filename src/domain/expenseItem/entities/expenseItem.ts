@@ -46,7 +46,7 @@ export class ExpenseItemMapper {
     } else {
       // If existingExpenseItem is not provided, create a new ExpenseItemEntity using expenseItemData
       const ExpenseItemEntity: ExpenseItemEntity = {
-        id: includeId ? (expenseItemData._id ? expenseItemData._id.toString() : undefined) : undefined,
+        id: includeId ? (expenseItemData._id ? expenseItemData._id.toString() : undefined) : expenseItemData._id.toString(),
         name: expenseItemData.name,
         description: expenseItemData.description,
         staff_id: expenseItemData.staff_id,

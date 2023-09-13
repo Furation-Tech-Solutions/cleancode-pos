@@ -54,7 +54,7 @@ export class VeriationsMapper {
     } else {
       // If existingVeriations is not provided, create a new VeriationsEntity using veriationsData
       const VeriationsEntity: VeriationsEntity = {
-        id: includeId ? (veriationsData._id ? veriationsData._id.toString() : undefined) : undefined,
+        id: includeId ? (veriationsData._id ? veriationsData._id.toString() : undefined) : veriationsData._id.toString(),
         name: veriationsData.name,
         foodMenuCode_byId: veriationsData.foodMenuCode_byId,
         dineInPrice: veriationsData.dineInPrice,

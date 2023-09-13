@@ -85,7 +85,7 @@ export class CompanyMapper {
           ? companyData._id
             ? companyData._id.toString()
             : undefined
-          : undefined,
+          : companyData._id.toString(),
         name: companyData.name,
         email: companyData.email,
         phone: companyData.phone,

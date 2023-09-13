@@ -68,7 +68,7 @@ export class IngredientMapper {
     } else {
       // If existingIngredient is not provided, create a new IngredientEntity using ingredientData
       const ingredientEntity: IngredientEntity = {
-        id: includeId ? (ingredientData._id ? ingredientData._id.toString() : undefined) : undefined,
+        id: includeId ? (ingredientData._id ? ingredientData._id.toString() : undefined) : ingredientData._id.toString(),
         name: ingredientData.name,
         code: ingredientData.code,
         category: ingredientData.category,

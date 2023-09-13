@@ -135,7 +135,7 @@ export class CuisineService {
       )
   }
 
-  async getAllCuisines(req: Request, res: Response): Promise<void> {
+  async getAllCuisines(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllCuisinesUsecase to get all Cuisines
       const cuisines: Either<ErrorClass, CuisineEntity[]> = await this.getAllCuisinesUsecase.execute();
@@ -147,7 +147,7 @@ export class CuisineService {
             const nonDeletedCuisines = result.filter((cuisine) => cuisine.del_status !== false);
 
             // Convert non-deleted cuisines from an array of CuisineEntity to an array of plain JSON objects using CuisineMapper
-            const responseData = nonDeletedCuisines.map((cuisine) => CuisineMapper.toModel(cuisine));
+            const responseData = nonDeletedCuisines.map((cuisine) => CuisineMapper.toEntity(cuisine));
             return res.json(responseData);
         }
     );

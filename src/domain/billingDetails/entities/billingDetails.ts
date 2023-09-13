@@ -110,7 +110,7 @@ export class BillingDetailsMapper {
     } else {
       // If existingBillingDetails is not provided, create a new BillingDetailsEntity using BillingDetailsData
       const BillingDetailsEntity: BillingDetailsEntity = {
-        id: includeId ? (billingDetailsData._id ? billingDetailsData._id.toString() : undefined) : undefined,
+        id: includeId ? (billingDetailsData._id ? billingDetailsData._id.toString() : undefined) : billingDetailsData._id.toString(),
         orderNunber_byId: billingDetailsData.orderNunber_byId,
         billNumber: billingDetailsData.billNumber,
         Dine_price: billingDetailsData.Dine_price,

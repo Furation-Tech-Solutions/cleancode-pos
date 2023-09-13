@@ -49,7 +49,7 @@ export class StockAdjustmentModel {
       } else {
         // If existingStockAdjustment is not provided, create a new stockAdjustmentEntity using stockAdjustmentData
         const stockAdjustmentEntity: StockAdjustmentEntity = {
-            id: includeId ? (stockAdjustmentData._id ? stockAdjustmentData._id.toString() : undefined) : undefined,
+            id: includeId ? (stockAdjustmentData._id ? stockAdjustmentData._id.toString() : undefined) : stockAdjustmentData._id.toString(),
             outletStockId: stockAdjustmentData.outletStockId,
             adjustmentType: stockAdjustmentData.adjustmentType,
             adjustmentDate: stockAdjustmentData.adjustmentDate,
