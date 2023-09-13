@@ -18,12 +18,10 @@ export class InventoryDataSourceImpl implements InventoryDataSource {
   constructor(private db: mongoose.Connection) {}
 
   async create(inventory: InventoryModel): Promise<InventoryEntity> {
-    console.log(inventory);
     
     const existinginventory = await Inventory.findOne({
       name: inventory.inventoryName,
     });
-    console.log(existinginventory);
     
     if (existinginventory) {
       throw ApiError.inventory_nameExists();

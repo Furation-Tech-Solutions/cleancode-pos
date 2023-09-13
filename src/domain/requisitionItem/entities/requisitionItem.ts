@@ -1,6 +1,7 @@
 export class RequisitionItemModel {
   constructor(
-    public itemName: string = "",
+    public requisitionid: string = "",
+    public itemid: string = "",
     public quantity: number = 1,
     public unitOfMeasurement: string = ""
   ) {}
@@ -9,7 +10,8 @@ export class RequisitionItemModel {
 export class RequisitionItemEntity {
   constructor(
     public id: string | undefined = undefined,
-    public itemName: string,
+    public requisitionid: string,
+    public itemid: string,
     public quantity: number,
     public unitOfMeasurement: string
   ) {}
@@ -25,10 +27,12 @@ export class RequisitionItemMapper {
       // If existingItem is provided, merge the data from itemData with the existingItem
       return {
         ...existingItem,
-        itemName:
-          itemData.itemName !== undefined
-            ? itemData.itemName
-            : existingItem.itemName,
+        requisitionid:
+          itemData.requisitionid !== undefined
+            ? itemData.requisitionid
+            : existingItem.requisitionid,
+        itemid:
+          itemData.itemid !== undefined ? itemData.itemid : existingItem.itemid,
         quantity:
           itemData.quantity !== undefined
             ? itemData.quantity
@@ -45,8 +49,9 @@ export class RequisitionItemMapper {
           ? itemData._id
             ? itemData._id.toString()
             : undefined
-          : undefined,
-        itemName: itemData.itemName,
+          : itemData._id.toString(),
+        requisitionid: itemData.requisitionid,
+        itemid: itemData.itemid,
         quantity: itemData.quantity,
         unitOfMeasurement: itemData.unitOfMeasurement,
       };
@@ -57,7 +62,8 @@ export class RequisitionItemMapper {
   static toModel(item: RequisitionItemEntity): any {
     return {
       id: item.id,
-      itemName: item.itemName,
+      requisitionid: item.requisitionid,
+      itemid: item.itemid,
       quantity: item.quantity,
       unitOfMeasurement: item.unitOfMeasurement,
     };

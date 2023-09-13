@@ -68,7 +68,7 @@ export class InternalTransferRepositoryImpl implements InternalTransferRepositor
     try {
       const response = await this.dataSource.update(id, data);
       return Right<ErrorClass, InternalTransferEntity>(response);
-    } catch (error) {
+    } catch (error) {      
       return Left<ErrorClass, InternalTransferEntity>(ApiError.badRequest());
     }
   }

@@ -51,7 +51,7 @@ export class RequisitionMapper {
           ? requisitionData._id
             ? requisitionData._id.toString()
             : undefined
-          : undefined,
+          : requisitionData._id.toString(),
         outletid: requisitionData.outletid,
         inventoryid: requisitionData.inventoryid,
         sender: requisitionData.sender,

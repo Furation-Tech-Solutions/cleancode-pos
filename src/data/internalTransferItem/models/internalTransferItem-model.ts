@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const internalTranferItemSchema = new mongoose.Schema({
-  internalTranferItemid: {
+  internalTransferid: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "InternalTranferItem",
+    ref: "InternalTransfer",
     required: true,
   },
 

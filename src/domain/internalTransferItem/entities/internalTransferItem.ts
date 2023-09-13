@@ -49,7 +49,7 @@ export class InternalTransferItemMapper {
           ? itemData._id
             ? itemData._id.toString()
             : undefined
-          : undefined,
+          : itemData._id.toString(),
         itemid: itemData.itemid,
         internalTransferid: itemData.internalTransferid,
         quantity: itemData.quantity,

@@ -28,6 +28,8 @@ export class InternalTransferItemRepositoryImpl
           ApiError.unAuthorized()
         );
       }
+      console.log(error);
+      
       return Left<ErrorClass, InternalTransferItemEntity>(
         ApiError.badRequest()
       );

@@ -40,10 +40,10 @@ export class InternalTransferMapper {
           ? transferData._id
             ? transferData._id.toString()
             : undefined
-          : undefined,
+          : transferData._id.toString(),
         transferData.sourceInventory,
         transferData.destinationInventory,
-        transferData.transferDate,
+        transferData.transferDate
       );
     }
   }

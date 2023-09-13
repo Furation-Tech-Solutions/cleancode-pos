@@ -29,6 +29,7 @@ export class RequisitionDataSourceImpl implements RequisitionDataSource {
 
   async getById(id: string): Promise<RequisitionEntity | null> {
     const requisition = await Requisition.findById(id);
+    
     return requisition ? requisition.toObject() : null; // Convert to plain JavaScript object before returning
   }
 

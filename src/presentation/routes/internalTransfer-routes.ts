@@ -75,6 +75,6 @@ internalTransferRouter.delete(
 
 // Route handling for getting all internalTransfers
 internalTransferRouter.get(
-  "/getAllinternalTransfers",
+  "/getAllInternalTransfers",
   internalTransferService.getAllInternalTransfers.bind(internalTransferService)
 );

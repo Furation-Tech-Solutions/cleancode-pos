@@ -33,6 +33,8 @@ import { expenseRouter } from "@presentation/routes/expense-routes";
 import { expenseItemRouter } from "@presentation/routes/expenseItem-route";
 import { orderRouter } from "@presentation/routes/order-routes";
 import { internalTransferItemRouter } from "@presentation/routes/internalTransferItem-routes";
+import { kotRouter } from "@presentation/routes/kot-route";
+import { wasteRouter } from "@presentation/routes/waste-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -53,6 +55,7 @@ export default (app: Express): void => {
   app.use("/admin",adminRouter);
   app.use("/outlet", outletRouter);
   app.use("/company", companyRouter);
+  app.use("/kot",kotRouter);
   app.use(router);
   app.use("/staff", staffRouter);
   app.use("/inventory", inventoryRouter);
@@ -76,4 +79,5 @@ export default (app: Express): void => {
   app.use("/expense", expenseRouter);
   app.use("/expenseItem", expenseItemRouter);
   app.use("/order", orderRouter);
+  app.use("/waste", wasteRouter);
 };

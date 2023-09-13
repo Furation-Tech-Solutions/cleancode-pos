@@ -77,7 +77,7 @@ export class PurchaseMapper {
           ? purchaseData._id
             ? purchaseData._id.toString()
             : undefined
-          : undefined,
+          : purchaseData._id.toString(),
         inventoryId: purchaseData.inventoryId,
         supplierId: purchaseData.supplierId,
         paymentMode: purchaseData.paymentMode,

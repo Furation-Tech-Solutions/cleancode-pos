@@ -26,6 +26,7 @@ export class RequisitionRepositoryImpl implements RequisitionRepository {
         return Left<ErrorClass, RequisitionEntity>(ApiError.unAuthorized());
       }
       console.log(error);
+      
       return Left<ErrorClass, RequisitionEntity>(ApiError.badRequest());
     }
   }
@@ -35,7 +36,9 @@ export class RequisitionRepositoryImpl implements RequisitionRepository {
       const response = await this.dataSource.getAllRequisitions();
       return Right<ErrorClass, RequisitionEntity[]>(response);
     } catch (error) {
+      
       if (error instanceof ApiError && error.status === 404) {
+        
         return Left<ErrorClass, RequisitionEntity[]>(ApiError.notFound());
       }
       return Left<ErrorClass, RequisitionEntity[]>(ApiError.badRequest());
@@ -52,6 +55,7 @@ export class RequisitionRepositoryImpl implements RequisitionRepository {
       }
       return Right<ErrorClass, RequisitionEntity>(response);
     } catch (error) {
+      console.log(error);
       
       
       return Left<ErrorClass, RequisitionEntity>(ApiError.badRequest());

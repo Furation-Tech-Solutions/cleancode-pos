@@ -36,10 +36,12 @@ export class RequisitionItemService {
   async createRequisitionItem(req: Request, res: Response): Promise<void> {
     const requisitionItemData: RequisitionItemModel =
       RequisitionItemMapper.toModel(req.body);
+      console.log(req.body);
+      
 
     const newRequisitionItem: Either<ErrorClass, RequisitionItemEntity> =
       await this.createRequisitionItemUsecase.execute(requisitionItemData);
-
+      
     newRequisitionItem.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
