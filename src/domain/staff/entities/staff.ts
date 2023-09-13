@@ -15,6 +15,10 @@ export class StaffModel {
   ) { }
 }
 
+export class LoginModel {
+  constructor(public email: string = "", public password: string = "") {}
+}
+
 // staff Entity provided by staff Repository is converted to Express API Response
 export class StaffEntity {
   constructor(
@@ -33,8 +37,12 @@ export class StaffEntity {
   ) { }
 }
 
+export class LoginEntity {
+  constructor(public email: string, public password: string) {}
+}
 
-export class staffMapper {
+
+export class StaffMapper {
   static toEntity(
     staffData: any,
     includeId?: boolean,

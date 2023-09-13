@@ -9,7 +9,11 @@ import { DeleteStaff } from "@domain/staff/usecases/delete-staff";
 import { GetStaffById } from "@domain/staff/usecases/get-staff-by-id";
 import { GetAllStaffs } from "@domain/staff/usecases/get-all-staff";
 import { UpdateStaff } from "@domain/staff/usecases/update-staff";
+import { LoginStaff } from "@domain/staff/usecases/login-staff";
+import { LogoutStaff } from "@domain/staff/usecases/logout-staff";
 import validateStaffMiddleware from "@presentation/middlewares/staff/validation-middleware";
+import { isAuthenticated } from "@presentation/middlewares/staff/auth";
+
 
 // Create an instance of the staffDataSourceImpl and pass the mongoose connection
 const staffDataSource = new StaffDataSourceImpl(mongoose.connection);
@@ -23,6 +27,8 @@ const deleteStaffUsecase = new DeleteStaff(staffRepository);
 const getStaffByIdUsecase = new GetStaffById(staffRepository);
 const updateStaffUsecase = new UpdateStaff(staffRepository);
 const getAllStaffsUsecase = new GetAllStaffs(staffRepository);
+const loginStaffUsecase = new LoginStaff(staffRepository);
+const logoutStaffUsecase = new LogoutStaff(staffRepository);
 
 // Initialize StaffService and inject required dependencies
 const staffService = new StaffService(
@@ -30,7 +36,9 @@ const staffService = new StaffService(
   deleteStaffUsecase,
   getStaffByIdUsecase,
   updateStaffUsecase,
-  getAllStaffsUsecase
+  getAllStaffsUsecase,
+  loginStaffUsecase,
+  logoutStaffUsecase
 );
 
 // Create an Express router
@@ -50,3 +58,9 @@ staffRouter.delete("/delete/:staffId", staffService.deleteStaff.bind(staffServic
 
 // Route handling for getting all staffs
 staffRouter.get("/list", staffService.getAllStaffs.bind(staffService));
+
+//Route handling for login
+staffRouter.post("/login", staffService.loginStaff.bind(staffService));
+
+//route handling for logout
+staffRouter.get("/logout", staffService.logOut.bind(staffService));

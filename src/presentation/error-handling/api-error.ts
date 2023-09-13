@@ -81,11 +81,19 @@ class ApiError extends ErrorClass {
   }
 
   static gstExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.GST_CONFLICT, "gst_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.GST_CONFLICT,
+      "gst_conflict"
+    );
   }
 
   static areaNameExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.AREA_CONFLICT, "areaName_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.AREA_CONFLICT,
+      "areaName_conflict"
+    );
   }
 
   static kitchen_codeExists(): ApiError {
@@ -112,55 +120,116 @@ class ApiError extends ErrorClass {
     );
   }
   static phoneNumberExits(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.PHONE_NUMBER_CONFLICT, "phoneNumber_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.PHONE_NUMBER_CONFLICT,
+      "phoneNumber_conflict"
+    );
   }
 
   static ingredientUnitNameExits(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.INGREDIENTUNIT_CONFLICT, "ingredientUnitName_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.INGREDIENTUNIT_CONFLICT,
+      "ingredientUnitName_conflict"
+    );
   }
 
   static ingredientCategoryExits(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.INGREDIENTCATEGORY_CONFLICT, "ingredientCategory_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.INGREDIENTCATEGORY_CONFLICT,
+      "ingredientCategory_conflict"
+    );
   }
 
   static ingredientExits(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.INGREDIENT_CONFLICT, "ingredient_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.INGREDIENT_CONFLICT,
+      "ingredient_conflict"
+    );
   }
 
   static foodCategoryExits(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODCATEGORY_CONFLICT, "foodCategory_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.FOODCATEGORY_CONFLICT,
+      "foodCategory_conflict"
+    );
   }
 
   static cuisineExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.CUISINE_NAME_CONFLICT, "cuisineName_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.CUISINE_NAME_CONFLICT,
+      "cuisineName_conflict"
+    );
   }
 
   static foodMenuExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODMENU_NAME_CONFLICT, "foodMenuName_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.FOODMENU_NAME_CONFLICT,
+      "foodMenuName_conflict"
+    );
   }
 
   static modifierExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.MODIFIER_NAME_CONFLICT, "modifierName_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.MODIFIER_NAME_CONFLICT,
+      "modifierName_conflict"
+    );
   }
 
   static veriationsExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.VERIATIONS_NAME_CONFLICT, "veriationsName_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.VERIATIONS_NAME_CONFLICT,
+      "veriationsName_conflict"
+    );
   }
 
   static preMadeFoodExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.PREMADEFOOD_NAME_CONFLICT, "preMadeFoodName_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.PREMADEFOOD_NAME_CONFLICT,
+      "preMadeFoodName_conflict"
+    );
   }
 
   static foodComboExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.FOODCOMBO_NAME_CONFLICT, "foodComboName_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.FOODCOMBO_NAME_CONFLICT,
+      "foodComboName_conflict"
+    );
   }
 
   static expenseItemNameExists(): ApiError {
-    return new ApiError(HttpStatus.CONFLICT, ErrorMessage.EXPENSE_ITEM_NAME_CONFLICT, "expenseItemName_conflict");
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.EXPENSE_ITEM_NAME_CONFLICT,
+      "expenseItemName_conflict"
+    );
   }
 
+  static staffNotFound(): ApiError {
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.EXPENSE_ITEM_NAME_CONFLICT,
+      "staffNotFound_conflict"
+    );
+  }
 
- 
+  static forbidden(): ApiError {
+    return new ApiError(
+      HttpStatus.CONFLICT,
+      ErrorMessage.FORBIDDEN,
+      "forbidden_conflict"
+    );
+  }
 }
 
 export default ApiError;
