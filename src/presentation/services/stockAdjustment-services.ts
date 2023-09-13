@@ -133,6 +133,7 @@ export class StockAdjustmentService {
   }
 
   async getAllStockAdjustments(req: Request, res: Response, next: NextFunction): Promise<void> {
+
       // Call the GetAllStockAdjustmentsUsecase to get all StockAdjustments
       const stockAdjustments: Either<ErrorClass, StockAdjustmentEntity[]> = await this.GetAllStockAdjustmentsUsecase.execute();
       
