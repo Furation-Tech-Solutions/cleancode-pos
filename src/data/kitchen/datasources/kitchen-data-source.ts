@@ -1,7 +1,7 @@
-import { KitchenModel, KitchenEntity } from "@domain/kitchen/entities/kitchen";
 import { Kitchen } from "../models/kitchen-model";
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
+import { KitchenModel } from "@domain/kitchen/entities/kitchen";
 export interface KitchenDataSource {
   create(kitchen: KitchenModel): Promise<any>; // Return type should be Promise of KitchenEntity
   update(id: string, kitchen: KitchenModel): Promise<any>; // Return type should be Promise of KitchenEntity

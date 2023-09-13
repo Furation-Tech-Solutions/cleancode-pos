@@ -12,13 +12,15 @@ export class SupplierRepositoryImpl implements SupplierRepository {
     this.dataSource = dataSource;
   }
 
-  async createSupplier(supplier: SupplierModel): Promise<Either<ErrorClass, SupplierEntity>> {
+  async createSupplier(
+    supplier: SupplierModel
+  ): Promise<Either<ErrorClass, SupplierEntity>> {
     // return await this.dataSource.create(supplier);
     try {
       let i = await this.dataSource.create(supplier);
       return Right<ErrorClass, SupplierEntity>(i);
     } catch (e) {
-      if(e instanceof ApiError && e.name === "conflict"){
+      if (e instanceof ApiError && e.name === "conflict") {
         return Left<ErrorClass, SupplierEntity>(ApiError.emailExits());
       }
       return Left<ErrorClass, SupplierEntity>(ApiError.badRequest());
@@ -27,7 +29,7 @@ export class SupplierRepositoryImpl implements SupplierRepository {
 
   async deleteSupplier(id: string): Promise<Either<ErrorClass, void>> {
     // await this.dataSource.delete(id);
-    
+
     try {
       let i = await this.dataSource.delete(id);
       return Right<ErrorClass, void>(i);
@@ -36,7 +38,10 @@ export class SupplierRepositoryImpl implements SupplierRepository {
     }
   }
 
-  async updateSupplier(id: string, data: SupplierModel): Promise<Either<ErrorClass, SupplierEntity>> {
+  async updateSupplier(
+    id: string,
+    data: SupplierModel
+  ): Promise<Either<ErrorClass, SupplierEntity>> {
     // return await this.dataSource.update(id, data);
     try {
       let i = await this.dataSource.update(id, data);
@@ -47,16 +52,20 @@ export class SupplierRepositoryImpl implements SupplierRepository {
   }
 
   async getSuppliers(): Promise<Either<ErrorClass, SupplierEntity[]>> {
-    // return await this.dataSource.getAllSuppliers();
     try {
-      let i = await this.dataSource.getAllSuppliers();
-      return Right<ErrorClass, SupplierEntity[]>(i);
-    } catch {
+      const response = await this.dataSource.getAllSuppliers();
+      return Right<ErrorClass, SupplierEntity[]>(response);
+    } catch (error) {
+      if (error instanceof ApiError && error.status === 404) {
+        return Left<ErrorClass, SupplierEntity[]>(ApiError.notFound());
+      }
       return Left<ErrorClass, SupplierEntity[]>(ApiError.badRequest());
     }
   }
 
-  async getSupplierById(id: string): Promise<Either<ErrorClass, SupplierEntity | null>> {
+  async getSupplierById(
+    id: string
+  ): Promise<Either<ErrorClass, SupplierEntity | null>> {
     // return await this.dataSource.read(id);
     try {
       let i = await this.dataSource.read(id);

@@ -3,34 +3,21 @@ import mongoose from "mongoose";
 import { Router } from "express"; // Correctly import Request and Response
 import { KitchenService } from "@presentation/services/kitchen-services";
 import { KitchenDataSourceImpl } from "@data/kitchen/datasources/kitchen-data-source";
-import { KitchenRepositoryImpl } from "@data/kitchen/repositories/kitchen-repositories-impl";
+// import { KitchenRepositoryImpl } from "@data/kitchen/repositories/kitchen-repositories-impl";
 import { CreateKitchen } from "@domain/kitchen/usecases/create-kitchen";
 import { DeleteKitchen } from "@domain/kitchen/usecases/delete-kitchen";
 import { GetKitchenById } from "@domain/kitchen/usecases/get-kitchen-by-id";
 import { GetAllKitchens } from "@domain/kitchen/usecases/get-all-kitchen";
 import { UpdateKitchen } from "@domain/kitchen/usecases/update-kitchen";
 import validateKitchenMiddleware from "@presentation/middlewares/kitchen/validation-middleware";
-// const dbURL =
-//   "mongodb+srv://mongodb+srv://satansharma:satansharma@cluster0.ncc9mtu.mongodb.net/?retryWrites=true&w=majority"; // Replace with your actual MongoDB connection URL
+import { KitchenRepowsitoryImpl } from "@data/kitchen/repositories/kitchen-repositories-impl";
 
-// // Set up the required options for the connection
-// const dbOptions = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   dbName: "myDatabase", // Replace with the name of your database
-//   // Other options like user and password can also be added if necessary
-// };
-
-// // Create the mongoose connection
-// mongoose.connect(dbURL, dbOptions).then(() => {
-//   console.log("Connected to MongoDB successfully!");
-// });
 
 // Create an instance of the KitchenDataSourceImpl and pass the mongoose connection
 const kitchenDataSource = new KitchenDataSourceImpl(mongoose.connection);
 
 // Create an instance of the KitchenRepositoryImpl and pass the KitchenDataSourceImpl
-const kitchenRepository = new KitchenRepositoryImpl(kitchenDataSource);
+const kitchenRepository = new KitchenRepowsitoryImpl(kitchenDataSource);
 
 // Create instances of the required use cases and pass the KitchenRepositoryImpl
 const createKitchenUsecase = new CreateKitchen(kitchenRepository);

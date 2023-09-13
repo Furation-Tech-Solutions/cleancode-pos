@@ -9,8 +9,7 @@ import { DeleteInventory } from "@domain/inventory/usecases/delete-inventory";
 import { GetInventoryById } from "@domain/inventory/usecases/get-inventory-by-id";
 import { GetAllInventories } from "@domain/inventory/usecases/get-all-inventories";
 import { UpdateInventory } from "@domain/inventory/usecases/update-inventory";
-import { GetAdminById } from "@domain/admin/usecases/get-admin-by-id";
-import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
+
 
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
@@ -38,20 +37,20 @@ const inventoryService = new InventoryService(
 // Create an Express router
 export const inventoryRouter = Router();
 
-// Route handling for creating a new admin
-inventoryRouter.post("/add", inventoryService.createInventory.bind(inventoryService));
+// Route handling for creating a new inventory
+inventoryRouter.post("/create", inventoryService.createInventory.bind(inventoryService));
 
-// Route handling for getting an admin by ID
-inventoryRouter.get("/:inventoryId", inventoryService.getInventoryById.bind(inventoryService));
+// Route handling for getting an inventory by ID
+inventoryRouter.get("/getById/:inventoryId", inventoryService.getInventoryById.bind(inventoryService));
 
-// Route handling for updating an admin by ID
-inventoryRouter.put("/:inventoryId", inventoryService.updateInventory.bind(inventoryService));
+// Route handling for updating an inventory by ID
+inventoryRouter.put("/update/:inventoryId", inventoryService.updateInventory.bind(inventoryService));
 
-// Route handling for deleting an admin by ID
-inventoryRouter.delete("/:inventoryId", inventoryService.deleteInventory.bind(inventoryService));
+// Route handling for deleting an inventory by ID
+inventoryRouter.delete("/delete/:inventoryId", inventoryService.deleteInventory.bind(inventoryService));
 
-// Route handling for getting all admins
-inventoryRouter.get("/inventory", inventoryService.getAllInventories.bind(inventoryService));
+// Route handling for getting all inventories
+inventoryRouter.get("/getAllInventories", inventoryService.getAllInventories.bind(inventoryService));
 
 
 

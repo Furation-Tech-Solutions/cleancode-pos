@@ -13,7 +13,7 @@ import { Either, Right, Left } from "monet";
 import { Kitchen } from "../models/kitchen-model";
 import { kitchenRouter } from "@presentation/routes/kitchen-routes";
 
-export class KitchenRepositoryImpl implements KitchenRepository {
+export class KitchenRepowsitoryImpl implements KitchenRepository {
   private readonly dataSource: KitchenDataSource;
 
   constructor(dataSource: KitchenDataSource) {
