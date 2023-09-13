@@ -132,7 +132,7 @@ export class AreaService {
       )
   }
 
-  async getAllAreas(req: Request, res: Response): Promise<void> {
+  async getAllAreas(req: Request, res: Response, next: NextFunction): Promise<void> {
       // Call the GetAllAreasUsecase to get all Areas
       const areas: Either<ErrorClass, AreaEntity[]> = await this.GetAllAreasUsecase.execute();
       
@@ -143,7 +143,7 @@ export class AreaService {
             const nonDeletedAreas = result.filter((area) => area.del_status !== false);
 
             // Convert non-deleted areas from an array of AreaEntity to an array of plain JSON objects using FoodCategoryMapper
-            const responseData = nonDeletedAreas.map((area) => AreaMapper.toModel(area));
+            const responseData = nonDeletedAreas.map((area) => AreaMapper.toEntity(area));
             return res.json(responseData);
         }
     );

@@ -56,7 +56,7 @@ export class TableMapper {
     } else {
       // If existingTable is not provided, create a new TableEntity using tableData
       const tableEntity: TableEntity = {
-        id: includeId ? (tableData._id ? tableData._id.toString() : undefined) : undefined,
+        id: includeId ? (tableData._id ? tableData._id.toString() : undefined) : tableData._id.toString(),
         area_id: tableData.area_id,
         outletCode_byId: tableData.outletCode_byId,
         tableNumber: tableData.tableNumber,

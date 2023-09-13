@@ -126,7 +126,7 @@ export class FoodComboMapper {
     } else {
       // If existingFoodCombo is not provided, create a new FoodComboEntity using FoodComboData
       const FoodComboEntity: FoodComboEntity = {
-        id: includeId ? (foodComboData._id ? foodComboData._id.toString() : undefined) : undefined,
+        id: includeId ? (foodComboData._id ? foodComboData._id.toString() : undefined) : foodComboData._id.toString(),
         name: foodComboData.name,
         code: foodComboData.code,
         food_category: foodComboData.food_category,

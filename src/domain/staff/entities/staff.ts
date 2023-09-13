@@ -82,7 +82,7 @@ export class staffMapper {
     } else {
       // If existingStaff is not provided, create a new staffEntity using staffData
       const staffEntity: StaffEntity = {
-        id: includeId ? (staffData._id ? staffData._id.toString() : undefined) : undefined,
+        id: includeId ? (staffData._id ? staffData._id.toString() : undefined) : staffData._id.toString(),
         outletCode_byId: staffData.outletCode_byId,
         username: staffData.username,
         phone: staffData.phone,

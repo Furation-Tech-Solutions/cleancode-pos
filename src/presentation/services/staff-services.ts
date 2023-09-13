@@ -135,7 +135,7 @@ export class StaffService {
       )
   }
 
-  async getAllStaffs(req: Request, res: Response): Promise<void> {
+  async getAllStaffs(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllstaffsUsecase to get all staffs
       const staffs: Either<ErrorClass, StaffEntity[]> = await this.getAllStaffsUsecase.execute();
@@ -147,7 +147,7 @@ export class StaffService {
             const nonDeletedStaffs = result.filter((staff) => staff.del_status !== false);
 
             // Convert non-deleted staffs from an array of StaffEntity to an array of plain JSON objects using staffMapper
-            const responseData = nonDeletedStaffs.map((staff) => staffMapper.toModel(staff));
+            const responseData = nonDeletedStaffs.map((staff) => staffMapper.toEntity(staff));
             return res.json(responseData);
         }
     );

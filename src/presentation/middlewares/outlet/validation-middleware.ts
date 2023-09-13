@@ -8,7 +8,7 @@ interface CustomRequest extends Request {
   }
 
 const outletSchema: Schema<OutletModel> = Joi.object({
-    company_id: Joi.string().required().messages({
+    company_id: Joi.array().required().messages({
         "string.base": `Company ID should be a string`,
         "string.empty": `Company ID is required`,
         "any.required": `Company ID is required`,

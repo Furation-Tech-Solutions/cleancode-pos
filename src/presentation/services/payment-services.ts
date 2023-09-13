@@ -135,7 +135,7 @@ export class PaymentService {
       )
   }
 
-  async getAllPayments(req: Request, res: Response): Promise<void> {
+  async getAllPayments(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllPaymentsUsecase to get all Payments
       const payments: Either<ErrorClass, PaymentEntity[]> = await this.getAllPaymentsUsecase.execute();
@@ -147,7 +147,7 @@ export class PaymentService {
             const nonDeletedPayments = result.filter((payment) => payment.del_status !== false);
 
             // Convert non-deleted payments from an array of PaymentEntity to an array of plain JSON objects using PaymentMapper
-            const responseData = nonDeletedPayments.map((payment) => PaymentMapper.toModel(payment));
+            const responseData = nonDeletedPayments.map((payment) => PaymentMapper.toEntity(payment));
             return res.json(responseData);
         }
     );

@@ -145,7 +145,7 @@ export class IngredientCategoryService {
           const nonDeletedIngredientCategory = result.filter((ingredientCategory) => ingredientCategory.del_status !== false);
 
           // Convert tables from an array of TableEntity to an array of plain JSON objects using TableMapper
-          const responseData = nonDeletedIngredientCategory.map((IngredientCategory) => IngredientCategoryMapper.toModel(IngredientCategory));
+          const responseData = nonDeletedIngredientCategory.map((IngredientCategory) => IngredientCategoryMapper.toEntity(IngredientCategory));
           return res.json(responseData);
         }
       );

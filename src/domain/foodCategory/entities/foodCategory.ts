@@ -47,7 +47,7 @@ export class FoodCategoryMapper {
     } else {
       // If existingFoodCategory is not provided, create a new FoodCategoryEntity using foodCategoryData
       const foodCategoryEntity: FoodCategoryEntity = {
-        id: includeId ? (foodCategoryData._id ? foodCategoryData._id.toString() : undefined) : undefined,
+        id: includeId ? (foodCategoryData._id ? foodCategoryData._id.toString() : undefined) : foodCategoryData._id.toString(),
         // parent_id: foodCategoryData.parent_id,
         foodCategory_Name: foodCategoryData.foodCategory_Name,
         description: foodCategoryData.description,

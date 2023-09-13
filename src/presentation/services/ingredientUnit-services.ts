@@ -143,7 +143,7 @@ export class IngredientUnitService {
           // Filter out tables with del_status set to "Deleted"
           const nonDeletedIngredientUnit = result.filter((ingredientUnit) => ingredientUnit.del_status !== false);
           // Convert tables from an array of TableEntity to an array of plain JSON objects using TableMapper
-          const responseData = nonDeletedIngredientUnit.map((ingredientUnit) => IngredientUnitMapper.toModel(ingredientUnit));
+          const responseData = nonDeletedIngredientUnit.map((ingredientUnit) => IngredientUnitMapper.toEntity(ingredientUnit));
           return res.json(responseData);
         }
       );    ApiError.internalError()

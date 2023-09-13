@@ -51,7 +51,7 @@ export class KitchenMapper {
         }else {
              // If existingKitchen is not provided, create a new KitchenEntity using kitchenData
              const kitchenEntity: KitchenEntity = {
-                id: includeId ? (kitchenData._id ? kitchenData._id.toString() : undefined) : undefined,
+                id: includeId ? (kitchenData._id ? kitchenData._id.toString() : undefined) : kitchenData._id.toString(),
                 // id: includeId ? (tableData._id ? tableData._id.toString() : undefined) : undefined,
                 outletCode_byId: kitchenData.outletCode_byId,
                 kitchen_code: kitchenData.kitchen_code,

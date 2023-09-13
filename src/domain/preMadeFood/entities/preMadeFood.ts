@@ -58,7 +58,7 @@ export class PreMadeFoodMapper {
     } else {
       // If existingPreMadeFood is not provided, create a new PreMadeFoodEntity using preMadeFoodData
       const PreMadeFoodEntity: PreMadeFoodEntity = {
-        id: includeId ? (preMadeFoodData._id ? preMadeFoodData._id.toString() : undefined) : undefined,
+        id: includeId ? (preMadeFoodData._id ? preMadeFoodData._id.toString() : undefined) : preMadeFoodData._id.toString(),
         name: preMadeFoodData.name,
         code: preMadeFoodData.code,
         category: preMadeFoodData.category,

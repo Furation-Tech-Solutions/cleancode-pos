@@ -46,7 +46,7 @@ export class OutletStockMapper {
     } else {
       // If existingOutletStock is not provided, create a new OutletStockEntity using outletStockData
       const OutletStockEntity: OutletStockEntity = {
-        id: includeId ? (outletStockData._id ? outletStockData._id.toString() : undefined) : undefined,
+        id: includeId ? (outletStockData._id ? outletStockData._id.toString() : undefined) : outletStockData._id.toString(),
         outletCode_byId: outletStockData.outletCode_byId,
         items: outletStockData.items,
         qty: outletStockData.qty,

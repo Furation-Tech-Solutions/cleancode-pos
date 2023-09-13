@@ -40,7 +40,7 @@ export class IngredientUnitMapper {
     } else {
       // If existingIngredientUnit is not provided, create a new IngredientUnitEntity using ingredientUnitData
       const ingredientUnitEntity: IngredientUnitEntity = {
-        id: includeId ? (ingredientUnitData._id ? ingredientUnitData._id.toString() : undefined) : undefined,
+        id: includeId ? (ingredientUnitData._id ? ingredientUnitData._id.toString() : undefined) : ingredientUnitData._id.toString(),
         ingredientUnit_name: ingredientUnitData.ingredientUnit_name,
         description: ingredientUnitData.description,
         del_status: ingredientUnitData.del_status,

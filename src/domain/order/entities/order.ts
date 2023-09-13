@@ -7,7 +7,7 @@ export class OrderModel {
     public date: Date,
     public persons: string = "",
     public waiter: string = "",
-    public orderTime: string = "",
+    public orderTime: Date,
     public orderType: string = "",
     public orderTable: string[] = [],
     public kot_print: string[] = [],
@@ -25,7 +25,7 @@ export class OrderEntity {
     public date: Date,
     public persons: string,
     public waiter: string,
-    public orderTime: string,
+    public orderTime: Date,
     public orderType: string,
     public orderTable: string[],
     public kot_print: string[],
@@ -72,7 +72,7 @@ export class OrderMapper {
     } else {
       // If existingOrder is not provided, create a new OrderEntity using orderData
       const OrderEntity: OrderEntity = {
-        id: includeId ? (orderData._id ? orderData._id.toString() : undefined) : undefined,
+        id: includeId ? (orderData._id ? orderData._id.toString() : undefined) : orderData._id.toString(),
         orderNumber: orderData.orderNumber,
         date: orderData.date,
         persons: orderData.persons,

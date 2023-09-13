@@ -44,7 +44,7 @@ export class IngredientCategoryMapper {
     } else {
       // If existingIngredientCategory is not provided, create a new IngredientCategoryEntity using ingredientCategoryData
       const ingredientCategoryEntity: IngredientCategoryEntity = {
-        id: includeId ? (ingredientCategoryData._id ? ingredientCategoryData._id.toString() : undefined) : undefined,
+        id: includeId ? (ingredientCategoryData._id ? ingredientCategoryData._id.toString() : undefined) : ingredientCategoryData._id.toString(),
         ingredientCategory_name: ingredientCategoryData.ingredientCategory_name,
         description: ingredientCategoryData.description,
         createdBy: ingredientCategoryData.createdBy,

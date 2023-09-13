@@ -54,7 +54,7 @@ export class PaymentMapper {
     } else {
       // If existingPayment is not provided, create a new PaymentEntity using paymentData
       const PaymentEntity: PaymentEntity = {
-        id: includeId ? (paymentData._id ? paymentData._id.toString() : undefined) : undefined,
+        id: includeId ? (paymentData._id ? paymentData._id.toString() : undefined) : paymentData._id.toString(),
         name: paymentData.name,
         description: paymentData.description,
         staff_id: paymentData.staff_id,

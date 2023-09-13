@@ -132,7 +132,7 @@ export class TableService {
   }
 
 
-  async getAllTables(req: Request, res: Response): Promise<void> {
+  async getAllTables(req: Request, res: Response, next: NextFunction): Promise<void> {
     // Call the GetAllTablesUsecase to get all tables
     const tables: Either<ErrorClass, TableEntity[]> = await this.getAllTablesUsecase.execute();
 
@@ -143,7 +143,7 @@ export class TableService {
             const nonDeletedTables = result.filter((table) => table.del_status !== false);
 
             // Convert non-deleted tables from an array of TableEntity to an array of plain JSON objects using TableMapper
-            const responseData = nonDeletedTables.map((table) => TableMapper.toModel(table));
+            const responseData = nonDeletedTables.map((table) => TableMapper.toEntity(table));
             return res.json(responseData);
         }
     );

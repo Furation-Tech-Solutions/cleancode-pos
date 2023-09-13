@@ -132,7 +132,7 @@ export class FoodCategoryService {
   }
 
 
-  async getAllFoodCategorys(req: Request, res: Response): Promise<void> {
+  async getAllFoodCategorys(req: Request, res: Response, next: NextFunction): Promise<void> {
     // Call the GetAllFoodCategorysUsecase to get all foodCategorys
     const foodCategorys: Either<ErrorClass, FoodCategoryEntity[]> = await this.getAllFoodCategorysUsecase.execute();
 
@@ -143,7 +143,7 @@ export class FoodCategoryService {
             const nonDeletedFoodCategorys = result.filter((foodCategory) => foodCategory.del_status !== false);
 
             // Convert non-deleted foodCategorys from an array of FoodCategoryEntity to an array of plain JSON objects using FoodCategoryMapper
-            const responseData = nonDeletedFoodCategorys.map((foodCategory) => FoodCategoryMapper.toModel(foodCategory));
+            const responseData = nonDeletedFoodCategorys.map((foodCategory) => FoodCategoryMapper.toEntity(foodCategory));
             return res.json(responseData);
         }
     );
