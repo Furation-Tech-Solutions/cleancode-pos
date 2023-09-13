@@ -18,7 +18,7 @@ export class StaffRepositoryImpl implements StaffRepository {
       let i = await this.dataSource.create(staff);
       return Right<ErrorClass, StaffEntity>(i);
     } catch (e) {
-      if(e instanceof ApiError && e.name === "foodCategory_conflict"){
+      if(e instanceof ApiError && e.name === "conflict"){
         return Left<ErrorClass, StaffEntity>(ApiError.emailExits());
       }
       return Left<ErrorClass, StaffEntity>(ApiError.badRequest());

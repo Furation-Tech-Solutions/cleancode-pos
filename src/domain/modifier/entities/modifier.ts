@@ -3,7 +3,7 @@ export class ModifierModel {
   constructor(
     public name: string = "",
     public salePrice: number = 0,
-    public ingredientConsumption: string = "",
+    public ingredientConsumption: string[] = [],
     public description: string = "",
     public totalCostOfIngredients: number = 0,
     public del_status: boolean
@@ -16,7 +16,7 @@ export class ModifierEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
     public salePrice: number,
-    public ingredientConsumption: string,
+    public ingredientConsumption: string[],
     public description: string,
     public totalCostOfIngredients: number,
     public del_status: boolean
@@ -50,7 +50,7 @@ export class ModifierMapper {
     } else {
       // If existingModifier is not provided, create a new ModifierEntity using modifierData
       const ModifierEntity: ModifierEntity = {
-        id: includeId ? (modifierData._id ? modifierData._id.toString() : undefined) : undefined,
+        id: includeId ? (modifierData._id ? modifierData._id.toString() : undefined) : modifierData._id.toString(),
         name: modifierData.name,
         salePrice: modifierData.salePrice,
         ingredientConsumption: modifierData.ingredientConsumption,

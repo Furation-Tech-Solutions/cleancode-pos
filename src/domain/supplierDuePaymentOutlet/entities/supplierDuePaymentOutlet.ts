@@ -2,11 +2,11 @@
 export class SupplierDuePaymentOutletModel {
   constructor(
     public date: Date,
-    public supplier_id: string = "",
+    public supplier_id: string[] = [],
     public amount: number = 0,
     public note: string = "",
-    public staff_id: string = "",
-    public outlet_id: string = "",
+    public staff_id: string[] = [],
+    public outlet_id: string[] = [],
     public paymentMethod: string = "",
     public paymentStatus: string = "",
     public del_status: boolean
@@ -18,11 +18,11 @@ export class SupplierDuePaymentOutletEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
     public date: Date,
-    public supplier_id: string,
+    public supplier_id: string[],
     public amount: number,
     public note: string,
-    public staff_id: string,
-    public outlet_id: string,
+    public staff_id: string[],
+    public outlet_id: string[],
     public paymentMethod: string,
     public paymentStatus: string,
     public del_status: boolean
@@ -62,7 +62,7 @@ export class SupplierDuePaymentOutletMapper {
     } else {
       // If existingSupplierDuePaymentOutlet is not provided, create a new SupplierDuePaymentOutletEntity using supplierDuePaymentOutletData
       const SupplierDuePaymentOutletEntity: SupplierDuePaymentOutletEntity = {
-        id: includeId ? (supplierDuePaymentOutletData._id ? supplierDuePaymentOutletData._id.toString() : undefined) : undefined,
+        id: includeId ? (supplierDuePaymentOutletData._id ? supplierDuePaymentOutletData._id.toString() : undefined) : supplierDuePaymentOutletData._id.toString(),
         date: supplierDuePaymentOutletData.date,
         supplier_id: supplierDuePaymentOutletData.supplier_id,
         amount: supplierDuePaymentOutletData.amount,

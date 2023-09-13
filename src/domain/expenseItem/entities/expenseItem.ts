@@ -3,8 +3,8 @@ export class ExpenseItemModel {
   constructor(
     public name: string = "",
     public description: string = "",
-    public staff_id: string = "",
-    public company_id: string = "",
+    public staff_id: string[] = [],
+    public company_id: string[] = [],
     public del_status: boolean
   ) { }
 }
@@ -15,8 +15,8 @@ export class ExpenseItemEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
     public description: string,
-    public staff_id: string,
-    public company_id: string,
+    public staff_id: string[],
+    public company_id: string[],
     public del_status: boolean
   ) { }
 }
@@ -46,7 +46,7 @@ export class ExpenseItemMapper {
     } else {
       // If existingExpenseItem is not provided, create a new ExpenseItemEntity using expenseItemData
       const ExpenseItemEntity: ExpenseItemEntity = {
-        id: includeId ? (expenseItemData._id ? expenseItemData._id.toString() : undefined) : undefined,
+        id: includeId ? (expenseItemData._id ? expenseItemData._id.toString() : undefined) : expenseItemData._id.toString(),
         name: expenseItemData.name,
         description: expenseItemData.description,
         staff_id: expenseItemData.staff_id,

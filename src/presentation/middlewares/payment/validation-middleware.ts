@@ -10,8 +10,14 @@ interface CustomRequest extends Request {
 const paymentSchema: Schema<PaymentModel> = Joi.object({
   name: Joi.string().min(3).max(50).required().trim().error(new Error("Please enter a name with 3 to 50 characters")),
   description: Joi.string().max(200).trim().allow(null).optional(),
-  staff_id: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required().error(new Error("Please enter a valid staff_id")),
-  company_id: Joi.string().pattern(/^[0-9a-fA-F]{24}$/).required().error(new Error("Please enter a valid company_id")),
+  staff_id: Joi.array().required().messages({
+    'array.base': 'Staff ID should be an array',
+    'any.required': 'Please enter staff ID',
+  }),
+  company_id: Joi.array().required().messages({
+    'array.base': 'Company ID should be an array',
+    'any.required': 'Please enter company ID',
+  }),
   order_by: Joi.string().max(50).allow(null).optional(),
   email: Joi.string().email().required().lowercase().trim().error(new Error("Please enter a valid email address")),
   del_status: Joi.boolean().default(true)

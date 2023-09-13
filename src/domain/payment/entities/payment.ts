@@ -3,8 +3,8 @@ export class PaymentModel {
   constructor(
     public name: string = "",
     public description: string = "",
-    public staff_id: string = "",
-    public company_id: string = "",
+    public staff_id: string[] = [],
+    public company_id: string[] = [],
     public order_by: string = "",
     public email: string = "",
     public del_status: boolean
@@ -17,8 +17,8 @@ export class PaymentEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
     public description: string,
-    public staff_id: string,
-    public company_id: string,
+    public staff_id: string[],
+    public company_id: string[],
     public order_by: string,
     public email: string,
     public del_status: boolean
@@ -54,7 +54,7 @@ export class PaymentMapper {
     } else {
       // If existingPayment is not provided, create a new PaymentEntity using paymentData
       const PaymentEntity: PaymentEntity = {
-        id: includeId ? (paymentData._id ? paymentData._id.toString() : undefined) : undefined,
+        id: includeId ? (paymentData._id ? paymentData._id.toString() : undefined) : paymentData._id.toString(),
         name: paymentData.name,
         description: paymentData.description,
         staff_id: paymentData.staff_id,

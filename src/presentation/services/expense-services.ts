@@ -136,7 +136,7 @@ export class ExpenseService {
       )
   }
 
-  async getAllExpenses(req: Request, res: Response): Promise<void> {
+  async getAllExpenses(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllExpensesUsecase to get all Expenses
       const expenses: Either<ErrorClass, ExpenseEntity[]> = await this.getAllExpensesUsecase.execute();
@@ -148,7 +148,7 @@ export class ExpenseService {
             const nonDeletedExpenses = result.filter((expense) => expense.del_status !== false);
 
             // Convert non-deleted expenses from an array of ExpenseEntity to an array of plain JSON objects using ExpenseMapper
-            const responseData = nonDeletedExpenses.map((expense) => ExpenseMapper.toModel(expense));
+            const responseData = nonDeletedExpenses.map((expense) => ExpenseMapper.toEntity(expense));
             return res.json(responseData);
         }
     );

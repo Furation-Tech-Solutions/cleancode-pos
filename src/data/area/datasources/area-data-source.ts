@@ -14,7 +14,7 @@ export class AreaDataSourceImpl implements AreaDataSource {
   constructor(private db: mongoose.Connection) {}
 
   async create(area: AreaModel): Promise<any> {
-    const existingArea = await Area.findOne({outlet_code: area.outlet_code});
+    const existingArea = await Area.findOne({outletCode_byId: area.outletCode_byId});
     if (existingArea) {
       throw ApiError.areaNameExists()
     }

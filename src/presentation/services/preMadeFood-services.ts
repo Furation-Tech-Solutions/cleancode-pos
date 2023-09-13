@@ -135,7 +135,7 @@ export class PreMadeFoodService {
       )
   }
 
-  async getAllPreMadeFoods(req: Request, res: Response): Promise<void> {
+  async getAllPreMadeFoods(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllPreMadeFoodsUsecase to get all preMadeFoods
       const preMadeFoods: Either<ErrorClass, PreMadeFoodEntity[]> = await this.getAllPreMadeFoodsUsecase.execute();
@@ -147,7 +147,7 @@ export class PreMadeFoodService {
             const nonDeletedPreMadeFoods = result.filter((preMadeFood) => preMadeFood.del_status !== false);
 
             // Convert non-deleted preMadeFoods from an array of PreMadeFoodEntity to an array of plain JSON objects using PreMadeFoodMapper
-            const responseData = nonDeletedPreMadeFoods.map((preMadeFood) => PreMadeFoodMapper.toModel(preMadeFood));
+            const responseData = nonDeletedPreMadeFoods.map((preMadeFood) => PreMadeFoodMapper.toEntity(preMadeFood));
             return res.json(responseData);
         }
     );

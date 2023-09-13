@@ -148,7 +148,7 @@ export class OrderService {
       )
   }
 
-  async getAllOrders(req: Request, res: Response): Promise<void> {
+  async getAllOrders(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllOrdersUsecase to get all Orders
       const orders: Either<ErrorClass, OrderEntity[]> = await this.getAllOrdersUsecase.execute();
@@ -160,7 +160,7 @@ export class OrderService {
             const nonDeletedOrders = result.filter((order) => order.del_status !== false);
 
             // Convert non-deleted orders from an array of OrderEntity to an array of plain JSON objects using OrderMapper
-            const responseData = nonDeletedOrders.map((order) => OrderMapper.toModel(order));
+            const responseData = nonDeletedOrders.map((order) => OrderMapper.toEntity(order));
             return res.json(responseData);
         }
     );

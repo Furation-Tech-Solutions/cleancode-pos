@@ -135,7 +135,7 @@ export class VeriationsService {
       )
   }
 
-  async getAllVeriationss(req: Request, res: Response): Promise<void> {
+  async getAllVeriationss(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllVeriationssUsecase to get all veriationss
       const veriationss: Either<ErrorClass, VeriationsEntity[]> = await this.getAllVeriationssUsecase.execute();
@@ -147,7 +147,7 @@ export class VeriationsService {
             const nonDeletedVeriationss = result.filter((veriations) => veriations.del_status !== false);
 
             // Convert non-deleted veriationss from an array of VeriationsEntity to an array of plain JSON objects using VeriationsMapper
-            const responseData = nonDeletedVeriationss.map((veriations) => VeriationsMapper.toModel(veriations));
+            const responseData = nonDeletedVeriationss.map((veriations) => VeriationsMapper.toEntity(veriations));
             return res.json(responseData);
         }
     );

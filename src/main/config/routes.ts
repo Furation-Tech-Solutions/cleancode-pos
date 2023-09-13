@@ -35,6 +35,9 @@ import { orderRouter } from "@presentation/routes/order-routes";
 import { internalTransferItemRouter } from "@presentation/routes/internalTransferItem-routes";
 import { kotRouter } from "@presentation/routes/kot-route";
 import { wasteRouter } from "@presentation/routes/waste-routes";
+import { billingDetailsRouter } from "@presentation/routes/billingDetails-routes";
+import { stockAdjustmentRouter } from "@presentation/routes/stockAdjustment-route";
+
 
 export default (app: Express): void => {
   const router = Router();
@@ -79,5 +82,9 @@ export default (app: Express): void => {
   app.use("/expense", expenseRouter);
   app.use("/expenseItem", expenseItemRouter);
   app.use("/order", orderRouter);
+
   app.use("/waste", wasteRouter);
+
+  app.use("/stockAdjustment", stockAdjustmentRouter);
+  app.use("/billingDetails", billingDetailsRouter);
 };

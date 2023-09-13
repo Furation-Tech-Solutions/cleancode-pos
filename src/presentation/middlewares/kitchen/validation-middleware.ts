@@ -8,37 +8,41 @@ interface CustomRequest extends Request {
   }
 
   const kitchenValidationSchema = Joi.object({
-    outlet_code: Joi.string().max(50).min(1).required()
-      .messages({
-        'string.max': 'Maximum 50 characters are permitted',
-        'string.min': 'outlet_code should have more than 1 character',
-        'any.required': 'Please enter outlet_code',
-      }),
-  
-    kitchen_code: Joi.string().max(50).min(1).required()
-      .messages({
-        'string.max': 'Maximum 50 characters are permitted',
-        'string.min': 'kitchen_code should have more than 1 character',
-        'any.required': 'Please enter kitchen_code',
-      }),
-  
-    kitchen_area: Joi.string().required()
-      .messages({
-        'any.required': 'Please enter kitchen area',
-      }),
-  
-    kitchen_name: Joi.string().max(50).min(3).required()
-      .messages({
-        'string.max': 'Maximum 50 characters are permitted',
-        'string.min': 'Kitchen name should have more than 3 characters',
-        'any.required': 'Please enter Kitchen Name',
-      }),
-  
-    createdBy: Joi.date(),
-    del_status: Joi.string().valid('Live', 'Deleted').default('Live')
-      .messages({
-        'any.only': 'Value is not matched',
-      }),
+    outletCode_byId: Joi.array()
+    .items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/))
+    .required()
+    .description('An array of MongoDB ObjectIds for outlet codes')
+    .label('Outlet Code')
+    .messages({
+      'any.required': 'Please enter outlet_code',
+    }),
+    kitchen_code: Joi.string()
+    .required()
+    .messages({
+      'any.required': 'Please enter kitchenCode',
+      'string.unique': 'Kitchen code must be unique',
+    }),
+  kitchen_area: Joi.array()
+    .items(Joi.string().pattern(/^[0-9a-fA-F]{24}$/))
+    .required()
+    .description('An array of MongoDB ObjectIds referencing the "Area" model')
+    .label('Kitchen Area')
+    .messages({
+      'any.required': 'Please enter kitchen area',
+    }),
+  kitchen_name: Joi.string()
+    .max(50)
+    .min(3)
+    .required()
+    .trim()
+    .messages({
+      'string.max': 'Maximum 50 characters are permitted',
+      'string.min': 'Kitchen name should have more than 3 characters',
+      'any.required': 'Please enter Kitchen Name',
+      'string.unique': 'Kitchen name must be unique',
+    }),
+  createdBy: Joi.date().default(Date.now),
+  del_status: Joi.boolean().default(true)
   });
   
 function validateKitchenMiddleware(req: CustomRequest, res: Response, next: NextFunction) {

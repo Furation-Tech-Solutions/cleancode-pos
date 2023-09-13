@@ -2,11 +2,11 @@
 import { Date } from "mongoose";
 export class AreaModel {
     constructor(
-      public outlet_code: string = "",
+      public outletCode_byId: string[] = [],
       public area_name: string = "",
       public description: string = "",
       public createdAt: Date,
-      public phone: string = "",
+      public phone: number = 0,
       public del_status: boolean
 
     ) {}
@@ -16,11 +16,11 @@ export class AreaModel {
   export class AreaEntity {
     constructor( 
       public id: string | undefined = undefined, // Set a default value for id
-      public outlet_code: string,
+      public outletCode_byId: string[],
       public area_name: string ,
       public description: string ,
       public createdAt: Date,
-      public phone: string, // Changed the type to string as phone numbers can contain characters like '+', '-', etc.
+      public phone: number, // Changed the type to string as phone numbers can contain characters like '+', '-', etc.
       public del_status: boolean
 
       ) {}
@@ -37,8 +37,8 @@ export class AreaModel {
         // If existingArea is provided, merge the data from areaData with the existingArea
         return {
           ...existingArea,
-          outlet_code:
-            areaData.outlet_code !==undefined ? areaData.outlet_code : existingArea.outlet_code,
+          outletCode_byId:
+            areaData.outletCode_byId !==undefined ? areaData.outletCode_byId : existingArea.outletCode_byId,
           area_name:
             areaData.area_name !== undefined? areaData.area_name : existingArea.area_name,
           description:
@@ -53,8 +53,8 @@ export class AreaModel {
       } else {
         // If existingArea is not provided, create a new areaEntity using areaData
         const areaEntity: AreaEntity = {
-            id: includeId ? (areaData._id ? areaData._id.toString() : undefined) : undefined,
-            outlet_code: areaData.outlet_code,
+            id: includeId ? (areaData._id ? areaData._id.toString() : undefined) : areaData._id.toString(),
+            outletCode_byId: areaData.outletCode_byId,
             area_name: areaData.area_name,
             description: areaData.description,
             createdAt: areaData.createdAt,
@@ -67,7 +67,7 @@ export class AreaModel {
     static toModel(area: AreaEntity): any {
       return {
         id: area.id,
-        outlet_code: area.outlet_code,
+        outletCode_byId: area.outletCode_byId,
         area_name: area.area_name,
         description: area.description,
         createdAt: area.createdAt,

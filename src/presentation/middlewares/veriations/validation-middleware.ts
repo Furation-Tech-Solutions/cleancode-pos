@@ -15,10 +15,14 @@ const veriationsSchema: Schema<VeriationsModel> = Joi.object({
       'string.max': 'Name should have less than 30 characters',
       'any.required': 'Name is required',
     }),
-  code: Joi.string().required().messages({
-      'string.base': 'Code should be a string',
-      'any.required': 'Code is required',
-    }),
+  foodMenuCode_byId: Joi.array()
+    .items(Joi.string().required())
+    .required()
+    .description('An array of food menu codes')
+    .label('Food Menu Code')
+    .messages({
+      'any.required': 'At least one food menu code is required',
+  }),
   dineInPrice: Joi.number(),
   takeAwayPrice: Joi.number(),
   deliveryPrice: Joi.array().items(Joi.string().required()).required().messages({

@@ -131,6 +131,7 @@ export class SupplierService {
     );
   }
 
+<<<<<<< HEAD
   async getAllSuppliers(
     req: Request,
     res: Response,
@@ -148,6 +149,23 @@ export class SupplierService {
         );
         return res.json(resData);
       }
+=======
+  async getAllSuppliers(req: Request, res: Response, next: NextFunction): Promise<void> {
+    
+      // Call the GetAllSuppliersUsecase to get all Suppliers
+      const suppliers: Either<ErrorClass, SupplierEntity[]> = await this.getAllSuppliersUsecase.execute();
+
+      suppliers.cata(
+        (error: ErrorClass) => res.status(error.status).json({ error: error.message }),
+        (result: SupplierEntity[]) => {
+            // Filter out suppliers with del_status set to "Deleted"
+            const nonDeletedSuppliers = result.filter((supplier) => supplier.del_status !== false);
+
+            // Convert non-deleted suppliers from an array of SupplierEntity to an array of plain JSON objects using SupplierMapper
+            const responseData = nonDeletedSuppliers.map((supplier) => SupplierMapper.toEntity(supplier));
+            return res.json(responseData);
+        }
+>>>>>>> 26c0958bbe883633ef81c92c4e71d0ed9a3ac8b4
     );
   }
 }

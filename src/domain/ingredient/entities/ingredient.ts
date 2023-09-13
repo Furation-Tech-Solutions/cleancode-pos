@@ -3,9 +3,9 @@ export class IngredientModel {
   constructor(
     public name: string = "",
     public code: number = 0,
-    public category: string = "",
-    public PurchaseUnit: string = "",
-    public ConsumptionUnit: string = "",
+    public category: string[] = [],
+    public PurchaseUnit: string[] = [],
+    public ConsumptionUnit: string[] = [],
     public ConversionUnit: string = "",
     public PurchaseRate: number = 0,
     public costUnit: number = 0,
@@ -20,9 +20,9 @@ export class IngredientEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
     public code: number,
-    public category: string,
-    public PurchaseUnit: string,
-    public ConsumptionUnit: string,
+    public category: string[],
+    public PurchaseUnit: string[],
+    public ConsumptionUnit: string[],
     public ConversionUnit: string,
     public PurchaseRate: number,
     public costUnit: number,
@@ -68,7 +68,7 @@ export class IngredientMapper {
     } else {
       // If existingIngredient is not provided, create a new IngredientEntity using ingredientData
       const ingredientEntity: IngredientEntity = {
-        id: includeId ? (ingredientData._id ? ingredientData._id.toString() : undefined) : undefined,
+        id: includeId ? (ingredientData._id ? ingredientData._id.toString() : undefined) : ingredientData._id.toString(),
         name: ingredientData.name,
         code: ingredientData.code,
         category: ingredientData.category,

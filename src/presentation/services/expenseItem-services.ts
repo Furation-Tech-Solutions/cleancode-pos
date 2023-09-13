@@ -135,7 +135,7 @@ export class ExpenseItemService {
       )
   }
 
-  async getAllExpenseItems(req: Request, res: Response): Promise<void> {
+  async getAllExpenseItems(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllExpenseItemsUsecase to get all expenseItems
       const expenseItems: Either<ErrorClass, ExpenseItemEntity[]> = await this.getAllExpenseItemsUsecase.execute();
@@ -147,7 +147,7 @@ export class ExpenseItemService {
             const nonDeletedExpenseItems = result.filter((expenseItem) => expenseItem.del_status !== false);
 
             // Convert non-deleted expenseItems from an array of ExpenseItemEntity to an array of plain JSON objects using ExpenseItemMapper
-            const responseData = nonDeletedExpenseItems.map((expenseItem) => ExpenseItemMapper.toModel(expenseItem));
+            const responseData = nonDeletedExpenseItems.map((expenseItem) => ExpenseItemMapper.toEntity(expenseItem));
             return res.json(responseData);
         }
     );

@@ -94,7 +94,7 @@ export class CompanyServices {
 
   async getAllCompanys(
     req: Request,
-    res: Response
+    res: Response, next: NextFunction
   ): Promise<void> {
     // Call the GetAllCompanysUsecase to get all companys
     const companys: Either<ErrorClass, CompanyEntity[]> =
@@ -109,7 +109,7 @@ export class CompanyServices {
 
         // Convert compnays from an array of CompanyEntity to an array of plain JSON objects using CompanyMapper
         const responseData = nonDeletedCompanys.map((company) =>
-          CompanyMapper.toModel(company)
+          CompanyMapper.toEntity(company)
         );
         // Send the admins as a JSON response
         return res.json(responseData);

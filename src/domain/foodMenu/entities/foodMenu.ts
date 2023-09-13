@@ -3,8 +3,8 @@ export class FoodMenuModel {
   constructor(
     public name: string = "",
     public code: string = "",
-    public cuisine: string = "",
-    public subCategory: string = "",
+    public cuisine: string[] = [],
+    public subCategory: string[] = [],
     public ingredientConsumption: string[]  = [],
     public totalCostOfIngredients: number,
     public dineInPrice: number,
@@ -24,8 +24,8 @@ export class FoodMenuEntity {
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
     public code: string,
-    public cuisine: string,
-    public subCategory: string,
+    public cuisine: string[],
+    public subCategory: string[],
     public ingredientConsumption: string[],
     public totalCostOfIngredients: number,
     public dineInPrice: number,
@@ -76,7 +76,7 @@ export class FoodMenuMapper {
     } else {
       // If existingFoodMenu is not provided, create a new FoodMenuEntity using FoodMenuData
       const FoodMenuEntity: FoodMenuEntity = {
-        id: includeId ? (FoodMenuData._id ? FoodMenuData._id.toString() : undefined) : undefined,
+        id: includeId ? (FoodMenuData._id ? FoodMenuData._id.toString() : undefined) : FoodMenuData._id.toString(),
         name: FoodMenuData.name,
         code: FoodMenuData.code,
         cuisine: FoodMenuData.cuisine,

@@ -135,7 +135,7 @@ export class ModifierService {
       )
   }
 
-  async getAllModifiers(req: Request, res: Response): Promise<void> {
+  async getAllModifiers(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllModifiersUsecase to get all Modifiers
       const modifiers: Either<ErrorClass, ModifierEntity[]> = await this.getAllModifiersUsecase.execute();
@@ -147,7 +147,7 @@ export class ModifierService {
             const nonDeletedModifiers = result.filter((modifier) => modifier.del_status !== false);
 
             // Convert non-deleted modifiers from an array of ModifierEntity to an array of plain JSON objects using ModifierMapper
-            const responseData = nonDeletedModifiers.map((modifier) => ModifierMapper.toModel(modifier));
+            const responseData = nonDeletedModifiers.map((modifier) => ModifierMapper.toEntity(modifier));
             return res.json(responseData);
         }
     );

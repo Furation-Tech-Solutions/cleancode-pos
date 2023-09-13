@@ -52,7 +52,7 @@ export class DeliveryPartnerMapper {
     } else {
       // If existingDeliveryPartner is not provided, create a new DeliveryPartnerEntity using deliveryPartnerData
       const deliveryPartnerEntity: DeliveryPartnerEntity = {
-        id: includeId ? (deliveryPartnerData._id ? deliveryPartnerData._id.toString() : undefined) : undefined,
+        id: includeId ? (deliveryPartnerData._id ? deliveryPartnerData._id.toString() : undefined) : deliveryPartnerData._id.toString(),
         DeliveryPartner_name: deliveryPartnerData.DeliveryPartner_name,
         email: deliveryPartnerData.email,
         phone: deliveryPartnerData.phone,

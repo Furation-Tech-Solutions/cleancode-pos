@@ -8,10 +8,9 @@ interface CustomRequest extends Request {
   }
 
 const areaSchema: Schema<AreaModel> = Joi.object({
-  outlet_code: Joi.string().required().messages({
-    "string.base": "Outlet ID should be a string",
-    "any.required": "Outlet ID is required",
-    "string.empty": "Outlet ID must not be empty",
+  outletCode_byId: Joi.array().required().messages({
+    'any.required': 'Please enter outlet_id',
+    'objectId': 'Invalid outlet_id format. It should be a valid ObjectId.',
   }),
   area_name: Joi.string().required().min(3).max(100).messages({
     "string.base": "Area name should be a string",

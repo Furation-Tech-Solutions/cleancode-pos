@@ -3,17 +3,17 @@ import { Outlet } from "../models/outlet-model";
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
 export interface OutletDataSource {
-  create(outlet: OutletModel): Promise<any>; // Return type should be Promise of OutletEntity
+  create(outlet: OutletModel): Promise<OutletEntity>; // Return type should be Promise of OutletEntity
   update(id: string, outlet: OutletModel): Promise<any>; // Return type should be Promise of OutletEntity
   delete(id: string): Promise<void>;
-  read(id: string): Promise<any | null>; // Return type should be Promise of OutletEntity or null
-  getAllOutlets(): Promise<any[]>; // Return type should be Promise of an array of OutletEntity
+  read(id: string): Promise<OutletEntity | null>; // Return type should be Promise of OutletEntity or null
+  getAllOutlets(): Promise<OutletEntity[]>; // Return type should be Promise of an array of OutletEntity
 }
 
 export class OutletDataSourceImpl implements OutletDataSource {
   constructor(private db: mongoose.Connection) { }
 
-  async create(outlet: OutletModel): Promise<any> {
+  async create(outlet: OutletModel): Promise<OutletEntity> {
     const existingOutlet = await Outlet.findOne({ gstNo: outlet.gstNo });
     if (existingOutlet) {
       throw ApiError.emailExits()
@@ -37,12 +37,12 @@ export class OutletDataSourceImpl implements OutletDataSource {
     await Outlet.findByIdAndDelete(id);
   }
 
-  async read(id: string): Promise<any | null> {
+  async read(id: string): Promise<OutletEntity | null> {
     const outlet = await Outlet.findById(id);
     return outlet ? outlet.toObject() : null; // Convert to plain JavaScript object before returning
   }
 
-  async getAllOutlets(): Promise<any[]> {
+  async getAllOutlets(): Promise<OutletEntity[]> {
     const outlets = await Outlet.find();
     return outlets.map((outlet) => outlet.toObject()); // Convert to plain JavaScript objects before returning
   }

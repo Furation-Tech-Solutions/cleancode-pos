@@ -1,7 +1,7 @@
 // Express API request populate the outletStock Model
 export class OutletStockModel {
   constructor(
-    public outletCode: string = "",
+    public outletCode_byId: string[] = [],
     public items: string = "",
     public qty: number = 0,
     public flag: string = "",
@@ -13,7 +13,7 @@ export class OutletStockModel {
 export class OutletStockEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
-    public outletCode: string,
+    public outletCode_byId: string[],
     public items: string,
     public qty: number,
     public flag: string,
@@ -32,8 +32,8 @@ export class OutletStockMapper {
       // If existingOutletStock is provided, merge the data from outletStockData with the existingOutletStock
       return {
         ...existingOutletStock,
-        outletCode:
-          outletStockData.outletCode !== undefined ? outletStockData.outletCode : existingOutletStock.outletCode,
+        outletCode_byId:
+          outletStockData.outletCode_byId !== undefined ? outletStockData.outletCode_byId : existingOutletStock.outletCode_byId,
         items:
           outletStockData.items !== undefined ? outletStockData.items : existingOutletStock.items,
         qty:
@@ -46,8 +46,8 @@ export class OutletStockMapper {
     } else {
       // If existingOutletStock is not provided, create a new OutletStockEntity using outletStockData
       const OutletStockEntity: OutletStockEntity = {
-        id: includeId ? (outletStockData._id ? outletStockData._id.toString() : undefined) : undefined,
-        outletCode: outletStockData.outletCode,
+        id: includeId ? (outletStockData._id ? outletStockData._id.toString() : undefined) : outletStockData._id.toString(),
+        outletCode_byId: outletStockData.outletCode_byId,
         items: outletStockData.items,
         qty: outletStockData.qty,
         flag: outletStockData.flag,
@@ -60,7 +60,7 @@ export class OutletStockMapper {
   static toModel(outletStock: OutletStockEntity): any {
     return {
       id: outletStock.id,
-      outletCode: outletStock.outletCode,
+      outletCode_byId: outletStock.outletCode_byId,
       items: outletStock.items,
       qty: outletStock.qty,
       flag: outletStock.flag,

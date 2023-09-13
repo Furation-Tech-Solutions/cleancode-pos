@@ -20,6 +20,7 @@ export class InventoryEntity {
 }
 
 export class InventoryMapper {
+<<<<<<< HEAD
   static toEntity(
     inventoryData: any,
     includeId?: boolean,
@@ -60,6 +61,36 @@ export class InventoryMapper {
         companyId: inventoryData.companyId,
       };
       return inventoryEntity;
+=======
+    static toEntity(
+        inventoryData: any,
+        includeId?: boolean,
+        existingInventory?: InventoryEntity,
+    ): InventoryEntity {
+        if (existingInventory != null) {
+            // If existingAdmin is provided, merge the data from adminData with the existingAdmin
+            return {
+                ...existingInventory,
+                name:
+                    inventoryData.name !== undefined ? inventoryData.name : existingInventory.name,
+                place:
+                    inventoryData.place !== undefined ? inventoryData.place : existingInventory.place,
+                companyId:
+                    inventoryData.companyId !== undefined
+                        ? inventoryData.companyId
+                        : existingInventory.companyId,
+            };
+        } else {
+            // If existingAdmin is not provided, create a new AdminEntity using adminData
+            const inventoryEntity: InventoryEntity = {
+                id: includeId ? (inventoryData._id ? inventoryData._id.toString() : undefined) : inventoryData._id.toString(),
+                name: inventoryData.name,
+                place: inventoryData.place,
+                companyId: inventoryData.companyId,
+            };
+            return inventoryEntity;
+        }
+>>>>>>> 26c0958bbe883633ef81c92c4e71d0ed9a3ac8b4
     }
   }
 

@@ -135,7 +135,7 @@ export class FoodMenuService {
       )
   }
 
-  async getAllFoodMenus(req: Request, res: Response): Promise<void> {
+  async getAllFoodMenus(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllFoodMenusUsecase to get all foodMenus
       const foodMenus: Either<ErrorClass, FoodMenuEntity[]> = await this.getAllFoodMenusUsecase.execute();
@@ -147,7 +147,7 @@ export class FoodMenuService {
             const nonDeletedFoodMenus = result.filter((foodMenu) => foodMenu.del_status !== false);
 
             // Convert non-deleted foodMenus from an array of FoodMenuEntity to an array of plain JSON objects using FoodMenuMapper
-            const responseData = nonDeletedFoodMenus.map((foodMenu) => FoodMenuMapper.toModel(foodMenu));
+            const responseData = nonDeletedFoodMenus.map((foodMenu) => FoodMenuMapper.toEntity(foodMenu));
             return res.json(responseData);
         }
     );

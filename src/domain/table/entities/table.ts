@@ -1,13 +1,12 @@
 // Express API request populate the Table Model
 export class TableModel {
   constructor(
-    public area_id: string = "",
-    public outlet_id: string = "",
-    public personName: string = "",
-    public phone_number: string = "",
-    public sit_capacity: number = 0,
-    public position: string = "",
+    public area_id: string[] = [],
+    public outletCode_byId: string[] = [],
+    public tableNumber: number = 0,
+    public seatingCapacity: number = 0,
     public description: string = "",
+    public phone_number: number = 0,
     public del_status: boolean
   ) { }
 }
@@ -16,13 +15,12 @@ export class TableModel {
 export class TableEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
-    public area_id: string,
-    public outlet_id: string,
-    public personName: string,
-    public phone_number: string,
-    public sit_capacity: number,
-    public position: string,
+    public area_id: string[],
+    public outletCode_byId: string[],
+    public tableNumber: number,
+    public seatingCapacity: number,
     public description: string,
+    public phone_number: number,
     public del_status: boolean
   ) { }
 }
@@ -41,18 +39,16 @@ export class TableMapper {
         ...existingTable,
         area_id:
           tableData.area_id !== undefined ? tableData.area_id : existingTable.area_id,
-        outlet_id:
-          tableData.outlet_id !== undefined ? tableData.outlet_id : existingTable.outlet_id,
-        personName:
-          tableData.personName !== undefined ? tableData.personName : existingTable.personName,
-        phone_number:
-          tableData.phone_number !== undefined ? tableData.phone_number : existingTable.phone_number,
-        sit_capacity:
-          tableData.sit_capacity !== undefined ? tableData.sit_capacity : existingTable.sit_capacity,
-        position:
-          tableData.position !== undefined ? tableData.position : existingTable.position,
+        outletCode_byId:
+          tableData.outletCode_byId !== undefined ? tableData.outletCode_byId : existingTable.outletCode_byId,
+        tableNumber:
+          tableData.tableNumber !== undefined ? tableData.tableNumber : existingTable.tableNumber,
+        seatingCapacity:
+          tableData.seatingCapacity !== undefined ? tableData.seatingCapacity : existingTable.seatingCapacity,
         description:
           tableData.description !== undefined ? tableData.description : existingTable.description,
+        phone_number:
+          tableData.phone_number !== undefined ? tableData.phone_number : existingTable.phone_number,
         del_status:
           tableData.del_status !== undefined ? tableData.del_status : existingTable.del_status,
 
@@ -60,14 +56,13 @@ export class TableMapper {
     } else {
       // If existingTable is not provided, create a new TableEntity using tableData
       const tableEntity: TableEntity = {
-        id: includeId ? (tableData._id ? tableData._id.toString() : undefined) : undefined,
+        id: includeId ? (tableData._id ? tableData._id.toString() : undefined) : tableData._id.toString(),
         area_id: tableData.area_id,
-        outlet_id: tableData.outlet_id,
-        personName: tableData.personName,
-        phone_number: tableData.phone_number,
-        sit_capacity: tableData.sit_capacity,
-        position: tableData.position,
+        outletCode_byId: tableData.outletCode_byId,
+        tableNumber: tableData.tableNumber,
+        seatingCapacity: tableData.seatingCapacity,
         description: tableData.description,
+        phone_number: tableData.phone_number,
         del_status: tableData.del_status,
       };
       return tableEntity;
@@ -78,12 +73,11 @@ export class TableMapper {
     return {
       id: table.id,
       area_id: table.area_id,
-      outlet_id: table.outlet_id,
-      personName: table.personName,
-      phone_number: table.phone_number,
-      sit_capacity: table.sit_capacity,
-      position: table.position,
+      outletCode_byId: table.outletCode_byId,
+      tableNumber: table.tableNumber,
+      seatingCapacity: table.seatingCapacity,
       description: table.description,
+      phone_number: table.phone_number,
       del_status: table.del_status,
     };
   }
