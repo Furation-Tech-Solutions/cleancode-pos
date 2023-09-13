@@ -10,23 +10,6 @@ import { GetAdminById } from "@domain/admin/usecases/get-admin-by-id";
 import { GetAllAdmins } from "@domain/admin/usecases/get-all-admins";
 import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
 
-// const dbURL =
-//   "mongodb+srv://jatinp8390:Kolhapur09@cluster0.rpywjyb.mongodb.net/?retryWrites=true&w=majority"; // Replace with your actual MongoDB connection URL
-
-// // Set up the required options for the connection
-// const dbOptions = {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-
-//   dbName: "myDatabase", // Replace with the name of your database
-
-//   // Other options like user and password can also be added if necessary
-// };
-
-// // Create the mongoose connection
-// mongoose.connect(dbURL, dbOptions).then(() => {
-//   console.log("Connected to MongoDB successfully!");
-// });
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
 const adminDataSource = new AdminDataSourceImpl(mongoose.connection);

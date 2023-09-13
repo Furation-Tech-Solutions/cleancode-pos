@@ -1,7 +1,9 @@
-import { type InventoryRepository } from "@domain/inventory/repositories/inventory-repository";
+import { InventoryRepository } from "@domain/inventory/repositories/inventory-repository";
+import { ErrorClass } from "@presentation/error-handling/api-error";
+import { Either } from "monet";
 
 export interface DeleteInventoryUsecase {
-  execute: (inventoryId: string) => Promise<void>
+  execute: (inventoryId: string) => Promise<Either<ErrorClass, void>>;
 }
 
 export class DeleteInventory implements DeleteInventoryUsecase {
@@ -11,7 +13,7 @@ export class DeleteInventory implements DeleteInventoryUsecase {
     this.inventoryRepository = inventoryRepository;
   }
 
-  async execute(inventoryId: string): Promise<void> {
-    await this.inventoryRepository.deleteInventory(inventoryId);
+  async execute(inventoryId: string): Promise<Either<ErrorClass, void>> {
+    return await this.inventoryRepository.deleteInventory(inventoryId);
   }
 }

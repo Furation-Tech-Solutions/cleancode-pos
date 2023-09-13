@@ -37,10 +37,10 @@ const supplierService = new SupplierService(
 export const supplierRouter = Router();
 
 // Route handling for creating a new supplier
-supplierRouter.post("/new", validateSupplierMiddleware, supplierService.createSupplier.bind(supplierService));
+supplierRouter.post("/create", validateSupplierMiddleware, supplierService.createSupplier.bind(supplierService));
 
 // Route handling for getting an supplier by ID
-supplierRouter.get("/show/:supplierId", supplierService.getSupplierById.bind(supplierService));
+supplierRouter.get("/getById/:supplierId", supplierService.getSupplierById.bind(supplierService));
 
 // Route handling for updating an supplier by ID
 supplierRouter.put("/update/:supplierId", supplierService.updateSupplier.bind(supplierService));
@@ -49,4 +49,4 @@ supplierRouter.put("/update/:supplierId", supplierService.updateSupplier.bind(su
 supplierRouter.delete("/delete/:supplierId", supplierService.deleteSupplier.bind(supplierService));
 
 // Route handling for getting all suppliers
-supplierRouter.get("/list", supplierService.getAllSuppliers.bind(supplierService));
+supplierRouter.get("/getAllSuppliers", supplierService.getAllSuppliers.bind(supplierService));

@@ -3,9 +3,11 @@ import setupApp from "@main/config/app";
 import env from "@main/config/env";
 import mongoose from "mongoose";
 
-const app = setupApp();
+
+const app = setupApp()
 
 const dbURL = env.mongoUrl;
+console.log(dbURL,"db url")
 // const dbURL = "mongodb+srv://satansharma:satansharma@cluster0.ncc9mtu.mongodb.net/?retryWrites=true&w=majority";
 // Set up the required options for the connection
 const dbOptions = {
