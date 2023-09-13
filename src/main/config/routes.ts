@@ -28,6 +28,7 @@ import { expenseItemRouter } from "@presentation/routes/expenseItem-route";
 import { orderRouter } from "@presentation/routes/order-routes";
 import { stockAdjustmentRouter } from "@presentation/routes/stockAdjustment-route";
 import { billingDetailsRouter } from "@presentation/routes/billingDetails-routes";
+import { invoiceRouter } from "@presentation/routes/invoice-routes";
 
 export default (app: Express): void => {
   const router = Router();
@@ -66,4 +67,5 @@ export default (app: Express): void => {
   app.use("/order", orderRouter);
   app.use("/stockAdjustment", stockAdjustmentRouter);
   app.use("/billingDetails", billingDetailsRouter);
+  app.use("/invoice", invoiceRouter);
 };
