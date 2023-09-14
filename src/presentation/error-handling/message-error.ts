@@ -54,5 +54,9 @@ export const FOODCOMBO_NAME_CONFLICT = "foodCombo name Already Exist";
 
 export const EXPENSE_ITEM_NAME_CONFLICT = "expenseItem name Already Exist";
 
+export const STAFF_NOT_FOUND = "staff not found";
+
+export const FORBIDDEN = "Forbidden";
+
 
 

@@ -4,7 +4,7 @@ export class InventoryModel {
     public inventoryName: string = "",
     public location: string = "",
     public description: string = "",
-    public companyId: string[] = []
+    public companyId: string = ""
   ) {}
 }
 
@@ -15,7 +15,7 @@ export class InventoryEntity {
     public inventoryName: string,
     public location: string,
     public description: string,
-    public companyId: string[]
+    public companyId: string
   ) {}
 }
 

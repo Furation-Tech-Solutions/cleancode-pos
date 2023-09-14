@@ -41,7 +41,11 @@ export class SupplierMapper {
     } else {
       // If existingSupplier is not provided, create a new SupplierEntity using supplierData
       const SupplierEntity: SupplierEntity = {
-        id: includeId ? (supplierData._id ? supplierData._id.toString() : undefined) : supplierData._id.toString(),
+        id: includeId
+          ? supplierData._id
+            ? supplierData._id.toString()
+            : undefined
+          : supplierData._id.toString(),
         companyId: supplierData.companyId,
         contact: supplierData.contact,
         address: supplierData.address,

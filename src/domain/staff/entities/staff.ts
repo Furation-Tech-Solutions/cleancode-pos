@@ -10,9 +10,16 @@ export class StaffModel {
     public active: boolean,
     public createdAt: Date,
     public password: string = "",
-    public secuerityQuestion: string = "",
+    public securityQuestion: string = "",
     public del_status: boolean
   ) { }
+}
+
+export class LoginModel {
+  constructor(
+    public email_address: string = "",
+    public password: string = ""
+  ) {}
 }
 
 // staff Entity provided by staff Repository is converted to Express API Response
@@ -28,13 +35,17 @@ export class StaffEntity {
     public active: boolean,
     public createdAt: Date,
     public password: string,
-    public secuerityQuestion: string,
+    public securityQuestion: string,
     public del_status: boolean
   ) { }
 }
 
+export class LoginEntity {
+  constructor(public email_address: string, public password: string) {}
+}
 
-export class staffMapper {
+
+export class StaffMapper {
   static toEntity(
     staffData: any,
     includeId?: boolean,
@@ -70,10 +81,10 @@ export class staffMapper {
           staffData.password !== undefined
             ? staffData.password
             : existingStaff.password,
-        secuerityQuestion:
-          staffData.secuerityQuestion !== undefined
-            ? staffData.secuerityQuestion
-            : existingStaff.secuerityQuestion,
+        securityQuestion:
+          staffData.securityQuestion !== undefined
+            ? staffData.secerityQuestion
+            : existingStaff.securityQuestion,
         del_status:
           staffData.del_status !== undefined
             ? staffData.del_status
@@ -92,7 +103,7 @@ export class staffMapper {
         active: staffData.active,
         createdAt: staffData.createdAt,
         password: staffData.password,
-        secuerityQuestion: staffData.secuerityQuestion,
+        securityQuestion: staffData.secuerityQuestion,
         del_status: staffData.del_status,
       };
       return staffEntity;
@@ -111,7 +122,7 @@ export class staffMapper {
       active: staff.active,
       createdAt: staff.createdAt,
       password: staff.password,
-      secuerityQuestion: staff.secuerityQuestion,
+      securityQuestion: staff.securityQuestion,
       del_status: staff.del_status,
     };
   }

@@ -9,6 +9,9 @@ import { DeleteAdmin } from "@domain/admin/usecases/delete-admin";
 import { GetAdminById } from "@domain/admin/usecases/get-admin-by-id";
 import { GetAllAdmins } from "@domain/admin/usecases/get-all-admins";
 import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
+import { LoginAdmin } from "@domain/admin/usecases/login-admin";
+import { LogoutAdmin} from "@domain/admin/usecases/logout-admin";
+import { isAuthenticated } from "@presentation/middlewares/jwtAuthentication/auth";
 
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
@@ -23,6 +26,9 @@ const deleteAdminUsecase = new DeleteAdmin(adminRepository);
 const getAdminByIdUsecase = new GetAdminById(adminRepository);
 const updateAdminUsecase = new UpdateAdmin(adminRepository);
 const getAllAdminsUsecase = new GetAllAdmins(adminRepository);
+const loginAdminUsecase = new LoginAdmin(adminRepository);
+const logoutAdminUsecase = new LogoutAdmin(adminRepository);
+
 
 // Initialize AdminService and inject required dependencies
 const adminService = new AdminService(
@@ -30,23 +36,34 @@ const adminService = new AdminService(
   deleteAdminUsecase,
   getAdminByIdUsecase,
   updateAdminUsecase,
-  getAllAdminsUsecase
+  getAllAdminsUsecase,
+  loginAdminUsecase,
+  logoutAdminUsecase
 );
 
 // Create an Express router
 export const adminRouter = Router();
 
 // Route handling for creating a new admin
-adminRouter.post("/admin/new", adminService.createAdmin.bind(adminService));
+adminRouter.post("/create", adminService.createAdmin.bind(adminService));
 
 // Route handling for getting an admin by ID
-adminRouter.get("/:adminId", adminService.getAdminById.bind(adminService));
+adminRouter.get(
+  "/getById/:adminId",
+  adminService.getAdminById.bind(adminService)
+);
 
 // Route handling for updating an admin by ID
-adminRouter.put("/:adminId", adminService.updateAdmin.bind(adminService));
+adminRouter.put("/update/:adminId", adminService.updateAdmin.bind(adminService));
 
 // Route handling for deleting an admin by ID
-adminRouter.delete("/:adminId", adminService.deleteAdmin.bind(adminService));
+adminRouter.delete("/delete/:adminId", adminService.deleteAdmin.bind(adminService));
 
 // Route handling for getting all admins
-adminRouter.get("/", adminService.getAllAdmins.bind(adminService));
+adminRouter.get("/getAllAdmins", adminService.getAllAdmins.bind(adminService));
+
+//Route handling for login
+adminRouter.post("/login", adminService.loginAdmin.bind(adminService));
+
+//route handling for logout
+adminRouter.get("/logout", adminService.logOut.bind(adminService));

@@ -40,8 +40,8 @@ const staffSchema: Schema<StaffModel> = Joi.object({
     'string.empty': 'Password cannot be empty',
     'any.required': 'Password is required',
   }),
-  secuerityQuestion: Joi.string().allow(null).default(null),
-  del_status: Joi.string().default(true),
+  securityQuestion: Joi.string().allow(null).default(null),
+  del_status: Joi.boolean().default(true),
 });
 
 function validateStaffMiddleware(req: CustomRequest, res: Response, next: NextFunction) {

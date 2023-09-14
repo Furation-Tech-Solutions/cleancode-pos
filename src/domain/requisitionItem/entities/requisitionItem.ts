@@ -1,7 +1,7 @@
 export class RequisitionItemModel {
   constructor(
-    public requisitionid: string[] = [],
-    public itemid: string[] = [],
+    public requisitionid: string = "",
+    public itemid: string = "",
     public quantity: number = 1,
     public unitOfMeasurement: string = ""
   ) {}
@@ -10,8 +10,8 @@ export class RequisitionItemModel {
 export class RequisitionItemEntity {
   constructor(
     public id: string | undefined = undefined,
-    public requisitionid: string[],
-    public itemid: string[],
+    public requisitionid: string,
+    public itemid: string,
     public quantity: number,
     public unitOfMeasurement: string
   ) {}

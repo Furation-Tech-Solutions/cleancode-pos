@@ -9,7 +9,10 @@ import { DeleteStaff } from "@domain/staff/usecases/delete-staff";
 import { GetStaffById } from "@domain/staff/usecases/get-staff-by-id";
 import { GetAllStaffs } from "@domain/staff/usecases/get-all-staff";
 import { UpdateStaff } from "@domain/staff/usecases/update-staff";
+import { LoginStaff } from "@domain/staff/usecases/login-staff";
+import { LogoutStaff } from "@domain/staff/usecases/logout-staff";
 import validateStaffMiddleware from "@presentation/middlewares/staff/validation-middleware";
+import { isAuthenticated } from "@presentation/middlewares/jwtAuthentication/auth";
 
 // Create an instance of the staffDataSourceImpl and pass the mongoose connection
 const staffDataSource = new StaffDataSourceImpl(mongoose.connection);
@@ -23,6 +26,8 @@ const deleteStaffUsecase = new DeleteStaff(staffRepository);
 const getStaffByIdUsecase = new GetStaffById(staffRepository);
 const updateStaffUsecase = new UpdateStaff(staffRepository);
 const getAllStaffsUsecase = new GetAllStaffs(staffRepository);
+const loginStaffUsecase = new LoginStaff(staffRepository);
+const logoutStaffUsecase = new LogoutStaff(staffRepository);
 
 // Initialize StaffService and inject required dependencies
 const staffService = new StaffService(
@@ -30,23 +35,41 @@ const staffService = new StaffService(
   deleteStaffUsecase,
   getStaffByIdUsecase,
   updateStaffUsecase,
-  getAllStaffsUsecase
+  getAllStaffsUsecase,
+  loginStaffUsecase,
+  logoutStaffUsecase
 );
 
 // Create an Express router
 export const staffRouter = Router();
 
 // Route handling for creating a new staff
-staffRouter.post("/new", validateStaffMiddleware, staffService.createStaff.bind(staffService));
+staffRouter.post(
+  "/new",
+  validateStaffMiddleware,
+  staffService.createStaff.bind(staffService)
+);
 
 // Route handling for getting an staff by ID
 staffRouter.get("/show/:staffId", staffService.getStaffById.bind(staffService));
 
 // Route handling for updating an staff by ID
-staffRouter.put("/update/:staffId", staffService.updateStaff.bind(staffService));
+staffRouter.put(
+  "/update/:staffId",
+  staffService.updateStaff.bind(staffService)
+);
 
 // Route handling for deleting an staff by ID
-staffRouter.delete("/delete/:staffId", staffService.deleteStaff.bind(staffService));
+staffRouter.delete(
+  "/delete/:staffId",
+  staffService.deleteStaff.bind(staffService)
+);
 
 // Route handling for getting all staffs
 staffRouter.get("/list", staffService.getAllStaffs.bind(staffService));
+
+//Route handling for login
+staffRouter.post("/login", staffService.loginStaff.bind(staffService));
+
+//route handling for logout
+staffRouter.get("/logout", staffService.logOut.bind(staffService));

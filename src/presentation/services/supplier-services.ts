@@ -131,21 +131,23 @@ export class SupplierService {
     );
   }
 
-  async getAllSuppliers(req: Request, res: Response, next: NextFunction): Promise<void> {
-    
-      // Call the GetAllSuppliersUsecase to get all Suppliers
-      const suppliers: Either<ErrorClass, SupplierEntity[]> = await this.getAllSuppliersUsecase.execute();
+  async getAllSuppliers(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const suppliers: Either<ErrorClass, SupplierEntity[]> =
+      await this.getAllSuppliersUsecase.execute();
 
-      suppliers.cata(
-        (error: ErrorClass) => res.status(error.status).json({ error: error.message }),
-        (result: SupplierEntity[]) => {
-            // Filter out suppliers with del_status set to "Deleted"
-            const nonDeletedSuppliers = result.filter((supplier) => supplier.del_status !== false);
-
-            // Convert non-deleted suppliers from an array of SupplierEntity to an array of plain JSON objects using SupplierMapper
-            const responseData = nonDeletedSuppliers.map((supplier) => SupplierMapper.toEntity(supplier));
-            return res.json(responseData);
-        }
+    suppliers.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (suppliers: SupplierEntity[]) => {
+        const resData = suppliers.map((supplier: any) =>
+          SupplierMapper.toEntity(supplier)
+        );
+        return res.json(resData);
+      }
     );
   }
 }

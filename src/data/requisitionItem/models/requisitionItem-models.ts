@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
 const requisitionItemSchema = new mongoose.Schema({
-  requisitionid: [{
+  requisitionid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Requisition",
     required: true,
-  }],
+  },
 
-  itemid: [{
+  itemid: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Ingredient",
     required: true,
-  }],
+  },
 
   quantity: {
     type: Number,
