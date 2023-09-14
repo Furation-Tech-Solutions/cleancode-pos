@@ -9,29 +9,29 @@ const StatusEnum = {
 };
 
 const requisitionSchema = new mongoose.Schema({
-  outletid: {
+  outletid: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Outlet",
     required: true,
-  },
+  }],
 
-  inventoryid: {
+  inventoryid: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Inventory",
     required: true,
-  },
+  }],
 
-  sender: {
+  sender: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Staff",
     required: true,
-  },
+  }],
 
-  receiver: {
+  receiver: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Staff",
     required: true,
-  },
+  }],
 
   requestDate: {
     type: Date,

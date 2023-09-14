@@ -131,25 +131,6 @@ export class SupplierService {
     );
   }
 
-<<<<<<< HEAD
-  async getAllSuppliers(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
-    const suppliers: Either<ErrorClass, SupplierEntity[]> =
-      await this.getAllSuppliersUsecase.execute();
-
-    suppliers.cata(
-      (error: ErrorClass) =>
-        res.status(error.status).json({ error: error.message }),
-      (suppliers: SupplierEntity[]) => {
-        const resData = suppliers.map((supplier: any) =>
-          SupplierMapper.toEntity(supplier)
-        );
-        return res.json(resData);
-      }
-=======
   async getAllSuppliers(req: Request, res: Response, next: NextFunction): Promise<void> {
     
       // Call the GetAllSuppliersUsecase to get all Suppliers
@@ -165,7 +146,6 @@ export class SupplierService {
             const responseData = nonDeletedSuppliers.map((supplier) => SupplierMapper.toEntity(supplier));
             return res.json(responseData);
         }
->>>>>>> 26c0958bbe883633ef81c92c4e71d0ed9a3ac8b4
     );
   }
 }
