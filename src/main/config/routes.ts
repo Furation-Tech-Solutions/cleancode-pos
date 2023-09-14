@@ -38,6 +38,7 @@ import { wasteRouter } from "@presentation/routes/waste-routes";
 import { billingDetailsRouter } from "@presentation/routes/billingDetails-routes";
 import { invoiceRouter } from "@presentation/routes/invoice-routes";
 import { stockAdjustmentRouter } from "@presentation/routes/stockAdjustment-route";
+import { reportRouter } from "@presentation/routes/report-route";
 
 export default (app: Express): void => {
   const router = Router();
@@ -88,4 +89,5 @@ export default (app: Express): void => {
   app.use("/stockAdjustment", stockAdjustmentRouter);
   app.use("/billingDetails", billingDetailsRouter);
   app.use("/invoice", invoiceRouter);
+  app.use("/report", reportRouter);
 };

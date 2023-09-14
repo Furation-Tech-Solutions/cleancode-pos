@@ -15,13 +15,13 @@ const invoiceSchema: Schema<InvoiceModel> = Joi.object({
   outlet_id: Joi.array().required().messages({
     'any.required': 'Outlet ID is required',
   }),
-  // inventory_id: Joi.array().required().messages({
-  //   'any.required': 'Inventory ID is required',
-  // }),
+  inventory_id: Joi.array().required().messages({
+    'any.required': 'Inventory ID is required',
+  }),
   dateTime: Joi.date().default(Date.now),
-  // items: Joi.array().items(Joi.string().required()).required().messages({
-  //   'any.required': 'Items are required',
-  // }),
+  items: Joi.array().items(Joi.string().required()).required().messages({
+    'any.required': 'Items are required',
+  }),
   subtotal: Joi.number().min(0).default(0),
   tax_rate: Joi.number().min(0).default(0),
   discount_amount: Joi.number().min(0).default(0),

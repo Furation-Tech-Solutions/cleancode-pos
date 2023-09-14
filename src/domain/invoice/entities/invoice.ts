@@ -4,9 +4,9 @@ export class InvoiceModel {
     constructor(
       public invoice_number: number,
       public outlet_id: string[] = [],
-      // public invertory_id: string[] = [],
+      public inventory_id: string[] = [],
       public dateTime: Date,
-      // public items: number[] = [],
+      public items: number[] = [],
       public subtotal: number = 0,
       public tax_rate: number = 0,
       public discount_amount: number = 0,
@@ -25,9 +25,9 @@ export class InvoiceModel {
       
       public invoice_number: number,
       public outlet_id: string[],
-      // public invertory_id: string[],
+      public inventory_id: string[],
       public dateTime: Date,
-      // public items: number[],
+      public items: number[],
       public subtotal: number,
       public tax_rate: number,
       public discount_amount: number,
@@ -54,12 +54,12 @@ export class InvoiceModel {
             invoiceData.invoice_number !==undefined ? invoiceData.invoice_number : existingInvoice.invoice_number,
           outlet_id:
             invoiceData.outlet_id !== undefined? invoiceData.outlet_id : existingInvoice.outlet_id,
-          // invertory_id:
-          //   invoiceData.invertory_id !==undefined ? invoiceData.invertory_id : existingInvoice.invertory_id,
+          inventory_id:
+            invoiceData.inventory_id !==undefined ? invoiceData.inventory_id : existingInvoice.inventory_id,
           dateTime:
             invoiceData.dateTime !== undefined? invoiceData.dateTime: existingInvoice.dateTime,
-          // items:
-          //   invoiceData.items !== undefined ? invoiceData.items: existingInvoice.items,
+          items:
+            invoiceData.items !== undefined ? invoiceData.items: existingInvoice.items,
           subtotal:
             invoiceData.subtotal !== undefined ? invoiceData.subtotal: existingInvoice.subtotal,
           tax_rate:
@@ -81,9 +81,9 @@ export class InvoiceModel {
             id: includeId ? (invoiceData._id ? invoiceData._id.toString() : undefined) : invoiceData._id.toString(),
             invoice_number: invoiceData.invoice_number,
             outlet_id: invoiceData.outlet_id,
-            // invertory_id: invoiceData.invertory_id,
+            inventory_id: invoiceData.inventory_id,
             dateTime: invoiceData.dateTime,
-            // items: invoiceData.items,
+            items: invoiceData.items,
             subtotal: invoiceData.subtotal,
             tax_rate: invoiceData.tax_rate,
             discount_amount: invoiceData.discount_amount,
@@ -100,9 +100,9 @@ export class InvoiceModel {
         id: invoice.id,
         invoice_number: invoice.invoice_number,
         outlet_id: invoice.outlet_id,
-        // invertory_id: invoice.invertory_id,
+        inventory_id: invoice.inventory_id,
         dateTime: invoice.dateTime,
-        // items: invoice.items,
+        items: invoice.items,
         subtotal: invoice.subtotal,
         tax_rate: invoice.tax_rate,
         discount_amount: invoice.discount_amount,

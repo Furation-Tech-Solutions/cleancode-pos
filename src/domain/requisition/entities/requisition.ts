@@ -1,9 +1,9 @@
 export class RequisitionModel {
   constructor(
-    public outletid: string = "",
-    public inventoryid: string = "",
-    public sender: string = "",
-    public receiver: string = "",
+    public outletid: string[] = [],
+    public inventoryid: string[] = [],
+    public sender: string[] = [],
+    public receiver: string[] = [],
     public requestDate: Date = new Date(),
     public status: string = "pending",
     public description: string = "",
@@ -13,10 +13,10 @@ export class RequisitionModel {
 export class RequisitionEntity {
   constructor(
     public id: string | undefined = undefined,
-    public outletid: string,
-    public inventoryid: string,
-    public sender: string,
-    public receiver: string,
+    public outletid: string[],
+    public inventoryid: string[],
+    public sender: string[],
+    public receiver: string[],
     public requestDate: Date,
     public status: string,
     public description: string,
