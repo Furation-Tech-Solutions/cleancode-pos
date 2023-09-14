@@ -12,7 +12,7 @@ export interface StaffDataSource {
   delete(id: string): Promise<void>;
   read(id: string): Promise<StaffEntity | null>; // Return type should be Promise of StaffEntity or null
   getAllStaffs(): Promise<StaffEntity[]>; // Return type should be Promise of an array of StaffEntity
-  login(email: string, password: string): Promise<any>;
+  login(email_address: string, password: string): Promise<any>;
   logout(): Promise<any>;
 }
 

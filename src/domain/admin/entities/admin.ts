@@ -2,15 +2,23 @@
 export class AdminModel {
   constructor(
     public name: string = "",
-    public email: string = "",
+    public emailId: string = "",
     public phone: number = 0,
     public brand: string = "",
     public jobTitle: string = "",
     public superAdmin: boolean = false,
     public admin: boolean = false,
     public permissions: number[] = [],
+    public password: string = "",
     public active: boolean = false,
     public outlet: string = ""
+  ) {}
+}
+
+export class LoginModel {
+  constructor(
+    public emailId: string = "",
+    public password: string = ""
   ) {}
 }
 
@@ -19,16 +27,21 @@ export class AdminEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
-    public email: string,
+    public emailId: string,
     public phone: number,
     public brand: string,
     public jobTitle: string,
     public superAdmin: boolean,
     public admin: boolean,
     public permissions: number[],
+    public password: string,
     public active: boolean,
     public outlet: string
   ) {}
+}
+
+export class LoginEntity {
+  constructor(public emailId: string, public password: string) {}
 }
 
 
@@ -45,8 +58,8 @@ export class AdminMapper {
         ...existingAdmin,
         name:
           adminData.name !== undefined ? adminData.name : existingAdmin.name,
-        email:
-          adminData.email !== undefined ? adminData.email : existingAdmin.email,
+        emailId:
+          adminData.email !== undefined ? adminData.email : existingAdmin.emailId,
         phone:
           adminData.phone !== undefined ? adminData.phone : existingAdmin.phone,
         brand:
@@ -65,6 +78,10 @@ export class AdminMapper {
           adminData.permissions !== undefined
             ? adminData.permissions
             : existingAdmin.permissions,
+        password:
+          adminData.password !== undefined
+            ? adminData.password
+            : existingAdmin.password,
         active:
           adminData.active !== undefined
             ? adminData.active
@@ -79,13 +96,14 @@ export class AdminMapper {
       const adminEntity: AdminEntity = {
         id: includeId ? (adminData._id ? adminData._id.toString() : undefined) : undefined,
         name: adminData.name,
-        email: adminData.email,
+        emailId: adminData.email,
         phone: adminData.phone,
         brand: adminData.brand,
         jobTitle: adminData.jobTitle,
         superAdmin: adminData.superAdmin,
         admin: adminData.admin,
         permissions: adminData.permissions,
+        password: adminData.password,
         active: adminData.active,
         outlet: adminData.outlet,
       };
@@ -97,13 +115,14 @@ export class AdminMapper {
     return {
       id: admin.id,
       name: admin.name,
-      email: admin.email,
+      emailId: admin.emailId,
       phone: admin.phone,
       brand: admin.brand,
       jobTitle: admin.jobTitle,
       superAdmin: admin.superAdmin,
       admin: admin.admin,
       permissions: admin.permissions,
+      password: admin.password,
       active: admin.active,
       outlet: admin.outlet,
     };

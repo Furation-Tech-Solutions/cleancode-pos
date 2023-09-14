@@ -3,13 +3,20 @@ import {
   AdminModel,
   AdminEntity,
   AdminMapper,
+  LoginEntity,
+  LoginModel,
 } from "@domain/admin/entities/admin";
 import { CreateAdminUsecase } from "@domain/admin/usecases/create-admin";
 import { DeleteAdminUsecase } from "@domain/admin/usecases/delete-admin";
 import { GetAdminByIdUsecase } from "@domain/admin/usecases/get-admin-by-id";
 import { UpdateAdminUsecase } from "@domain/admin/usecases/update-admin";
 import { GetAllAdminsUsecase } from "@domain/admin/usecases/get-all-admins";
+import { LoginAdminUsecase } from "@domain/admin/usecases/login-admin";
+import { LogoutAdminUsecase } from "@domain/admin/usecases/logout-admin";
 import ApiError from "@presentation/error-handling/api-error";
+import { Either } from "monet";
+import ErrorClass from "@presentation/error-handling/api-error";
+import { isAuthenticated } from "@presentation/middlewares/jwtAuthentication/auth";
 
 export class AdminService {
   private readonly createAdminUsecase: CreateAdminUsecase;
@@ -17,129 +24,109 @@ export class AdminService {
   private readonly getAdminByIdUsecase: GetAdminByIdUsecase;
   private readonly updateAdminUsecase: UpdateAdminUsecase;
   private readonly getAllAdminsUsecase: GetAllAdminsUsecase;
+  private readonly loginAdminUsecase: LoginAdminUsecase;
+  private readonly logoutAdminUsecase: LogoutAdminUsecase;
 
   constructor(
     createAdminUsecase: CreateAdminUsecase,
     deleteAdminUsecase: DeleteAdminUsecase,
     getAdminByIdUsecase: GetAdminByIdUsecase,
     updateAdminUsecase: UpdateAdminUsecase,
-    getAllAdminsUsecase: GetAllAdminsUsecase
+    getAllAdminsUsecase: GetAllAdminsUsecase,
+    loginAdminUsecase: LoginAdminUsecase,
+    logoutAdminUsecase: LogoutAdminUsecase
   ) {
     this.createAdminUsecase = createAdminUsecase;
     this.deleteAdminUsecase = deleteAdminUsecase;
     this.getAdminByIdUsecase = getAdminByIdUsecase;
     this.updateAdminUsecase = updateAdminUsecase;
     this.getAllAdminsUsecase = getAllAdminsUsecase;
+    (this.loginAdminUsecase = loginAdminUsecase),
+      (this.logoutAdminUsecase = logoutAdminUsecase);
   }
 
   async createAdmin(req: Request, res: Response): Promise<void> {
-    try {
-      // Extract admin data from the request body and convert it to AdminModel
-      const adminData: AdminModel = AdminMapper.toModel(req.body);
+    // Extract admin data from the request body and convert it to adminModel
+    const adminData: AdminModel = AdminMapper.toModel(req.body);
 
-      // Call the CreateAdminUsecase to create the admin
-      const newAdmin: AdminEntity = await this.createAdminUsecase.execute(
-        adminData
-      );
+    // Call the createAdminUsecase to create the admin
+    const newAdmin: Either<ErrorClass, AdminEntity> =
+      await this.createAdminUsecase.execute(adminData);
 
-      // Convert newAdmin from AdminEntity to the desired format using AdminMapper
-      const responseData = AdminMapper.toEntity(newAdmin, true);
-
-      // Send the created admin as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    newAdmin.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: AdminEntity) => {
+        const responseData = AdminMapper.toEntity(result, true);
+        return res.json(responseData);
       }
-
-      ApiError.internalError();
-    }
+    );
   }
 
   async deleteAdmin(req: Request, res: Response): Promise<void> {
-    try {
-      const adminId: string = req.params.adminId;
+    const adminId: string = req.params.adminId;
 
-      // Call the DeleteAdminUsecase to delete the admin
+    const response: Either<ErrorClass, void> =
       await this.deleteAdminUsecase.execute(adminId);
 
-      // Send a success message as a JSON response
-      res.json({ message: "Admin deleted successfully." });
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    response.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      () => {
+        return res.json({ message: "Admin deleted successfully." });
       }
-      ApiError.internalError();
-    }
+    );
   }
 
   async getAdminById(req: Request, res: Response): Promise<void> {
-    try {
-      const adminId: string = req.params.adminId;
+    const adminId: string = req.params.adminId;
 
-      // Call the GetAdminByIdUsecase to get the admin by ID
-      const admin: AdminEntity | null = await this.getAdminByIdUsecase.execute(
-        adminId
-      );
+    // Call the GetadminByIdUsecase to get the admin by ID
+    const admin: Either<ErrorClass, AdminEntity | null> =
+      await this.getAdminByIdUsecase.execute(adminId);
 
-      if (admin) {
-        // Convert admin from AdminEntity to plain JSON object using AdminMapper
-        const responseData = AdminMapper.toModel(admin);
-
-        // Send the admin as a JSON response
-        res.json(responseData);
-      } else {
-        // Send a not found message as a JSON response
-        ApiError.notFound();
+    admin.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: AdminEntity | null) => {
+        const responseData = AdminMapper.toEntity(result, true);
+        return res.json(responseData);
       }
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
-      }
-      ApiError.internalError();
-    }
+    );
   }
 
   async updateAdmin(req: Request, res: Response): Promise<void> {
-    try {
-      const adminId: string = req.params.adminId;
-      const adminData: AdminModel = req.body;
+    const adminId: string = req.params.adminId;
+    const adminData: AdminModel = req.body;
 
-      // Get the existing admin by ID
-      const existingAdmin: AdminEntity | null =
-        await this.getAdminByIdUsecase.execute(adminId);
+    // Get the existing admin by ID
+    const existingAdmin: Either<ErrorClass, AdminEntity | null> =
+      await this.getAdminByIdUsecase.execute(adminId);
 
-      if (!existingAdmin) {
-        // If admin is not found, send a not found message as a JSON response
-        ApiError.notFound();
-        return;
-      }
-
-      // Convert adminData from AdminModel to AdminEntity using AdminMapper
-      const updatedAdminEntity: AdminEntity = AdminMapper.toEntity(
-        adminData,
-        true,
-        existingAdmin
-      );
-
-      // Call the UpdateAdminUsecase to update the admin
-      const updatedAdmin: AdminEntity = await this.updateAdminUsecase.execute(
-        adminId,
-        updatedAdminEntity
-      );
-
-      // Convert updatedAdmin from AdminEntity to plain JSON object using AdminMapper
-      const responseData = AdminMapper.toModel(updatedAdmin);
-
-      // Send the updated admin as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      console.log(error);
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
-      }
-      ApiError.internalError();
+    if (!existingAdmin) {
+      // If admin is not found, send a not found message as a JSON response
+      ApiError.notFound();
+      return;
     }
+
+    // Convert adminData from adminModel to adminEntity using adminMapper
+    const updatedAdminEntity: AdminEntity = AdminMapper.toEntity(
+      adminData,
+      true
+    );
+
+    // Call the UpdateadminUsecase to update the admin
+    const updatedAdmin: Either<ErrorClass, AdminEntity> =
+      await this.updateAdminUsecase.execute(adminId, updatedAdminEntity);
+
+    updatedAdmin.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (result: AdminEntity) => {
+        const responseData = AdminMapper.toModel(result);
+        return res.json(responseData);
+      }
+    );
   }
 
   async getAllAdmins(
@@ -147,20 +134,71 @@ export class AdminService {
     res: Response,
     next: NextFunction
   ): Promise<void> {
-    try {
-      // Call the GetAllAdminsUsecase to get all admins
-      const admins: AdminEntity[] = await this.getAllAdminsUsecase.execute();
+    const admins: Either<ErrorClass, AdminEntity[]> =
+      await this.getAllAdminsUsecase.execute();
 
-      // Convert admins from an array of AdminEntity to an array of plain JSON objects using AdminMapper
-      const responseData = admins.map((admin) => AdminMapper.toModel(admin));
-
-      // Send the admins as a JSON response
-      res.json(responseData);
-    } catch (error) {
-      if (error instanceof ApiError) {
-        res.status(error.status).json({ error: error.message });
+    admins.cata(
+      (error: ErrorClass) =>
+        res.status(error.status).json({ error: error.message }),
+      (admins: AdminEntity[]) => {
+        const resData = admins.map((admin: any) =>
+          AdminMapper.toEntity(admin)
+        );
+        return res.json(resData);
       }
-      ApiError.internalError();
+    );
+  }
+
+  async loginAdmin(req: Request, res: Response): Promise<void> {
+    const { emailId, password } = req.body;
+
+    const adminResult: Either<ErrorClass, any> =
+      await this.loginAdminUsecase.execute(emailId, password);
+
+    adminResult.cata(
+      (error: ErrorClass) => {
+        res.status(error.status).json({ error: error.message });
+      },
+      async (admin: any) => {
+        const isMatch = await admin.matchPassword(password);
+        if (!isMatch) {
+          const err = ApiError.forbidden();
+          console.log(err);
+
+          return res.status(err.status).json(err.message);
+        }
+
+        const token = await admin.generateToken();
+
+        const options = {
+          expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+          httpOnly: true,
+        };
+
+        const resData = { admin: AdminMapper.toEntity(admin, true) };
+        res.cookie("token", token, options).json(resData);
+      }
+    );
+  }
+
+  async logOut(req: Request, res: Response): Promise<void> {
+    try {
+      res
+        .status(200)
+        .cookie("token", null, {
+          expires: new Date(Date.now()),
+          httpOnly: true,
+        })
+        .json({
+          success: true,
+          message: "Logged Out",
+        });
+    } catch (error) {
+      const err = error as Error;
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
     }
   }
 }

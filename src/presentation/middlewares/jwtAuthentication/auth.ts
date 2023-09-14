@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import jwt, { JsonWebTokenError } from "jsonwebtoken"; // Import JsonWebTokenError
 import { Staff } from "@data/staff/models/staff-model";
 
+
 export const isAuthenticated = async (
   req: Request,
   res: Response,

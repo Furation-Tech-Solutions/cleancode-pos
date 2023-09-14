@@ -84,6 +84,8 @@ export class StaffRepositoryImpl implements StaffRepository {
 
       return Right<ErrorClass, StaffEntity>(res);
     } catch (error) {
+      console.log(error);
+      
       if (error instanceof ApiError && error.status === 404) {
         return Left<ErrorClass, StaffEntity>(ApiError.notFound());
       }

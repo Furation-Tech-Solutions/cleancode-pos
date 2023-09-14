@@ -4,7 +4,7 @@ import {
   StaffEntity,
   StaffMapper,
   LoginEntity,
-  LoginModel
+  LoginModel,
 } from "@domain/staff/entities/staff";
 import { CreateStaffUsecase } from "@domain/staff/usecases/create-staff";
 import { DeleteStaffUsecase } from "@domain/staff/usecases/delete-staff";
@@ -16,7 +16,7 @@ import { LogoutStaffUsecase } from "@domain/staff/usecases/logout-staff";
 import ApiError from "@presentation/error-handling/api-error";
 import { Either } from "monet";
 import ErrorClass from "@presentation/error-handling/api-error";
-import { staffSchema } from "@presentation/middlewares/staff/auth-utils";
+import { isAuthenticated } from "@presentation/middlewares/jwtAuthentication/auth";
 
 export class StaffService {
   private readonly createStaffUsecase: CreateStaffUsecase;
@@ -177,10 +177,10 @@ export class StaffService {
         const isMatch = await staff.matchPassword(password);
         if (!isMatch) {
           const err = ApiError.forbidden();
+          console.log(err);
+
           return res.status(err.status).json(err.message);
         }
-
-        
 
         const token = await staff.generateToken();
 

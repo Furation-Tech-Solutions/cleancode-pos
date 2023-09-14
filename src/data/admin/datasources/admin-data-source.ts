@@ -1,28 +1,36 @@
-import { AdminModel, AdminEntity } from "@domain/admin/entities/admin";
-import { Admin } from "../models/admin-model";
+import {
+  AdminModel,
+  AdminEntity,
+  LoginModel,
+} from "@domain/admin/entities/admin";
+import { Admin } from "@data/admin/models/admin-model";
 import mongoose from "mongoose";
 import ApiError from "@presentation/error-handling/api-error";
 export interface AdminDataSource {
-  create(admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
-  update(id: string, admin: AdminModel): Promise<any>; // Return type should be Promise of AdminEntity
+  create(admin: AdminModel): Promise<AdminEntity>; // Return type should be Promise of AdminEntity
+  update(id: string, admin: AdminModel): Promise<AdminEntity>; // Return type should be Promise of AdminEntity
   delete(id: string): Promise<void>;
-  read(id: string): Promise<any | null>; // Return type should be Promise of AdminEntity or null
-  getAllAdmins(): Promise<any[]>; // Return type should be Promise of an array of AdminEntity
+  read(id: string): Promise<AdminEntity | null>; // Return type should be Promise of AdminEntity or null
+  getAllAdmins(): Promise<AdminEntity[]>; // Return type should be Promise of an array of AdminEntity
+  login(emailId: string, password: string): Promise<any>;
+  logout(): Promise<any>;
 }
 
 export class AdminDataSourceImpl implements AdminDataSource {
   constructor(private db: mongoose.Connection) {}
 
   async create(admin: AdminModel): Promise<any> {
-    const existingAdmin = await Admin.findOne({ email: admin.email });
+    const existingAdmin = await Admin.findOne({
+      emailId: admin.emailId,
+    });
     if (existingAdmin) {
-      throw ApiError.emailExits()
+      throw ApiError.emailExits();
     }
 
     const adminData = new Admin(admin);
 
-    const createdAdmin:mongoose.Document = await adminData.save();
-    
+    const createdAdmin = await adminData.save();
+
     return createdAdmin.toObject();
   }
 
@@ -46,5 +54,17 @@ export class AdminDataSourceImpl implements AdminDataSource {
     const admins = await Admin.find();
     return admins.map((admin) => admin.toObject()); // Convert to plain JavaScript objects before returning
   }
-}
 
+  async login(emailId: string, password: string): Promise<any> {
+    const admin = await Admin.findOne({ emailId }).select("+password");
+
+    if (!admin) {
+      throw ApiError.staffNotFound();
+    }
+    return admin;
+  }
+
+  logout(): Promise<void> {
+    throw new Error("Logout Failed");
+  }
+}
