@@ -18,11 +18,13 @@ const inventorySchema = new mongoose.Schema({
     type: String,
     maxlength: [500, "description should be under 500 Characters"],
   },
+
   companyId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Company",
     required: true,
   },
+
 });
 
 export const Inventory = mongoose.model("Inventory", inventorySchema);
