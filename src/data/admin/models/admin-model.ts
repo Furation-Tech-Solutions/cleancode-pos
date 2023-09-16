@@ -14,7 +14,7 @@ const adminSchema = new mongoose.Schema({
     maxLength: [53, "name should be under 53 Characters"],
     trim: true,
   },
-  email: {
+  emailId: {
     type: String,
     required: true,
     unique: true,

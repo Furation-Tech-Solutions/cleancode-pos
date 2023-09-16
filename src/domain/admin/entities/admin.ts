@@ -23,6 +23,7 @@ export class LoginModel {
   ) {}
 }
 
+
 // Admin Entity provided by Admin Repository is converted to Express API Response
 export class AdminEntity {
   constructor(
