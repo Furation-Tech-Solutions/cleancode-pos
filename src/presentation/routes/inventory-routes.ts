@@ -9,6 +9,7 @@ import { DeleteInventory } from "@domain/inventory/usecases/delete-inventory";
 import { GetInventoryById } from "@domain/inventory/usecases/get-inventory-by-id";
 import { GetAllInventories } from "@domain/inventory/usecases/get-all-inventories";
 import { UpdateInventory } from "@domain/inventory/usecases/update-inventory";
+import { validateInventoryMiddleware } from "@presentation/middlewares/inventory/validation-middleware";
 
 
 
@@ -38,7 +39,7 @@ const inventoryService = new InventoryService(
 export const inventoryRouter = Router();
 
 // Route handling for creating a new inventory
-inventoryRouter.post("/create", inventoryService.createInventory.bind(inventoryService));
+inventoryRouter.post("/create", validateInventoryMiddleware, inventoryService.createInventory.bind(inventoryService));
 
 // Route handling for getting an inventory by ID
 inventoryRouter.get("/getById/:inventoryId", inventoryService.getInventoryById.bind(inventoryService));

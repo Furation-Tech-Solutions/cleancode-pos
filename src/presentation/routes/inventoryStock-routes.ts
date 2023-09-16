@@ -9,6 +9,7 @@ import { GetInventoryStockById } from "@domain/inventoryStock/usecases/get-inven
 import { GetAllInventoryStocks } from "@domain/inventoryStock/usecases/get-all-inventroyStocks";
 import { UpdateInventoryStock } from "@domain/inventoryStock/usecases/update-inventoryStock";
 import { DeleteInventoryStock } from "@domain/inventoryStock/usecases/delete-InventoryStock";
+import { validateInventoryStockMiddleware } from "@presentation/middlewares/inventoryStock/validation-middleware";
 
 const inventoryStockDataSource = new InventoryStockDataSourceImpl(
   mongoose.connection
@@ -49,6 +50,7 @@ export const inventoryStockRouter = Router();
 // Route handling for creating a new inventory Stock
 inventoryStockRouter.post(
   "/create",
+  validateInventoryStockMiddleware,
   inventoryStockService.createInventoryStock.bind(inventoryStockService)
 );
 

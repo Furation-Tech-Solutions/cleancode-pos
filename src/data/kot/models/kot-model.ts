@@ -72,7 +72,7 @@ const kotSchema = new mongoose.Schema({
     default: Date.now,
   },
 
-  delStatus: {
+  del_status: {
     type: String,
     enum: {
       values: ["Live", "Deleted"],

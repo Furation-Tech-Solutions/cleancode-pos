@@ -9,6 +9,7 @@ import { DeleteKot } from "@domain/kot/usecases/delete-kot";
 import { GetKotById } from "@domain/kot/usecases/get-kot-by-id";
 import { GetAllKot } from "@domain/kot/usecases/get-all-kot";
 import { UpdateKot } from "@domain/kot/usecases/update-kot";
+import { validateKotMiddleware } from "@presentation/middlewares/kot/validation-middleware";
 
 // Create an instance of the KotDataSourceImpl and pass the mongoose connection
 const kotDataSource = new KotDataSourceImpl(mongoose.connection);
@@ -38,6 +39,7 @@ export const kotRouter = Router();
 // Route handling for creating a new kot
 kotRouter.post(
   "/create",
+  validateKotMiddleware,
   kotService.createKot.bind(kotService)
 );
 

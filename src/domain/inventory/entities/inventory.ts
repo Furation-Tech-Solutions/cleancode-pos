@@ -4,7 +4,8 @@ export class InventoryModel {
     public inventoryName: string = "",
     public location: string = "",
     public description: string = "",
-    public companyId: string = ""
+    public companyId: string = "",
+    public del_status: boolean,
   ) {}
 }
 
@@ -15,7 +16,8 @@ export class InventoryEntity {
     public inventoryName: string,
     public location: string,
     public description: string,
-    public companyId: string
+    public companyId: string,
+    public del_status: boolean
   ) {}
 }
 
@@ -45,6 +47,10 @@ export class InventoryMapper {
           inventoryData.companyId !== undefined
             ? inventoryData.companyId
             : existingInventory.companyId,
+        del_status:
+          inventoryData.del_status !== undefined
+            ? inventoryData.del_status
+            : existingInventory.del_status,
       };
     } else {
       // If existingInventory is not provided, create a new InventoryEntity using inventoryData
@@ -58,6 +64,7 @@ export class InventoryMapper {
         location: inventoryData.location,
         description: inventoryData.description,
         companyId: inventoryData.companyId,
+        del_status: inventoryData.del_status,
       };
       return inventoryEntity;
     }
@@ -69,6 +76,7 @@ export class InventoryMapper {
       location: inventory.location,
       description: inventory.description,
       companyId: inventory.companyId,
+      del_status: inventory.del_status,
     };
   }
 }

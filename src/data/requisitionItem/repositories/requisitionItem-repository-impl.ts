@@ -20,9 +20,7 @@ export class RequisitionItemRepositoryImpl implements RequisitionItemRepository 
     try {
       const i = await this.dataSource.create(requisitionItem);
       return Right<ErrorClass, RequisitionItemEntity>(i);
-    } catch (error) {
-      console.log(error);
-      
+    } catch (error) {      
       if (error instanceof ApiError && error.status === 401) {
         return Left<ErrorClass, RequisitionItemEntity>(ApiError.unAuthorized());
       }

@@ -24,9 +24,7 @@ export class RequisitionRepositoryImpl implements RequisitionRepository {
       
       if (error instanceof ApiError && error.status === 401) {
         return Left<ErrorClass, RequisitionEntity>(ApiError.unAuthorized());
-      }
-      console.log(error);
-      
+      }      
       return Left<ErrorClass, RequisitionEntity>(ApiError.badRequest());
     }
   }
@@ -55,9 +53,6 @@ export class RequisitionRepositoryImpl implements RequisitionRepository {
       }
       return Right<ErrorClass, RequisitionEntity>(response);
     } catch (error) {
-      console.log(error);
-      
-      
       return Left<ErrorClass, RequisitionEntity>(ApiError.badRequest());
     }
   }

@@ -34,11 +34,8 @@ export class RequisitionService {
   }
 
   async createRequisition(req: Request, res: Response): Promise<void> {
-    
     const requisitionData: RequisitionModel = RequisitionMapper.toModel(
-
       req.body
-
     );
 
     const newRequisition: Either<ErrorClass, RequisitionEntity> =
@@ -130,14 +127,22 @@ export class RequisitionService {
   async deleteRequisition(req: Request, res: Response): Promise<void> {
     const requisitionId: string = req.params.requisitionId;
 
-    const response: Either<ErrorClass, void> =
-      await this.deleteRequisitionUsecase.execute(requisitionId);
+    const updatedRequisitionEntity: RequisitionEntity =
+      RequisitionMapper.toEntity({ del_status: false }, true);
 
-    response.cata(
+    // Call the UpdateRequisitionUsecase to update the Requisition
+    const updatedRequisition: Either<ErrorClass, RequisitionEntity> =
+      await this.updateRequisitionUsecase.execute(
+        requisitionId,
+        updatedRequisitionEntity
+      );
+
+    updatedRequisition.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      () => {
-        return res.json({ message: "Requisition deleted successfully." });
+      (result: RequisitionEntity) => {
+        const responseData = RequisitionMapper.toModel(result);
+        return res.json(responseData);
       }
     );
   }

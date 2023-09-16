@@ -19,9 +19,7 @@ export class StaffRepositoryImpl implements StaffRepository {
     try {
       let i = await this.dataSource.create(staff);
       return Right<ErrorClass, StaffEntity>(i);
-    } catch (e) {
-      console.log(e);
-      
+    } catch (e) {      
       if (e instanceof ApiError && e.name === "conflict") {
         return Left<ErrorClass, StaffEntity>(ApiError.emailExits());
       }
@@ -83,9 +81,7 @@ export class StaffRepositoryImpl implements StaffRepository {
       const res = await this.dataSource.login(email, password);
 
       return Right<ErrorClass, StaffEntity>(res);
-    } catch (error) {
-      console.log(error);
-      
+    } catch (error) {      
       if (error instanceof ApiError && error.status === 404) {
         return Left<ErrorClass, StaffEntity>(ApiError.notFound());
       }

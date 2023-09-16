@@ -9,6 +9,7 @@ import { GetPurchaseItemById } from "@domain/purchaseItem/usecases/get-purchaseI
 import { GetAllPurchaseItems } from "@domain/purchaseItem/usecases/get-all-purchaseItems";
 import { UpdatePurchaseItem } from "@domain/purchaseItem/usecases/update-purchaseItem";
 import { DeletePurchaseItem } from "@domain/purchaseItem/usecases/delete-purchaseItem";
+import { validatePurchaseItemMiddleware } from "@presentation/middlewares/purchaseItem/validation-middleware";
 
 const purchaseItemDataSource = new PurchaseItemDataSourceImpl(mongoose.connection);
 
@@ -33,7 +34,7 @@ const purchaseItemService = new PurchaseItemService(
 export const purchaseItemRouter = Router();
 
 // Route handling for creating a new inventory Item
-purchaseItemRouter.post("/create", purchaseItemService.createPurchaseItem.bind(purchaseItemService));
+purchaseItemRouter.post("/create", validatePurchaseItemMiddleware, purchaseItemService.createPurchaseItem.bind(purchaseItemService));
 
 // Route handling for getting all inventory Items
 purchaseItemRouter.get("/getAllPurchaseItems", purchaseItemService.getAllPurchaseItems.bind(purchaseItemService));

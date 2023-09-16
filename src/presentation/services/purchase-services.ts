@@ -124,14 +124,25 @@ export class PurchaseService {
   async deletePurchase(req: Request, res: Response): Promise<void> {
     const purchaseId: string = req.params.purchaseId;
 
-    const response: Either<ErrorClass, void> =
-      await this.deletePurchaseUsecase.execute(purchaseId);
+    // Call the DeletePurchaseUsecase to delete the Purchase
+    const updatedPurchaseEntity: PurchaseEntity = PurchaseMapper.toEntity(
+      { del_status: false },
+      true
+    );
 
-    response.cata(
+    // Call the UpdatePurchaseUsecase to update the Purchase
+    const updatedPurchase: Either<ErrorClass, PurchaseEntity> =
+      await this.updatePurchaseUsecase.execute(
+        purchaseId,
+        updatedPurchaseEntity
+      );
+
+    updatedPurchase.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      () => {
-        return res.json({ message: "Purchase deleted successfully." });
+      (result: PurchaseEntity) => {
+        const responseData = PurchaseMapper.toModel(result);
+        return res.json(responseData);
       }
     );
   }

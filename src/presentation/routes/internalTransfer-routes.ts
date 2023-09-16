@@ -9,6 +9,7 @@ import { DeleteInternalTransfer } from "@domain/internalTransfer/usecases/delete
 import { GetInternalTransferById } from "@domain/internalTransfer/usecases/get-internalTransfer-by-id";
 import { GetAllInternalTransfers } from "@domain/internalTransfer/usecases/get-all-internalTransfer";
 import { UpdateInternalTransfer } from "@domain/internalTransfer/usecases/update-internalTransfer";
+import { validateInternalTransferMiddleware } from "@presentation/middlewares/internalTransfer/validation-middleware";
 
 // Create an instance of the InternalTranferDataSourceImpl and pass the mongoose connection
 const internalTransferDataSource = new InternalTransferDataSourceImpl(
@@ -52,6 +53,7 @@ export const internalTransferRouter = Router();
 // Route handling for creating a new InternalTransfer
 internalTransferRouter.post(
   "/create",
+  validateInternalTransferMiddleware,
   internalTransferService.createInternalTransfer.bind(internalTransferService)
 );
 

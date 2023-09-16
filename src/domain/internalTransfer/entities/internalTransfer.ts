@@ -4,6 +4,7 @@ export class InternalTransferModel {
     public sourceInventory: string = "",
     public destinationInventory: string = "",
     public transferDate: Date = new Date(),
+    public del_status: boolean
   ) {}
 }
 export class InternalTransferEntity {
@@ -12,6 +13,7 @@ export class InternalTransferEntity {
     public sourceInventory: string,
     public destinationInventory: string,
     public transferDate: Date,
+    public del_status: boolean
   ) {}
 }
 
@@ -32,6 +34,10 @@ export class InternalTransferMapper {
           existingTransfer.destinationInventory,
         transferDate:
           transferData.transferDate || existingTransfer.transferDate,
+        del_status:
+          transferData.del_status !== undefined
+            ? transferData.del_status
+            : existingTransfer.del_status,
       };
     } else {
       // If existingTransfer is not provided, create a new InternalTransferEntity using transferData
@@ -43,7 +49,10 @@ export class InternalTransferMapper {
           : transferData._id.toString(),
         transferData.sourceInventory,
         transferData.destinationInventory,
-        transferData.transferDate
+        transferData.transferDate,
+        transferData.del_status,
+                
+
       );
     }
   }
@@ -54,6 +63,7 @@ export class InternalTransferMapper {
       sourceInventory: transfer.sourceInventory,
       destinationInventory: transfer.destinationInventory,
       transferDate: transfer.transferDate,
+      del_status: transfer.del_status,
     };
   }
 }

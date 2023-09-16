@@ -8,7 +8,8 @@ export class PurchaseModel {
     public amountDue: number = 0,
     public amountPaid: number = 0,
     public invoiceNumber: string = "",
-    public date: string = ""
+    public date: string = "",
+    public del_status: boolean
   ) {}
 }
 
@@ -23,7 +24,8 @@ export class PurchaseEntity {
     public amountDue: number,
     public amountPaid: number,
     public invoiceNumber: string,
-    public date: string
+    public date: string,
+    public del_status: boolean
   ) {}
 }
 
@@ -69,6 +71,10 @@ export class PurchaseMapper {
           purchaseData.date !== undefined
             ? purchaseData.date
             : existingPurchase.date,
+        del_status:
+          purchaseData.del_status !== undefined
+            ? purchaseData.del_status
+            : existingPurchase.del_status,
       };
     } else {
       // If existingPurchase is not provided, create a new PurchaseEntity using purchaseData
@@ -86,6 +92,7 @@ export class PurchaseMapper {
         amountPaid: purchaseData.amountPaid,
         invoiceNumber: purchaseData.invoiceNumber,
         date: purchaseData.date,
+        del_status: purchaseData.del_status,
       };
       return purchaseEntity;
     }
@@ -101,6 +108,7 @@ export class PurchaseMapper {
       amountPaid: purchase.amountPaid,
       invoiceNumber: purchase.invoiceNumber,
       date: purchase.date,
+      del_status: purchase.del_status,
     };
   }
 }

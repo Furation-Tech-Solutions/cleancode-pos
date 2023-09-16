@@ -3,7 +3,8 @@ export class RequisitionItemModel {
     public requisitionid: string = "",
     public itemid: string = "",
     public quantity: number = 1,
-    public unitOfMeasurement: string = ""
+    public unitOfMeasurement: string = "",
+    public del_status: boolean
   ) {}
 }
 
@@ -13,7 +14,8 @@ export class RequisitionItemEntity {
     public requisitionid: string,
     public itemid: string,
     public quantity: number,
-    public unitOfMeasurement: string
+    public unitOfMeasurement: string,
+    public del_status: boolean
   ) {}
 }
 
@@ -41,6 +43,10 @@ export class RequisitionItemMapper {
           itemData.unitOfMeasurement !== undefined
             ? itemData.unitOfMeasurement
             : existingItem.unitOfMeasurement,
+        del_status:
+          itemData.del_status !== undefined
+            ? itemData.del_status
+            : existingItem.del_status,
       };
     } else {
       // If existingItem is not provided, create a new RequisitionItemEntity using itemData
@@ -54,6 +60,7 @@ export class RequisitionItemMapper {
         itemid: itemData.itemid,
         quantity: itemData.quantity,
         unitOfMeasurement: itemData.unitOfMeasurement,
+        del_status: itemData.del_status,
       };
       return itemEntity;
     }
@@ -66,6 +73,7 @@ export class RequisitionItemMapper {
       itemid: item.itemid,
       quantity: item.quantity,
       unitOfMeasurement: item.unitOfMeasurement,
+      del_status: item.del_status,
     };
   }
 }

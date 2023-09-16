@@ -59,18 +59,25 @@ export class InternalTransferItemService {
   async deleteInternalTransferItem(req: Request, res: Response): Promise<void> {
     const internalTransferItemId: string = req.params.internalTransferItemId;
 
-    const response: Either<ErrorClass, void> =
-      await this.deleteInternalTransferItemUsecase.execute(
-        internalTransferItemId
-      );
+    // Call the DeleteInternalTransferItemUsecase to delete the internalTransferItem
+    const updatedInternalTransferItemEntity: InternalTransferItemEntity =
+      InternalTransferItemMapper.toEntity({ del_status: false }, true);
 
-    response.cata(
+    // Call the UpdateInternalTransferItemUsecase to update the internalTransferItem
+    const updatedInternalTransferItem: Either<
+      ErrorClass,
+      InternalTransferItemEntity
+    > = await this.updateInternalTransferItemUsecase.execute(
+      internalTransferItemId,
+      updatedInternalTransferItemEntity
+    );
+
+    updatedInternalTransferItem.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      () => {
-        return res.json({
-          message: "InternalTransferItem deleted successfully.",
-        });
+      (result: InternalTransferItemEntity) => {
+        const responseData = InternalTransferItemMapper.toModel(result);
+        return res.json(responseData);
       }
     );
   }

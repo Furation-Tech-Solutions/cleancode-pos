@@ -9,6 +9,7 @@ import { DeleteWaste } from "@domain/waste/usecases/delete-waste";
 import { GetWasteById } from "@domain/waste/usecases/get-waste-by-id";
 import { UpdateWaste } from "@domain/waste/usecases/update-waste";
 import { GetAllWastes } from "@domain/waste/usecases/get-all-wastes";
+import { validateWasteMiddleware } from "@presentation/middlewares/waste/validation-middleware";
 
 // Create an instance of the WasteDataSourceImpl and pass the mongoose connection
 const wasteDataSource = new WasteDataSourceImpl(mongoose.connection);
@@ -36,7 +37,7 @@ const wasteService = new WasteService(
 export const wasteRouter = Router();
 
 // Route handling for creating a new waste
-wasteRouter.post("/create", wasteService.createWaste.bind(wasteService));
+wasteRouter.post("/create",validateWasteMiddleware, wasteService.createWaste.bind(wasteService));
 
 // Route handling for getting an waste by ID
 wasteRouter.get(

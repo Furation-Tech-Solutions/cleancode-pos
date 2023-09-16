@@ -23,6 +23,10 @@ const inventorySchema = new mongoose.Schema({
     ref: "Company",
     required: true,
   },
+  del_status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export const Inventory = mongoose.model("Inventory", inventorySchema);

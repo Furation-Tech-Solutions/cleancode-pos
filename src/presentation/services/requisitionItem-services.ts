@@ -36,12 +36,10 @@ export class RequisitionItemService {
   async createRequisitionItem(req: Request, res: Response): Promise<void> {
     const requisitionItemData: RequisitionItemModel =
       RequisitionItemMapper.toModel(req.body);
-      console.log(req.body);
-      
 
     const newRequisitionItem: Either<ErrorClass, RequisitionItemEntity> =
       await this.createRequisitionItemUsecase.execute(requisitionItemData);
-      
+
     newRequisitionItem.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
@@ -130,14 +128,22 @@ export class RequisitionItemService {
   async deleteRequisitionItem(req: Request, res: Response): Promise<void> {
     const requisitionItemId: string = req.params.requisitionItemId;
 
-    const response: Either<ErrorClass, void> =
-      await this.deleteRequisitionItemUsecase.execute(requisitionItemId);
+    const updatedRequisitionItemEntity: RequisitionItemEntity =
+      RequisitionItemMapper.toEntity({ del_status: false }, true);
 
-    response.cata(
+    // Call the UpdateRequisitionItemUsecase to update the RequisitionItem
+    const updatedRequisitionItem: Either<ErrorClass, RequisitionItemEntity> =
+      await this.updateRequisitionItemUsecase.execute(
+        requisitionItemId,
+        updatedRequisitionItemEntity
+      );
+
+    updatedRequisitionItem.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      () => {
-        return res.json({ message: "RequisitionItem deleted successfully." });
+      (result: RequisitionItemEntity) => {
+        const responseData = RequisitionItemMapper.toModel(result);
+        return res.json(responseData);
       }
     );
   }

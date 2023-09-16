@@ -45,6 +45,10 @@ const wasteSchema = new mongoose.Schema({
     ref: "Staff",
     required: true,
   },
+  del_status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export const Waste = mongoose.model("Waste", wasteSchema);

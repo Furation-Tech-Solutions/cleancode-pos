@@ -12,6 +12,7 @@ import { UpdateAdmin } from "@domain/admin/usecases/update-admin";
 import { LoginAdmin } from "@domain/admin/usecases/login-admin";
 import { LogoutAdmin} from "@domain/admin/usecases/logout-admin";
 import { isAuthenticated } from "@presentation/middlewares/jwtAuthentication/auth";
+import { validateAdminMiddleware } from "@presentation/middlewares/admin/validation-middleware";
 
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
@@ -45,7 +46,7 @@ const adminService = new AdminService(
 export const adminRouter = Router();
 
 // Route handling for creating a new admin
-adminRouter.post("/create", adminService.createAdmin.bind(adminService));
+adminRouter.post("/create", validateAdminMiddleware, adminService.createAdmin.bind(adminService));
 
 // Route handling for getting an admin by ID
 adminRouter.get(

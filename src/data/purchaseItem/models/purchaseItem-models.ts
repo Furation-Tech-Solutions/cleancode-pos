@@ -43,6 +43,10 @@ const purchaseItemSchema = new mongoose.Schema({
     ref: "Staff",
     required: true,
   },
+  del_status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export const PurchaseItem = mongoose.model("PurchaseItem", purchaseItemSchema);

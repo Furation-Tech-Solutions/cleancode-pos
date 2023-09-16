@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+const validateEmail = function (email: string) {
+  var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  return re.test(email);
+};
+
 const adminSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -9,12 +14,17 @@ const adminSchema = new mongoose.Schema({
     maxLength: [53, "name should be under 53 Characters"],
     trim: true,
   },
-  emailId: {
+  email: {
     type: String,
     required: true,
     unique: true,
     trim: true,
     lowercase: true,
+    validate: [validateEmail, "Please fill a valid email address"],
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      "Please fill a valid email address",
+    ],
   },
   phone: {
     type: Number,
@@ -55,6 +65,10 @@ const adminSchema = new mongoose.Schema({
   outlet: {
     type: String,
     ref: "Outlet",
+  },
+  del_status: { 
+    type: Boolean, 
+    default: true 
   },
 });
 

@@ -2,7 +2,8 @@
 export class InventoryStockModel {
   constructor(
     public inventoryId: string = "",
-    public items: InventoryStockModelItem[] = []
+    public items: InventoryStockModelItem[] = [],
+    public del_status: boolean
   ) {}
 }
 
@@ -12,7 +13,7 @@ export class InventoryStockModelItem {
     public totalQuantity: number = 0,
     public unitOfMeasurement: string = "",
     public alertQuantity: number = 0,
-    public minimumQuantity: number = 0
+    public minimumQuantity: number = 0,
   ) {}
 }
 
@@ -21,7 +22,8 @@ export class InventoryStockEntity {
   constructor(
     public id: string | undefined = undefined,
     public inventoryId: string,
-    public items: InventoryStockEntityItem[]
+    public items: InventoryStockEntityItem[],
+    public del_status: boolean
   ) {}
 }
 
@@ -53,6 +55,10 @@ export class InventoryStockMapper {
           inventoryStockData.items !== undefined
             ? inventoryStockData.items
             : existingInventoryStock.items,
+        del_status:
+          inventoryStockData.del_status !== undefined
+            ? inventoryStockData.del_status
+            : existingInventoryStock.del_status,
       };
     } else {
       // If existingInventoryStock is not provided, create a new InventoryStockEntity using inventoryStockData
@@ -64,6 +70,7 @@ export class InventoryStockMapper {
           : inventoryStockData._id.toString(),
         inventoryId: inventoryStockData.inventoryId,
         items: inventoryStockData.items,
+        del_status: inventoryStockData.del_status,
       };
       return inventoryStockEntity;
     }
@@ -73,6 +80,7 @@ export class InventoryStockMapper {
     return {
       inventoryId: inventoryStock.inventoryId,
       items: inventoryStock.items,
+      del_status: inventoryStock.del_status,
     };
   }
 }

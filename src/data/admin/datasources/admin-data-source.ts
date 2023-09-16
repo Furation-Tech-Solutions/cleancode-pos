@@ -12,7 +12,7 @@ export interface AdminDataSource {
   delete(id: string): Promise<void>;
   read(id: string): Promise<AdminEntity | null>; // Return type should be Promise of AdminEntity or null
   getAllAdmins(): Promise<AdminEntity[]>; // Return type should be Promise of an array of AdminEntity
-  login(emailId: string, password: string): Promise<any>;
+  login(email: string, password: string): Promise<any>;
   logout(): Promise<any>;
 }
 
@@ -21,7 +21,7 @@ export class AdminDataSourceImpl implements AdminDataSource {
 
   async create(admin: AdminModel): Promise<any> {
     const existingAdmin = await Admin.findOne({
-      emailId: admin.emailId,
+      email: admin.email,
     });
     if (existingAdmin) {
       throw ApiError.emailExits();

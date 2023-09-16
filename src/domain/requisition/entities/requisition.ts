@@ -7,6 +7,7 @@ export class RequisitionModel {
     public requestDate: Date = new Date(),
     public status: string = "pending",
     public description: string = "",
+    public del_status: boolean
   ) {}
 }
 
@@ -20,6 +21,7 @@ export class RequisitionEntity {
     public requestDate: Date,
     public status: string,
     public description: string,
+    public del_status: boolean
   ) {}
 }
 
@@ -43,6 +45,8 @@ export class RequisitionMapper {
         status: requisitionData.status || existingRequisition.status,
         description:
           requisitionData.description || existingRequisition.description,
+        del_status:
+          requisitionData.del_status || existingRequisition.del_status,
       };
     } else {
       // If existingRequisition is not provided, create a new RequisitionEntity using requisitionData
@@ -59,6 +63,7 @@ export class RequisitionMapper {
         requestDate: requisitionData.requestDate,
         status: requisitionData.status,
         description: requisitionData.description,
+        del_status: requisitionData.del_status,
       };
       return requisitionEntity;
     }
@@ -74,6 +79,7 @@ export class RequisitionMapper {
       requestDate: requisition.requestDate,
       status: requisition.status,
       description: requisition.description,
+      del_status: requisition.del_status,
     };
   }
 }

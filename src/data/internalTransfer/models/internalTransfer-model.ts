@@ -17,6 +17,10 @@ const internalTransferSchema = new mongoose.Schema({
     required: true,
   },
 
+  del_status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export const InternalTransfer = mongoose.model("InternalTransfer",internalTransferSchema);

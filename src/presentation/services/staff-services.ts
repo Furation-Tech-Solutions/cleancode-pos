@@ -177,8 +177,6 @@ export class StaffService {
         const isMatch = await staff.matchPassword(password);
         if (!isMatch) {
           const err = ApiError.forbidden();
-          console.log(err);
-
           return res.status(err.status).json(err.message);
         }
 

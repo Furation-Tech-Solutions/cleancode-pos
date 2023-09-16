@@ -125,14 +125,21 @@ export class WasteService {
   async deleteWaste(req: Request, res: Response): Promise<void> {
     const wasteId: string = req.params.wasteId;
 
-    const response: Either<ErrorClass, void> =
-      await this.deleteWasteUsecase.execute(wasteId);
+    const updatedWasteEntity: WasteEntity = WasteMapper.toEntity(
+      { del_status: false },
+      true
+    );
 
-    response.cata(
+    // Call the UpdateWasteUsecase to update the Waste
+    const updatedWaste: Either<ErrorClass, WasteEntity> =
+      await this.updateWasteUsecase.execute(wasteId, updatedWasteEntity);
+
+    updatedWaste.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      () => {
-        return res.json({ message: "Waste deleted successfully." });
+      (result: WasteEntity) => {
+        const responseData = WasteMapper.toModel(result);
+        return res.json(responseData);
       }
     );
   }

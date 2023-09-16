@@ -9,6 +9,8 @@ import { DeletePurchase } from "@domain/purchase/usecases/delete-purchase";
 import { GetPurchaseById } from "@domain/purchase/usecases/get-puchase-by-id";
 import { UpdatePurchase } from "@domain/purchase/usecases/update-purchase";
 import { GetAllPurchases } from "@domain/purchase/usecases/get-all-purchases";
+import validatePaymentMiddleware from "@presentation/middlewares/payment/validation-middleware";
+import { validatePurchaseMiddleware } from "@presentation/middlewares/purchase/validation-middleware";
 
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
@@ -37,7 +39,7 @@ const purchaseService = new PurchaseService(
 export const purchaseRouter = Router();
 
 // Route handling for creating a new purchase
-purchaseRouter.post("/create",purchaseService.createPurchase.bind(purchaseService));
+purchaseRouter.post("/create",validatePurchaseMiddleware, purchaseService.createPurchase.bind(purchaseService));
 
 // Route handling for getting an inventory by ID
 purchaseRouter.get("/getById/:purchaseId",purchaseService.getPurchaseById.bind(purchaseService));

@@ -51,6 +51,10 @@ const purchaseSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  del_status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export const Purchase = mongoose.model("Purchase", purchaseSchema);

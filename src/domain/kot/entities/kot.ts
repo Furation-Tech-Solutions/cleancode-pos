@@ -8,35 +8,33 @@ export class KotItem{
 }
 
 export class KotModel {
-    constructor(
-        public kotNumber:string = "",
-        public typeOfOrder:string = "",
-        public waiterName:string = "",
-        public table:string="",
-        public cookingStatus:string = "",
-        public items:KotItem[] = [],
-        public customerCommentForAllFood:string="",
-        public createdAt:string="",
-        public delStatus:string="",
-
-    ) {}
+  constructor(
+    public kotNumber: string = "",
+    public typeOfOrder: string = "",
+    public waiterName: string = "",
+    public table: string = "",
+    public cookingStatus: string = "",
+    public items: KotItem[] = [],
+    public customerCommentForAllFood: string = "",
+    public createdAt: string = "",
+    public del_status: boolean
+  ) {}
 }
 
 // Kitchen Entity provided by Kitchen Repository is converted to Express API Response
-export class KotEntity{
-    constructor(
-        public id: string | undefined = undefined,   // Set as a default value for id
-        public kotNumber:string ,
-        public typeOfOrder:string ,
-        public waiterName:string ,
-        public table:string="",
-        public cookingStatus:string ,
-        public items:KotItem[],
-        public customerCommentForAllFood:string,
-        public createdAt:string,
-        public delStatus:string,
-    
-    ) {}
+export class KotEntity {
+  constructor(
+    public id: string | undefined = undefined, // Set as a default value for id
+    public kotNumber: string,
+    public typeOfOrder: string,
+    public waiterName: string,
+    public table: string = "",
+    public cookingStatus: string,
+    public items: KotItem[],
+    public customerCommentForAllFood: string,
+    public createdAt: string,
+    public del_status: boolean
+  ) {}
 }
 export class KotMapper{
     static toModel(kot:KotEntity):any{
@@ -50,7 +48,7 @@ export class KotMapper{
           items: kot.items,
           customerCommentForAllFood: kot.customerCommentForAllFood,
           createdAt: kot.createdAt,
-          delStatus: kot.delStatus,
+          del_status: kot.del_status,
         };
 
     }
@@ -89,10 +87,10 @@ export class KotMapper{
             kotData.createdAt != undefined
               ? kotData.createdAt
               : existingKot.createdAt,
-          delStatus:
-            kotData.delStatus != undefined
-              ? kotData.delStatus
-              : existingKot.delStatus,
+          del_status:
+            kotData.del_status != undefined
+              ? kotData.del_status
+              : existingKot.del_status,
         };
         }else {
              // If existingKitchen is not provided, create a new KitchenEntity using kitchenData
@@ -111,7 +109,7 @@ export class KotMapper{
                items: kotData.items,
                customerCommentForAllFood: kotData.customerCommentForAllFood,
                createdAt: kotData.createdAt,
-               delStatus: kotData.delStatus,
+               del_status: kotData.del_status,
              };
              return kotEntity;
         }

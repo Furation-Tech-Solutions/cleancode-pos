@@ -2,7 +2,7 @@
 export class AdminModel {
   constructor(
     public name: string = "",
-    public emailId: string = "",
+    public email: string = "",
     public phone: number = 0,
     public brand: string = "",
     public jobTitle: string = "",
@@ -11,13 +11,14 @@ export class AdminModel {
     public permissions: number[] = [],
     public password: string = "",
     public active: boolean = false,
-    public outlet: string = ""
+    public outlet: string = "",
+    public del_status: boolean
   ) {}
 }
 
 export class LoginModel {
   constructor(
-    public emailId: string = "",
+    public email: string = "",
     public password: string = ""
   ) {}
 }
@@ -27,7 +28,7 @@ export class AdminEntity {
   constructor(
     public id: string | undefined = undefined, // Set a default value for id
     public name: string,
-    public emailId: string,
+    public email: string,
     public phone: number,
     public brand: string,
     public jobTitle: string,
@@ -36,12 +37,13 @@ export class AdminEntity {
     public permissions: number[],
     public password: string,
     public active: boolean,
-    public outlet: string
+    public outlet: string,
+    public del_status: boolean
   ) {}
 }
 
 export class LoginEntity {
-  constructor(public emailId: string, public password: string) {}
+  constructor(public email: string, public password: string) {}
 }
 
 
@@ -58,8 +60,8 @@ export class AdminMapper {
         ...existingAdmin,
         name:
           adminData.name !== undefined ? adminData.name : existingAdmin.name,
-        emailId:
-          adminData.email !== undefined ? adminData.email : existingAdmin.emailId,
+        email:
+          adminData.email !== undefined ? adminData.email : existingAdmin.email,
         phone:
           adminData.phone !== undefined ? adminData.phone : existingAdmin.phone,
         brand:
@@ -90,13 +92,21 @@ export class AdminMapper {
           adminData.outlet !== undefined
             ? adminData.outlet
             : existingAdmin.outlet,
+        del_status:
+          adminData.del_status !== undefined
+            ? adminData.del_status
+            : existingAdmin.del_status,
       };
     } else {
       // If existingAdmin is not provided, create a new AdminEntity using adminData
       const adminEntity: AdminEntity = {
-        id: includeId ? (adminData._id ? adminData._id.toString() : undefined) : undefined,
+        id: includeId
+          ? adminData._id
+            ? adminData._id.toString()
+            : undefined
+          : undefined,
         name: adminData.name,
-        emailId: adminData.email,
+        email: adminData.email,
         phone: adminData.phone,
         brand: adminData.brand,
         jobTitle: adminData.jobTitle,
@@ -106,6 +116,7 @@ export class AdminMapper {
         password: adminData.password,
         active: adminData.active,
         outlet: adminData.outlet,
+        del_status: adminData.del_status,
       };
       return adminEntity;
     }
@@ -115,7 +126,7 @@ export class AdminMapper {
     return {
       id: admin.id,
       name: admin.name,
-      emailId: admin.emailId,
+      email: admin.email,
       phone: admin.phone,
       brand: admin.brand,
       jobTitle: admin.jobTitle,
@@ -125,6 +136,7 @@ export class AdminMapper {
       password: admin.password,
       active: admin.active,
       outlet: admin.outlet,
+      del_status: admin.del_status,
     };
   }
 }

@@ -22,6 +22,10 @@ const internalTranferItemSchema = new mongoose.Schema({
     required: true,
     maxlength: [50, "Unit of measurement should be under 50 characters"],
   },
+  del_status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export const InternalTransferItem = mongoose.model(

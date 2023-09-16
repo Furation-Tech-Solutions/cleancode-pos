@@ -48,14 +48,25 @@ export class InventoryService {
   async deleteInventory(req: Request, res: Response): Promise<void> {
     const inventoryId: string = req.params.inventoryId;
 
-    const response: Either<ErrorClass, void> =
-      await this.deleteInventoryUsecase.execute(inventoryId);
+    // Call the DeleteInventoryUsecase to delete the Inventory
+    const updatedInventoryEntity: InventoryEntity = InventoryMapper.toEntity(
+      { del_status: false },
+      true
+    );
 
-    response.cata(
+    // Call the UpdateInventoryUsecase to update the Inventory
+    const updatedInventory: Either<ErrorClass, InventoryEntity> =
+      await this.updateInventoryUsecase.execute(
+        inventoryId,
+        updatedInventoryEntity
+      );
+
+    updatedInventory.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      () => {
-        return res.json({ message: "Inventory deleted successfully." });
+      (result: InventoryEntity) => {
+        const responseData = InventoryMapper.toModel(result);
+        return res.json(responseData);
       }
     );
   }
@@ -77,11 +88,9 @@ export class InventoryService {
   }
 
   async updateInventory(req: Request, res: Response): Promise<void> {
-
-    
     const inventoryId: string = req.params.inventoryId;
     const inventoryData: InventoryModel = req.body;
-   
+
     const existingInventory: Either<ErrorClass, InventoryEntity> =
       await this.getInventoryByIdUsecase.execute(inventoryId);
 
@@ -92,12 +101,8 @@ export class InventoryService {
       async (result: InventoryEntity) => {
         const resData = InventoryMapper.toEntity(result, true);
 
-        
-        const updatedInventoryEntity: InventoryEntity = InventoryMapper.toEntity(
-          inventoryData,
-          true,
-          resData
-        );
+        const updatedInventoryEntity: InventoryEntity =
+          InventoryMapper.toEntity(inventoryData, true, resData);
 
         const updatedInventory: Either<ErrorClass, InventoryEntity> =
           await this.updateInventoryUsecase.execute(
@@ -113,8 +118,6 @@ export class InventoryService {
             const responseData = InventoryMapper.toModel(response);
 
             res.json(responseData);
-           
-            
           }
         );
       }

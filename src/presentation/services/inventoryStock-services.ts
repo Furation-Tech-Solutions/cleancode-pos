@@ -127,14 +127,23 @@ export class InventoryStockService {
   async deleteInventoryStock(req: Request, res: Response): Promise<void> {
     const inventoryStockId: string = req.params.inventoryStockId;
 
-    const response: Either<ErrorClass, void> =
-      await this.deleteInventoryStockUsecase.execute(inventoryStockId);
+    // Call the DeleteInventoryStockUsecase to delete the InventoryStock
+    const updatedInventoryStockEntity: InventoryStockEntity =
+      InventoryStockMapper.toEntity({ del_status: false }, true);
 
-    response.cata(
+    // Call the UpdateInventoryStockUsecase to update the InventoryStock
+    const updatedInventoryStock: Either<ErrorClass, InventoryStockEntity> =
+      await this.updateInventoryStockUsecase.execute(
+        inventoryStockId,
+        updatedInventoryStockEntity
+      );
+
+    updatedInventoryStock.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      () => {
-        return res.json({ message: "Inventory Stock deleted successfully." });
+      (result: InventoryStockEntity) => {
+        const responseData = InventoryStockMapper.toModel(result);
+        return res.json(responseData);
       }
     );
   }

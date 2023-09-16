@@ -21,7 +21,7 @@ export class AdminRepositoryImpl implements AdminRepository {
     } catch (e) {
       if (e instanceof ApiError && e.name === "conflict") {
         return Left<ErrorClass, AdminEntity>(ApiError.emailExits());
-      }
+      }      
       return Left<ErrorClass, AdminEntity>(ApiError.badRequest());
     }
   }

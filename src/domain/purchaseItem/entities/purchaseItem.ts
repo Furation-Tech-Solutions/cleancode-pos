@@ -8,7 +8,8 @@ export class PurchaseItemModel {
     public price: number = 0,
     public date: string = "",
     public modifiedAt: Date = new Date(),
-    public modifiedBy: string = ""
+    public modifiedBy: string = "",
+    public del_status: boolean
   ) {}
 }
 
@@ -23,7 +24,8 @@ export class PurchaseItemEntity {
     public price: number,
     public date: string,
     public modifiedAt: Date,
-    public modifiedBy: string
+    public modifiedBy: string,
+    public del_status: boolean
   ) {}
 }
 
@@ -69,6 +71,10 @@ export class PurchaseItemMapper {
           purchaseItemData.modifiedBy !== undefined
             ? purchaseItemData.modifiedBy
             : existingPurchaseItem.modifiedBy,
+        del_status:
+          purchaseItemData.del_status !== undefined
+            ? purchaseItemData.del_status
+            : existingPurchaseItem.del_status,
       };
     } else {
       // If existingPurchaseItem is not provided, create a new PurchaseItemEntity using purchaseItemData
@@ -86,6 +92,7 @@ export class PurchaseItemMapper {
         date: purchaseItemData.date,
         modifiedAt: purchaseItemData.modifiedAt,
         modifiedBy: purchaseItemData.modifiedBy,
+        del_status: purchaseItemData.del_status,
       };
       return purchaseItemEntity;
     }
@@ -102,6 +109,7 @@ export class PurchaseItemMapper {
       date: purchaseItem.date,
       modifiedAt: purchaseItem.modifiedAt,
       modifiedBy: purchaseItem.modifiedBy,
+      del_status: purchaseItem.del_status,
     };
   }
 }

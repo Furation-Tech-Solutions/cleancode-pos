@@ -30,6 +30,10 @@ const inventoryStockSchema = new mongoose.Schema({
       },
     },
   ],
+  del_status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export const InventoryStock = mongoose.model("InventoryStock", inventoryStockSchema);

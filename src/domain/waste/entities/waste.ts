@@ -8,7 +8,8 @@ export class WasteModel {
     public unitOfMeasurement: string = "",
     public totalLoss: number = 0,
     public notes: string = "",
-    public addedBy: string = ""
+    public addedBy: string = "",
+    public del_status: boolean
   ) {}
 }
 
@@ -23,7 +24,8 @@ export class WasteEntity {
     public unitOfMeasurement: string,
     public totalLoss: number,
     public notes: string,
-    public addedBy: string
+    public addedBy: string,
+    public del_status: boolean
   ) {}
 }
 
@@ -48,6 +50,7 @@ export class WasteMapper {
         totalLoss: wasteData.totalLoss || existingWaste.totalLoss,
         notes: wasteData.notes || existingWaste.notes,
         addedBy: wasteData.addedBy || existingWaste.addedBy,
+        del_status: wasteData.del_status || existingWaste.del_status,
       };
     } else {
       // If existingWaste is not provided, create a new WasteEntity using wasteData
@@ -66,6 +69,7 @@ export class WasteMapper {
         totalLoss: wasteData.totalLoss,
         notes: wasteData.notes,
         addedBy: wasteData.addedBy,
+        del_status: wasteData.del_status,
       };
       return wasteEntity;
     }
@@ -83,6 +87,7 @@ export class WasteMapper {
       totalLoss: waste.totalLoss,
       notes: waste.notes,
       addedBy: waste.addedBy,
+      del_status: waste.del_status,
     };
   }
 }

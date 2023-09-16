@@ -9,6 +9,7 @@ import { GetRequisitionItemById } from "@domain/requisitionItem/usecases/get-req
 import { UpdateRequisitionItem } from "@domain/requisitionItem/usecases/update-requisitionItem";
 import { GetAllRequisitionItems } from "@domain/requisitionItem/usecases/get-all-requisitionItem";
 import { DeleteRequisitionItem } from "@domain/requisitionItem/usecases/delete-requisitionItem";
+import { validateRequisitionItemMiddleware } from "@presentation/middlewares/requisitionItem/validation-middleware";
 
 // Create an instance of the RequisitionItemDataSourceImpl and pass the mongoose connection
 const requisitionItemDataSource = new RequisitionItemDataSourceImpl(
@@ -52,6 +53,7 @@ export const requisitionItemRouter = Router();
 // Route handling for creating a new requisitionItem
 requisitionItemRouter.post(
   "/create",
+  validateRequisitionItemMiddleware,
   requisitionItemService.createRequisitionItem.bind(requisitionItemService)
 );
 

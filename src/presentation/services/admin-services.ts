@@ -66,14 +66,22 @@ export class AdminService {
   async deleteAdmin(req: Request, res: Response): Promise<void> {
     const adminId: string = req.params.adminId;
 
-    const response: Either<ErrorClass, void> =
-      await this.deleteAdminUsecase.execute(adminId);
+    // Call the DeleteAdminUsecase to delete the admin
+    const updatedAdminEntity: AdminEntity = AdminMapper.toEntity(
+      { del_status: false },
+      true
+    );
 
-    response.cata(
+    // Call the UpdateAdminUsecase to update the admin
+    const updatedAdmin: Either<ErrorClass, AdminEntity> =
+      await this.updateAdminUsecase.execute(adminId, updatedAdminEntity);
+
+    updatedAdmin.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      () => {
-        return res.json({ message: "Admin deleted successfully." });
+      (result: AdminEntity) => {
+        const responseData = AdminMapper.toModel(result);
+        return res.json(responseData);
       }
     );
   }
@@ -141,19 +149,17 @@ export class AdminService {
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
       (admins: AdminEntity[]) => {
-        const resData = admins.map((admin: any) =>
-          AdminMapper.toEntity(admin)
-        );
+        const resData = admins.map((admin: any) => AdminMapper.toEntity(admin));
         return res.json(resData);
       }
     );
   }
 
   async loginAdmin(req: Request, res: Response): Promise<void> {
-    const { emailId, password } = req.body;
+    const { email, password } = req.body;
 
     const adminResult: Either<ErrorClass, any> =
-      await this.loginAdminUsecase.execute(emailId, password);
+      await this.loginAdminUsecase.execute(email, password);
 
     adminResult.cata(
       (error: ErrorClass) => {
@@ -163,8 +169,6 @@ export class AdminService {
         const isMatch = await admin.matchPassword(password);
         if (!isMatch) {
           const err = ApiError.forbidden();
-          console.log(err);
-
           return res.status(err.status).json(err.message);
         }
 

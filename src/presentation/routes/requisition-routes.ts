@@ -9,6 +9,7 @@ import { GetRequisitionById } from "@domain/requisition/usecases/get-requisition
 import { UpdateRequisition } from "@domain/requisition/usecases/update-requistion";
 import { GetAllRequisitions } from "@domain/requisition/usecases/get-all-requisition";
 import { DeleteRequisition } from "@domain/requisition/usecases/delete-requisition"
+import { validateRequisitionMiddleware } from "@presentation/middlewares/requisition/validation-middleware";
 
 // Create an instance of the AdminDataSourceImpl and pass the mongoose connection
 const requisitionDataSource = new RequisitionDataSourceImpl(
@@ -42,6 +43,7 @@ export const requisitionRouter = Router();
 // Route handling for creating a new requisition
 requisitionRouter.post(
   "/create",
+  validateRequisitionMiddleware,
   requisitionService.createRequisition.bind(requisitionService)
 );
 

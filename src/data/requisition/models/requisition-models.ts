@@ -49,6 +49,10 @@ const requisitionSchema = new mongoose.Schema({
     type: String,
     maxlength: [500, "description should be under 500 Characters"],
   },
+  del_status: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 export const Requisition = mongoose.model("Requisition", requisitionSchema);

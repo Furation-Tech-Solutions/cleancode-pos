@@ -64,8 +64,8 @@ export class KotService {
   async getKotById(req: Request, res: Response): Promise<void> {
     const kotId: string = req.params.kotId;
     const kot: Either<ErrorClass, KotEntity> =
-    await this.getKotByIdUsecase.execute(kotId);
-      kot.cata(
+      await this.getKotByIdUsecase.execute(kotId);
+    kot.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
       (result: KotEntity) => {
@@ -115,14 +115,22 @@ export class KotService {
   async deleteKot(req: Request, res: Response): Promise<void> {
     const kotId: string = req.params.kotId;
 
-    const response: Either<ErrorClass, void> =
-      await this.deleteKotUsecase.execute(kotId);
+    // Call the DeleteKotUsecase to delete the Kot
+    const updatedKotEntity: KotEntity = KotMapper.toEntity(
+      { del_status: false },
+      true
+    );
 
-    response.cata(
+    // Call the UpdateKotUsecase to update the Kot
+    const updatedKot: Either<ErrorClass, KotEntity> =
+      await this.updateKotUsecase.execute(kotId, updatedKotEntity);
+
+    updatedKot.cata(
       (error: ErrorClass) =>
         res.status(error.status).json({ error: error.message }),
-      () => {
-        return res.json({ message: "Kot deleted successfully." });
+      (result: KotEntity) => {
+        const responseData = KotMapper.toModel(result);
+        return res.json(responseData);
       }
     );
   }
